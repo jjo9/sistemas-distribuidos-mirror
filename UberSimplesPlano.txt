@@ -1,0 +1,78 @@
+UberSimples
+
+Plano/Raciocinio
+
+Class: Cliente User
+
+Registar;
+Logar;
+Inserir origem da viagem;
+Inserir destino da viagem;
+Solicitar uma viatura com condutor para uma viagem específica;
+Atribuir uma pontuação (1 a 5) ao condutor para uma viagem específica;
+Visualizar o seu histórico de viagens e respetiva pontuação atribuída;
+Sair.
+
+Class: Cliente Condutor
+
+Registar;
+Logar;
+Alterar estado (disponível / indisponível);
+Receber pedidos de viatura com condutor para uma viagem específica e aceitar ou rejeitar os mesmos;
+Visualizar o seu histórico de viagens e respetiva pontuação recebida;
+Sair.
+
+o que têm em comum ? podemos criar o Cliente e depois fazer as outras duas classes herdar !
+
+Class: Cliente
+
+Registar; # [nome, pass] # nome ainda não pode existir // tudo para uma ArrayList<Clientes>
+
+Logar;    # nome tem que existir e pass tem que estar certa
+// para o login tenho que ter a info guardada num TXT Class para LogIN ???
+
+Visualizar histórico de viagens e respetiva pontuação recebida/atribuida 
+lista de [Viagens (origem, destino), pontuação] # dependendo do contexto recebeu ou deu
+
+Sair; # tudo vai estar num ciclo while true: o sair causa o break(mas antes este deve mandar um "Bye" para as Sockets serem fechadas)
+
+
+Class: Cliente User extends Cliente
+
+lançar nova viagem{
+	Inserir origem da viagem # String
+	Inserir destino da viagem # String
+	Solicitar uma viatura com condutor para uma viagem específica # manda para o Server
+}
+
+Atribuir uma pontuação (1 a 5) ao condutor para uma viagem específica;
+Visualizar o seu histórico de viagens e respetiva pontuação atribuída;
+
+Class: Cliente Condutor extends Cliente
+
+Alterar estado (disponível / indisponível);
+Receber pedidos de viatura com condutor para uma viagem específica e aceitar ou rejeitar os mesmos;
+// para poder aceitar os pedidos na linha de comandos tenho que fazer um menu (como para o resto das funcionalidades) depois ele pode escolher o numero a que 
+// pertence a função de ver os pedidos recevidos e aceitar escolhendo o numero do pedido
+
+Visualizar o seu histórico de viagens e respetiva pontuação recebida;
+
+Class: Servidor
+
+MultiThreading - ligações de vários clientes em simultâneo
+guardar hisorico (clientes, viagens, pontuações, etc) // ou seja 
+// ? quando um "Cliente" quer ver o seu historico faz o pedido ao server e este tem essa info toda guardada em memoria e envia por mensagem ?
+// ? ou seja o cliente não tem isso na sua memoria interna ?
+
+Pedidos de viagens do servidor para os clientes condutor devem ser efetuados via multicast.
+
+
+
+
+notas:
+pedido de estorico é feitos ao servidor(esta info só está lá)
+se condutor ficar disponivel depois de ter sido feito multicast aos condutores disponiveis ignorar (para já)
+cliente pode cancelar peedido de carro
+
+
+
