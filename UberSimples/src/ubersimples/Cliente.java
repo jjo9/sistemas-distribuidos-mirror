@@ -9,7 +9,11 @@ package ubersimples;
  *
  * @author Crisanto
  */
-public class Cliente {
+public abstract class Cliente {
+    
+    String nome;
+    String password;
+    
     
     // Cliente User
     
@@ -33,4 +37,24 @@ public class Cliente {
 
     // o que têm em comum
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    
+    
+    abstract void historico();
+    
 }

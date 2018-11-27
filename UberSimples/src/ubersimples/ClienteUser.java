@@ -9,8 +9,8 @@ package ubersimples;
  *
  * @author Crisanto
  */
-public class ClienteUser {
-    
+public class ClienteUser extends Cliente{
+
     // Cliente User
     
     // Registar;
@@ -21,5 +21,10 @@ public class ClienteUser {
     // Atribuir uma pontuação (1 a 5) ao condutor para uma viagem específica;
     // Visualizar o seu histórico de viagens e respetiva pontuação atribuída;
     // Sair.
+    
+    @Override
+    void historico() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
