@@ -74,5 +74,7 @@ pedido de estorico é feitos ao servidor(esta info só está lá)
 se condutor ficar disponivel depois de ter sido feito multicast aos condutores disponiveis ignorar (para já)
 cliente pode cancelar peedido de carro
 
-
+?? Como é que vamos fazer o LogIN/registo ??
+- a info tá armazenada no server
+- ao fazer login faz um pedido ao server e este manda um aceita ou errado e deixa ou não pasar o cliente à proxima parte ?
 
