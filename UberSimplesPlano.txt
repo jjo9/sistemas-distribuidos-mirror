@@ -1,6 +1,5 @@
-UberSimplesV1
+﻿UberSimplesV1
 
-ola como estas crisanto, para de me mudar tudo
 Plano/Raciocinio
 
 Class: Cliente User
@@ -78,5 +77,3 @@ cliente pode cancelar peedido de carro
 ?? Como é que vamos fazer o LogIN/registo ??
 - a info tá armazenada no server
 - ao fazer login faz um pedido ao server e este manda um aceita ou errado e deixa ou não pasar o cliente à proxima parte ?
-
-# estou muito bem sim senhor
