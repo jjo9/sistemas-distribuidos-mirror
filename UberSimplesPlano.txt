@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-﻿UberSimplesV2
-=======
-﻿UberSimplesV1
->>>>>>> master
+﻿﻿UberSimplesV1
+
 
 Plano/Raciocinio
 
