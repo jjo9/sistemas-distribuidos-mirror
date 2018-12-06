@@ -79,6 +79,15 @@ public abstract class Cliente {
 
         return re; // se re for 1 as credenciais foram inseridas corretamente
     }
+    
+    public int sendRegistoCreds2Server(){
+        int re = 0;
+        // mandar para o server
+        // se retornar 0 é porque já existe o user
+        // se retornar 1 é porque foi registado com sucesso
+        return re;
+    }
+    
 
     public int Registo() {
         int re = 0;
@@ -86,12 +95,25 @@ public abstract class Cliente {
         // le credenciais
         if(enterCredentials() == 1){ // faz o resto
             // mandar para o server
-            // se retornar 0 é porque já existe o user
-            // se retornar 1 é porque foi registado com sucesso
+            int registoStatus = sendRegistoCreds2Server();
+            if( registoStatus == 1){ // se retornar 1 é porque foi registado com sucesso
+                System.out.println("registado com sucesso!");
+            }else if(registoStatus == 0){// se retornar 0 é porque já existe o user
+                System.out.println("o username já existe");
+            }
         }else{
             System.out.println("erro ao inserir credenciais");
         }
         
+        return re;
+    }
+    
+    public int sendLoginCreds2Server(){
+        int re = 0;
+        // mandar para o server
+        // se retornar 0 é porque o user não existe
+        // se retornar 1 é porque a password está errada
+        // se retornar 2 é porque o logIn foi feito com sucesso
         return re;
     }
 
