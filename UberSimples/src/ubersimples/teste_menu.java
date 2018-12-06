@@ -10,7 +10,7 @@ package ubersimples;
  * @author buize
  */
 
-import java.awt.Frame;
+import javax.swing.JOptionPane;
 
 public class teste_menu {
 
@@ -19,6 +19,13 @@ public class teste_menu {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        String nome = JOptionPane.showInputDialog("ensira o nome de utilizador");
+        String pass = JOptionPane.showInputDialog("ensira a password");
+        
+        System.out.println(nome);
+        System.out.println(pass);
+        
     }
     
 }
