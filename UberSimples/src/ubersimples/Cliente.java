@@ -54,6 +54,14 @@ public abstract class Cliente {
         this.password = password;
     }
 
+    public int getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(int userStatus) {
+        this.userStatus = userStatus;
+    }
+
     public int enterCredentials() {
         int re = 0;
 
@@ -79,36 +87,35 @@ public abstract class Cliente {
 
         return re; // se re for 1 as credenciais foram inseridas corretamente
     }
-    
-    public int sendRegistoCreds2Server(){
+
+    public int sendRegistoCreds2Server() {
         int re = 0;
         // mandar para o server
         // se retornar 0 é porque já existe o user
         // se retornar 1 é porque foi registado com sucesso
         return re;
     }
-    
 
     public int Registo() {
         int re = 0;
 
         // le credenciais
-        if(enterCredentials() == 1){ // faz o resto
+        if (enterCredentials() == 1) { // faz o resto
             // mandar para o server
             int registoStatus = sendRegistoCreds2Server();
-            if( registoStatus == 1){ // se retornar 1 é porque foi registado com sucesso
+            if (registoStatus == 1) { // se retornar 1 é porque foi registado com sucesso
                 System.out.println("registado com sucesso!");
-            }else if(registoStatus == 0){// se retornar 0 é porque já existe o user
+            } else if (registoStatus == 0) {// se retornar 0 é porque já existe o user
                 System.out.println("o username já existe");
             }
-        }else{
+        } else {
             System.out.println("erro ao inserir credenciais");
         }
-        
+
         return re;
     }
-    
-    public int sendLoginCreds2Server(){
+
+    public int sendLoginCreds2Server() {
         int re = 0;
         // mandar para o server
         // se retornar 0 é porque o user não existe
@@ -119,23 +126,63 @@ public abstract class Cliente {
 
     public int LogIn() {
         int re = 0;
-        
+
         // le credenciais
-        if(enterCredentials() == 1){ // faz o resto
-            
-        }else{
+        if (enterCredentials() == 1) { // faz o resto
+
+        } else {
             // mandar para o server
             // se retornar 0 é porque o user não existe
             // se retornar 1 é porque a password está errada
             // se retornar 2 é porque o logIn foi feito com sucesso
         }
-        
+
         return re;
     }
 
     public int menu() {
         int re = 0;
+        //boolean menuLogIn = true;
+        boolean menuRuning = true;
+
+        BufferedReader lerMenu = new BufferedReader(new InputStreamReader(System.in));
         
+        while (menuRuning) {
+            System.out.print(" 1 -> registo\n"
+                    + " 2 -> login\n"
+                    + " 0 -> Sair\n");
+            try {
+                String opcao = lerMenu.readLine();
+                
+                if(opcao.compareTo("1") == 0){
+                    // fazer registo
+                }else if(opcao.compareTo("2") == 0){
+                    // fazer login
+                }else if(opcao.compareTo("0") == 0){
+                    menuRuning = false;
+                }
+                
+            } catch (IOException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (getUserStatus() == 1) {
+                break;
+            }
+        }
+
+        while (menuRuning) {
+            System.out.print(" 1 -> opção1\n"
+                    + " 1 -> opção1\n"
+                    + " 1 -> opção1\n"
+                    + " 1 -> opção1\n"
+                    + " 1 -> opção1\n"
+                    + " 1 -> opção1\n"
+                    + " 1 -> opção1\n"
+                    + " 0 -> Sair\n");
+            
+            
+        }
+
         return re;
     }
 
