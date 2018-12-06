@@ -29,8 +29,30 @@ public class ClienteUser extends Cliente {
     @Override
     void historico() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // para ver o historico fazer pedido ao servidor, este envia toda a informação
     }
 
+    public int pedirViagem(){
+        int re = 0;
+        
+        BufferedReader lerTeclado = new BufferedReader(new InputStreamReader(System.in));
+        
+        try {
+            System.out.println("insira a Origem da viagem");
+            String viagemOrigem = lerTeclado.readLine();
+            System.out.println("insira o Destino da viagem");
+            String viagemDestino = lerTeclado.readLine();
+            
+            // enviar info para server, formato [user,origem,destino]
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return re;
+    }
+    
+    
     @Override
     int menu() {
         int re = 0;
@@ -40,7 +62,8 @@ public class ClienteUser extends Cliente {
         BufferedReader lerMenu = new BufferedReader(new InputStreamReader(System.in));
 
         while (menuRuning) {
-            System.out.print(" 1 -> registo\n"
+            System.out.print(" --- Condutor --- \n"
+                    + " 1 -> registo\n"
                     + " 2 -> login\n"
                     + " 0 -> Sair\n");
             try {

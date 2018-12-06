@@ -91,6 +91,7 @@ public abstract class Cliente {
     public int sendRegistoCreds2Server() {
         int re = 0;
         // mandar para o server
+        // ver resposta
         // se retornar 0 é porque já existe o user
         // se retornar 1 é porque foi registado com sucesso
         return re;
@@ -102,10 +103,10 @@ public abstract class Cliente {
         // le credenciais
         if (enterCredentials() == 1) { // faz o resto
             // mandar para o server
-            int registoStatus = sendRegistoCreds2Server();
-            if (registoStatus == 1) { // se retornar 1 é porque foi registado com sucesso
+            int registoResponse = sendRegistoCreds2Server();
+            if (registoResponse == 1) { // se retornar 1 é porque foi registado com sucesso
                 System.out.println("registado com sucesso!");
-            } else if (registoStatus == 0) {// se retornar 0 é porque já existe o user
+            } else if (registoResponse == 0) { // se retornar 0 é porque já existe o user
                 System.out.println("o username já existe");
             }
         } else {
@@ -118,6 +119,7 @@ public abstract class Cliente {
     public int sendLoginCreds2Server() {
         int re = 0;
         // mandar para o server
+        // ver resposta
         // se retornar 0 é porque o user não existe
         // se retornar 1 é porque a password está errada
         // se retornar 2 é porque o logIn foi feito com sucesso
@@ -129,19 +131,26 @@ public abstract class Cliente {
 
         // le credenciais
         if (enterCredentials() == 1) { // faz o resto
+            // mandar para o server
+            int loginResponse = sendLoginCreds2Server();
+            if (loginResponse == 2) { // se retornar 2 é porque o logIn foi feito com sucesso
+                this.userStatus = 1; // fica identificado como logado
+                System.out.println("login com sucesso!");
+            } else if (loginResponse == 1) { // se retornar 1 é porque a password está errada
+                System.out.println("a password está errada");
+            } else if (loginResponse == 0) { // se retornar 0 é porque o user não existe
+                System.out.println("o user não existe");
+            }
 
         } else {
-            // mandar para o server
-            // se retornar 0 é porque o user não existe
-            // se retornar 1 é porque a password está errada
-            // se retornar 2 é porque o logIn foi feito com sucesso
+            System.out.println("erro ao inserir credenciais");
         }
 
         return re;
     }
-    
+
     abstract void historico();
 
     abstract int menu();
-    
+
 }
