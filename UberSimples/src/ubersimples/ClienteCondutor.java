@@ -47,6 +47,8 @@ public class ClienteCondutor extends Cliente {
         // para ver o historico fazer pedido ao servidor, este envia toda a informação
     }
     
+    public void 
+    
     public int mudarEstado() {
         int re = 0;
         
