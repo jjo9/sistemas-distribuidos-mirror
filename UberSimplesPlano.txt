@@ -78,3 +78,6 @@ cliente pode cancelar peedido de carro
 - a info tá armazenada no server
 - ao fazer login faz um pedido ao server e este manda um aceita ou errado e deixa ou não pasar o cliente à proxima parte ?
 // ´so os condutores disponiveis é qeu estão no grupo de multicast
+
+?? o server deve mandar mensagem a condutores a dizer que um certo pedido de viagem já fui tomado por alguem e retira-lo da lista do condutores ?
+?? ou apenas ignoro quando quando um condutor o aceitar ?? acho que é melhor tira-lo da lista !!! 

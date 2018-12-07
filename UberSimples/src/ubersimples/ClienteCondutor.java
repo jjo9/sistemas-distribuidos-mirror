@@ -22,6 +22,13 @@ public class ClienteCondutor extends Cliente {
     protected ArrayList listaDePedidos = new ArrayList();
     protected int viagemEstado; // 0 = não esta em viagem / 1 = viagem em progresso / 2 = viagem acabou ?
 
+    public ClienteCondutor() {
+        this.estado = 1;
+        this.viagemEstado = 0; // não sei se vamos usar este ?...
+        
+        // ao iniciar temos que por a correr as threads de enviar e receber ??
+    }
+
     // contrutor deverá começar com o estado a 1 !!
     // Cliente Consumidor Final
     // Registar;
@@ -66,6 +73,8 @@ public class ClienteCondutor extends Cliente {
             System.out.println(i + "->" + listaDePedidos.get(i));
         }
     }
+    
+    
     
     @Override
     int menu() {

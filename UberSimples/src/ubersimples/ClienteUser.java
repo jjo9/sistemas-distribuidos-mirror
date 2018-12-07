@@ -17,6 +17,10 @@ import java.util.logging.Logger;
  */
 public class ClienteUser extends Cliente {
 
+    public ClienteUser() {
+        // ao iniciar temos que por a correr as threads de enviar e receber ??
+    }
+    
     // Cliente User
     // Registar;
     // Logar;
