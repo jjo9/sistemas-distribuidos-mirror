@@ -19,7 +19,7 @@ public class Server {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         
         ServerSocket serverSocket = null;
         int port = 7777;
@@ -27,11 +27,12 @@ public class Server {
         
         ArrayList listaCondutores = new ArrayList();
         ArrayList listaUsers = new ArrayList();
-        ArrayList historico = new ArrayList(); // [quem submeteu(condutor/user),para quem(condutor/user),pontuação]
+        ArrayList historicoPontos = new ArrayList(); // [quem submeteu(condutor/user),para quem(condutor/user),pontuação]
         ArrayList credenciaisCondutores  = new ArrayList(); // [username,password]
         ArrayList credenciaisUsers  = new ArrayList(); // [username,password]
         
         SynchronizedArrayList mensagensPorEnviar = new SynchronizedArrayList();
+        SynchronizedArrayList mensagensPorEnviarMulticast = new SynchronizedArrayList();
         SynchronizedArrayList historicoMensagens = new SynchronizedArrayList();
         
         try {
@@ -43,14 +44,16 @@ public class Server {
         }
         
         System.out.println("port: " + port);
-        new ThreadEnviaMensagens().start(); // envia mensagens tanto para Condutores como para Users (a escolha é processada lá dentro)
-        new CondutorMulticast().star();     // multicast que envia para os condutores todos
+        new ThreadEnviaMensagens(listaCondutores,listaUsers,mensagensPorEnviar).start(); // envia mensagens tanto para Condutores como para Users (a escolha é processada lá dentro)
+        new CondutorMulticast(mensagensPorEnviarMulticast).star();     // multicast que envia para os condutores todos
         
         while (listening) { // onde fica preso à espera de clientes
             // capturador de clientes
             Socket acceptedSocket = serverSocket.accept(); // recever clientes e o que eles enviam
-            new WorkerThread().start();
+            new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos).start();
         }
+        
+        // 
 
         serverSocket.close();
         
