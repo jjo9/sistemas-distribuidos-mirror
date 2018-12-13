@@ -27,6 +27,9 @@ public class ClienteCondutor extends Cliente {
         this.viagemEstado = 0; // não sei se vamos usar este ?...
         
         // ao iniciar temos que por a correr as threads de enviar e receber ??
+        // criar uma thread para enviar
+        // criar uma thread para receber normal
+        // criar uma thread para receber em multicast
     }
 
     // contrutor deverá começar com o estado a 1 !!

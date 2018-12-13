@@ -25,7 +25,7 @@ public class ThreadClientes extends Thread {
     SynchronizedArrayList historicoMensagens;
 
     
-    public ThreadClientes(Socket socket, ArrayList listaClientes, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList historicoMensagens) {
+    public ThreadClientes(Socket acceptedSocket,ArrayList listaCondutores,ArrayList listaUsers,ArrayList credenciaisCondutores,ArrayList credenciaisUsers,SynchronizedArrayList mensagensPorEnviar,SynchronizedArrayList mensagensPorEnviarMulticast,SynchronizedArrayList historicoMensagens,ArrayList historicoPontos) {
         super("WorkerThread");
         this.socket = socket;
         this.listaClientes = listaClientes;

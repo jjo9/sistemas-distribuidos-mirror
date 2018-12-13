@@ -18,12 +18,14 @@ import java.util.logging.Logger;
  * @author Crisanto
  */
 public class ThreadEnviaMensagens extends Thread{
-    ArrayList<Socket> listaClientes;
+    ArrayList<Socket> listaCondutores;
+    ArrayList<Socket> listaUsers;
 //    ArrayList<String> mensagensPorEnviar;
     SynchronizedArrayList mensagensPorEnviar;
 
-    public ThreadEnviaMensagens(ArrayList<Socket> listaClientes, SynchronizedArrayList mensagensPorEnviar) {
-        this.listaClientes = listaClientes;
+    public ThreadEnviaMensagens(ArrayList<Socket> listaCondutores,ArrayList<Socket> listaUsers,SynchronizedArrayList mensagensPorEnviar) {
+        this.listaCondutores = listaCondutores;
+        this.listaUsers = listaUsers;
         this.mensagensPorEnviar = mensagensPorEnviar;
     }
 

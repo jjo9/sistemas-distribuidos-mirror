@@ -89,3 +89,8 @@ ou seja o formato de envio do servidor é
 [precisasse][quem é o cliente]
 [já foi tomado][quem é o cliente]
 
+// ho shit o cliente vai .. ho espera... tava tipo
+o cliente Condutor vai ter que receber por Multicast e por normal mas se não der com a mesma socket acho que dá para fazer outra thread
+echoSocketRecebe.joinGroup(address); // e este é só para receber tou quase posiivo que posso fazer duas threads uma para receber normal e outra para receber multicast 
+
+
