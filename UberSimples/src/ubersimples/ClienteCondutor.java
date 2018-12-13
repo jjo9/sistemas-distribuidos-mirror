@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class ClienteCondutor extends Cliente {
     
     protected int estado; // 0 = indisponível / 1 = disponível -> é só "não me chatêm" ou seja apenas não recebe novos pedidos
-    protected ArrayList listaDePedidos = new ArrayList();
+    protected ArrayList listaDePedidos = new ArrayList(); // [user,origem,destino]
     protected int viagemEstado; // 0 = não esta em viagem / 1 = viagem em progresso / 2 = viagem acabou ?
 
     public ClienteCondutor() {
@@ -52,6 +52,7 @@ public class ClienteCondutor extends Cliente {
     void historico() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         // para ver o historico fazer pedido ao servidor, este envia toda a informação
+        // Visualizar o seu histórico de viagens e respetiva pontuação RECEBIDA
     }
     
     

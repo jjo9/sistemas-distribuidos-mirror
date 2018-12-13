@@ -34,6 +34,7 @@ public class ClienteUser extends Cliente {
     void historico() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         // para ver o historico fazer pedido ao servidor, este envia toda a informação
+        // Visualizar o seu histórico de viagens e respetiva pontuação ATRIBUIDA
     }
 
     public int pedirViagem(){
@@ -42,13 +43,20 @@ public class ClienteUser extends Cliente {
         BufferedReader lerTeclado = new BufferedReader(new InputStreamReader(System.in));
         
         try {
-            System.out.println("insira a Origem da viagem");
+            System.out.println("insira a Origem da viagem"); // tratar par não por "/[]|\!()"
             String viagemOrigem = lerTeclado.readLine();
             System.out.println("insira o Destino da viagem");
             String viagemDestino = lerTeclado.readLine();
             
             // enviar info para server, formato [user,origem,destino]
             
+            // fica à espera que alguem aceite o seu pedido
+            
+            // print "pedido aceite por CONDUTOR nome"
+            
+            // print "viagem começou"
+            
+            // print "viagem terminou"
             
             // fica à espera da cena a dizer que pode dar pontuação ao condutor
             
