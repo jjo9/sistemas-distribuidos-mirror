@@ -19,40 +19,36 @@ import java.util.logging.Logger;
  *
  * @author Crisanto
  */
-public class CondutorMulticast extends Thread{
+public class CondutorMulticast extends Thread {
+
+    SynchronizedArrayList mensagensPorEnviarMulticast;
+    SynchronizedArrayList historicoMensagens;
     
-    SynchronizedArrayList mensagensPorEnviar;
     DatagramSocket socket;
 
-    public CondutorMulticast(SynchronizedArrayList mensagensPorEnviar) throws SocketException {
-        this.mensagensPorEnviar = mensagensPorEnviar;
+    public CondutorMulticast(SynchronizedArrayList mensagensPorEnviarMulticast,SynchronizedArrayList historicoMensagens) throws SocketException {
+        this.mensagensPorEnviarMulticast = mensagensPorEnviarMulticast;
+        this.historicoMensagens = historicoMensagens;
         this.socket = new DatagramSocket(4445);
     }
 
     @Override
     public void run() {
 
-        // por aqui o Sleep de 5 segunds
-        //TimeUnit.SECONDS.sleep(5);
-        String outputLine;
-
         while (true) {
             try {
-                TimeUnit.SECONDS.sleep(1); // default 5 !!
+                TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException ex) {
                 Logger.getLogger(CondutorMulticast.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            for (int i = 0; i < mensagensPorEnviar.getSize(); i++) {
+            for (int i = 0; i < mensagensPorEnviarMulticast.getSize(); i++) {
                 try {
 
                     byte[] buf = new byte[256];
 
-//                    DatagramPacket packet = new DatagramPacket(buf, buf.length);
-//                    socket.receive(packet);
-
-                    System.out.println("envia: "+mensagensPorEnviar.get().get(i));
-                    String dString = mensagensPorEnviar.get().get(i).toString();
+                    System.out.println("envia: " + mensagensPorEnviarMulticast.get().get(i));
+                    String dString = mensagensPorEnviarMulticast.get().get(i).toString();
                     buf = dString.getBytes();
 
                     InetAddress group = InetAddress.getByName("230.0.0.1");
@@ -67,7 +63,7 @@ public class CondutorMulticast extends Thread{
 
             }
             // depois tenho que tirar as mensagens enviadas 
-            this.mensagensPorEnviar.clear(); // isto não deve ser a melhor solução
+            this.mensagensPorEnviarMulticast.clear();
         }
 
     }

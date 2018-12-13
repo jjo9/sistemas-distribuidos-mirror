@@ -18,17 +18,16 @@ import java.util.ArrayList;
 public class ThreadClientes extends Thread {
 
     private Socket socket = null;
-    ArrayList<Socket> listaClientes;
-//    ArrayList<String> mensagensPorEnviar;
-//    ArrayList<String> historicoMensagens;
+    ArrayList<Socket> listaCondutores;
+    ArrayList<Socket> listaUsers;
     SynchronizedArrayList mensagensPorEnviar;
     SynchronizedArrayList historicoMensagens;
 
     
     public ThreadClientes(Socket acceptedSocket,ArrayList listaCondutores,ArrayList listaUsers,ArrayList credenciaisCondutores,ArrayList credenciaisUsers,SynchronizedArrayList mensagensPorEnviar,SynchronizedArrayList mensagensPorEnviarMulticast,SynchronizedArrayList historicoMensagens,ArrayList historicoPontos) {
         super("WorkerThread");
-        this.socket = socket;
-        this.listaClientes = listaClientes;
+        this.socket = acceptedSocket;
+        this.listalistaCondutores = listaCondutores;
         this.mensagensPorEnviar = mensagensPorEnviar;
         this.historicoMensagens = historicoMensagens;
     }

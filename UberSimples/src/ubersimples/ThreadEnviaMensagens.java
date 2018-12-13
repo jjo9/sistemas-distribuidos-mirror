@@ -20,13 +20,15 @@ import java.util.logging.Logger;
 public class ThreadEnviaMensagens extends Thread{
     ArrayList<Socket> listaCondutores;
     ArrayList<Socket> listaUsers;
-//    ArrayList<String> mensagensPorEnviar;
     SynchronizedArrayList mensagensPorEnviar;
+    SynchronizedArrayList historicoMensagens;
+    
 
-    public ThreadEnviaMensagens(ArrayList<Socket> listaCondutores,ArrayList<Socket> listaUsers,SynchronizedArrayList mensagensPorEnviar) {
+    public ThreadEnviaMensagens(ArrayList<Socket> listaCondutores,ArrayList<Socket> listaUsers,SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList historicoMensagens) {
         this.listaCondutores = listaCondutores;
         this.listaUsers = listaUsers;
         this.mensagensPorEnviar = mensagensPorEnviar;
+        this.historicoMensagens = historicoMensagens;
     }
 
     @Override
