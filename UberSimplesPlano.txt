@@ -81,3 +81,11 @@ cliente pode cancelar peedido de carro
 
 ?? o server deve mandar mensagem a condutores a dizer que um certo pedido de viagem já fui tomado por alguem e retira-lo da lista do condutores ?
 ?? ou apenas ignoro quando quando um condutor o aceitar ?? acho que é melhor tira-lo da lista !!! 
+
+
+Multicast para encontrar condutores tem modo procura o outro bota a baixo a dizer que já foi tomado 
+ou seja o formato de envio do servidor é
+// multicast para condutores
+[precisasse][quem é o cliente]
+[já foi tomado][quem é o cliente]
+
