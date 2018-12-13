@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class ClienteCondutor extends Cliente {
     
-    protected int estado; // 0 = indisponível / 1 = disponível
+    protected int estado; // 0 = indisponível / 1 = disponível -> é só "não me chatêm" ou seja apenas não recebe novos pedidos
     protected ArrayList listaDePedidos = new ArrayList();
     protected int viagemEstado; // 0 = não esta em viagem / 1 = viagem em progresso / 2 = viagem acabou ?
 
@@ -74,7 +74,43 @@ public class ClienteCondutor extends Cliente {
         }
     }
     
-    
+    public int aceitarPedidoDeViagem(){
+        int re = 0;
+        
+        verPedidos();
+        BufferedReader lerEscolha = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            // ler escolha
+            String escolha = lerEscolha.readLine();
+            // ver se é um numero
+            int escolhaInt = Integer.parseInt(escolha);
+            
+            // enviar mensagem ao server
+            
+            while(true){// LOOP que fica aqui até dizer que COMEÇOU a viagem
+                System.out.println("a viagem já começou? [y/n]");
+                String viagemInicio = lerEscolha.readLine();
+                if(viagemInicio.compareTo("y")==0){
+                    break;
+                }
+                // envia mensagem ao server a dizer que a viagem já COMEÇOU e notifica o cliente
+            }
+            while(true){// LOOP que fica aqui até dizer que a viagem TERMINOU
+                System.out.println("a viagem já começou? [y/n]");
+                String viagemInicio = lerEscolha.readLine();
+                if(viagemInicio.compareTo("y")==0){
+                    break;
+                }
+                // envia mensagem ao server a dizer que a viagem já TERMINOU e notifica o cliente
+            }
+            
+        
+        } catch (IOException ex) {
+            Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return re;
+    }
     
     @Override
     int menu() {
@@ -109,10 +145,10 @@ public class ClienteCondutor extends Cliente {
         }
         
         while (menuRuning) {
-            System.out.print(" 1 -> solicitar viagem\n"
-                    + " 2 -> ver historico\n"
-                    + " 3 -> opção3\n"
-                    + " 4 -> opção4\n"
+            System.out.print(" 1 -> ver historico\n"
+                    + " 2 -> ver pedidos de viagem\n"
+                    + " 3 -> aceitar pedido de viagem\n"
+                    + " 4 -> mudar estado\n"
                     + " 5 -> opção5\n"
                     + " 6 -> opção6\n"
                     + " 7 -> opção7\n"
@@ -122,13 +158,13 @@ public class ClienteCondutor extends Cliente {
                 String opcao = lerMenu.readLine();
                 
                 if (opcao.compareTo("1") == 0) {
-                    // fazer opção 1
+                    historico();
                 } else if (opcao.compareTo("2") == 0) {
-                    // fazer opção 2
+                    verPedidos();
                 } else if (opcao.compareTo("3") == 0) {
-                    // fazer opção 3
+                    aceitarPedidoDeViagem();
                 } else if (opcao.compareTo("4") == 0) {
-                    // fazer opção 4
+                    mudarEstado();
                 } else if (opcao.compareTo("5") == 0) {
                     // fazer opção 5
                 } else if (opcao.compareTo("6") == 0) {
@@ -136,6 +172,7 @@ public class ClienteCondutor extends Cliente {
                 } else if (opcao.compareTo("7") == 0) {
                     // fazer opção 7
                 } else if (opcao.compareTo("0") == 0) {
+                    // sair
                     menuRuning = false;
                 }
                 

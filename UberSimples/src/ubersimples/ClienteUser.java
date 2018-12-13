@@ -49,6 +49,11 @@ public class ClienteUser extends Cliente {
             
             // enviar info para server, formato [user,origem,destino]
             
+            
+            // fica à espera da cena a dizer que pode dar pontuação ao condutor
+            
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -90,8 +95,8 @@ public class ClienteUser extends Cliente {
         }
 
         while (menuRuning) {
-            System.out.print(" 1 -> solicitar viagem\n"
-                    + " 2 -> ver historico\n"
+            System.out.print(" 1 -> ver historico\n"
+                    + " 2 -> solicitar viagem\n"
                     + " 3 -> opção3\n"
                     + " 4 -> opção4\n"
                     + " 5 -> opção5\n"
@@ -103,9 +108,9 @@ public class ClienteUser extends Cliente {
                 String opcao = lerMenu.readLine();
 
                 if (opcao.compareTo("1") == 0) {
-                    // fazer opção 1
+                    historico();
                 } else if (opcao.compareTo("2") == 0) {
-                    // fazer opção 2
+                    pedirViagem();
                 } else if (opcao.compareTo("3") == 0) {
                     // fazer opção 3
                 } else if (opcao.compareTo("4") == 0) {
