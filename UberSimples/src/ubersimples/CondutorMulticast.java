@@ -23,10 +23,9 @@ public class CondutorMulticast extends Thread {
 
     SynchronizedArrayList mensagensPorEnviarMulticast;
     SynchronizedArrayList historicoMensagens;
-    
     DatagramSocket socket;
 
-    public CondutorMulticast(SynchronizedArrayList mensagensPorEnviarMulticast,SynchronizedArrayList historicoMensagens) throws SocketException {
+    public CondutorMulticast(SynchronizedArrayList mensagensPorEnviarMulticast,SynchronizedArrayList historicoMensagens) throws SocketException{
         this.mensagensPorEnviarMulticast = mensagensPorEnviarMulticast;
         this.historicoMensagens = historicoMensagens;
         this.socket = new DatagramSocket(4445);
