@@ -8,6 +8,9 @@ package ubersimples;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,14 +19,25 @@ import java.util.logging.Logger;
  * @author Crisanto
  */
 public class ClienteUser extends Cliente {
-    
+
     protected SynchronizedArrayList mensagemPorEnviarUser;
     protected SynchronizedArrayList mensagemRecebidasUser;
 
     public ClienteUser() {
         // ao iniciar temos que por a correr as threads de enviar e receber ??
+
+        Socket echoSocket;
+        try {
+            echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
+            // criar uma thread para enviar
+            new CondutorEnvia(echoSocket, mensagemPorEnviarUser).start();
+            // criar uma thread para receber normal
+            new CondutorRecebe(echoSocket, mensagemRecebidasUser).start();
+        } catch (IOException ex) {
+            Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     // Cliente User
     // Registar;
     // Logar;
@@ -40,39 +54,30 @@ public class ClienteUser extends Cliente {
         // Visualizar o seu histórico de viagens e respetiva pontuação ATRIBUIDA
     }
 
-    public int pedirViagem(){
+    public int pedirViagem() {
         int re = 0;
-        
+
         BufferedReader lerTeclado = new BufferedReader(new InputStreamReader(System.in));
-        
+
         try {
             System.out.println("insira a Origem da viagem"); // tratar par não por "/[]|\!()"
             String viagemOrigem = lerTeclado.readLine();
             System.out.println("insira o Destino da viagem");
             String viagemDestino = lerTeclado.readLine();
-            
+
             // enviar info para server, formato [user,origem,destino]
-            
             // fica à espera que alguem aceite o seu pedido
-            
             // print "pedido aceite por CONDUTOR nome"
-            
             // print "viagem começou"
-            
             // print "viagem terminou"
-            
             // fica à espera da cena a dizer que pode dar pontuação ao condutor
-            
-            
-            
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return re;
     }
-    
-    
+
     @Override
     int menu() {
         int re = 0;

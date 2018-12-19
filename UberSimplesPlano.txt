@@ -105,3 +105,5 @@ while list != empty
 
 // tipo nos clientes"User" tenho que gravar o qeu recebem num array ? ou imprimo só?
 // tenho que as processar à mesma não ?
+
+// começar Thread nos construtores sim ou não ?!
