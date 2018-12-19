@@ -27,7 +27,7 @@ public class ThreadClientes extends Thread {
     public ThreadClientes(Socket acceptedSocket,ArrayList listaCondutores,ArrayList listaUsers,ArrayList credenciaisCondutores,ArrayList credenciaisUsers,SynchronizedArrayList mensagensPorEnviar,SynchronizedArrayList mensagensPorEnviarMulticast,SynchronizedArrayList historicoMensagens,ArrayList historicoPontos) {
         super("WorkerThread");
         this.socket = acceptedSocket;
-        this.listalistaCondutores = listaCondutores;
+        this.listaCondutores = listaCondutores;
         this.mensagensPorEnviar = mensagensPorEnviar;
         this.historicoMensagens = historicoMensagens;
     }
@@ -36,7 +36,7 @@ public class ThreadClientes extends Thread {
     public void run() {
 
         System.out.print("run() Started!");
-        listaClientes.add(socket); // adiciona cliente
+        listaClientes.add(socket); // adiciona cliente Mas tenho que ver se é um "User" ou um "Condutor"
 
         try {
             // para leitura do que o cliente envia para o server

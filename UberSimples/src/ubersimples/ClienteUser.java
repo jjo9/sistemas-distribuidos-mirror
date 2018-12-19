@@ -16,6 +16,9 @@ import java.util.logging.Logger;
  * @author Crisanto
  */
 public class ClienteUser extends Cliente {
+    
+    protected SynchronizedArrayList mensagemPorEnviarUser;
+    protected SynchronizedArrayList mensagemRecebidasUser;
 
     public ClienteUser() {
         // ao iniciar temos que por a correr as threads de enviar e receber ??

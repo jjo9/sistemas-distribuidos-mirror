@@ -5,13 +5,17 @@
         <group>
             <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/CondutorMulticast.java</file>
             <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/CondutorExecute.java</file>
-            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/UserExecute.java</file>
-            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/ClienteCondutor.java</file>
-            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/ClienteUser.java</file>
             <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/ThreadClientes.java</file>
+            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/UserRecebe.java</file>
+            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/SynchronizedArrayList.java</file>
+            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/CondutorEnvia.java</file>
+            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/Cliente.java</file>
+            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/CondutorRecebe.java</file>
+            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/ClienteUser.java</file>
+            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/ClienteCondutor.java</file>
             <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/Server.java</file>
             <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/ThreadEnviaMensagens.java</file>
-            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/Cliente.java</file>
+            <file>file:/C:/Users/Crisanto/Documents/NetBeansProjects/trabalho-sd/UberSimples/src/ubersimples/UserEnvia.java</file>
         </group>
     </open-files>
 </project-private>

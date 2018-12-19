@@ -21,7 +21,9 @@ public class ClienteCondutor extends Cliente {
     protected int estado; // 0 = indisponível / 1 = disponível -> é só "não me chatêm" ou seja apenas não recebe novos pedidos
     protected ArrayList listaDePedidos = new ArrayList(); // [user,origem,destino]
     protected int viagemEstado; // 0 = não esta em viagem / 1 = viagem em progresso / 2 = viagem acabou ?
-
+    protected SynchronizedArrayList mensagemPorEnviarCondutor;
+    protected SynchronizedArrayList mensagemRecebidasCondutor;
+    
     public ClienteCondutor() {
         this.estado = 1;
         this.viagemEstado = 0; // não sei se vamos usar este ?...

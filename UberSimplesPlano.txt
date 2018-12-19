@@ -95,3 +95,13 @@ echoSocketRecebe.joinGroup(address); // e este é só para receber tou quase pos
 
 // no historico vão ser guardadas as mensagens recebidas e enviadas
 
+// para os clientes enviarem coisas faz-se uma arrayList na thread de envio faze-se
+while list != empty
+	send list[0]
+	list[0] remove
+	
+\\ e em todas as operações do cliente ao carregar numa opção que é suposto enviar algo para o server
+\\ este apenas faz lista.append("string num formato pre defenido para que o ser saiba o que fazer e não estourar")
+
+// tipo nos clientes"User" tenho que gravar o qeu recebem num array ? ou imprimo só?
+// tenho que as processar à mesma não ?
