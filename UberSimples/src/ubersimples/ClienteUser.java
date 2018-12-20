@@ -24,8 +24,20 @@ public class ClienteUser extends Cliente {
     protected SynchronizedArrayList mensagemRecebidasUser;
 
     public ClienteUser() {
-        // ao iniciar temos que por a correr as threads de enviar e receber ??
+        // ao iniciar temos que por a correr as threads de enviar e receber ?? Sim
+        startThreads();
+    }
 
+    // Cliente User
+    // Registar;
+    // Logar;
+    // Inserir origem da viagem; done
+    // Inserir destino da viagem; done
+    // Solicitar uma viatura com condutor para uma viagem específica; done...
+    // Atribuir uma pontuação (1 a 5) ao condutor para uma viagem específica; 
+    // Visualizar o seu histórico de viagens e respetiva pontuação atribuída;
+    // Sair.
+    private void startThreads() {
         Socket echoSocket;
         try {
             echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
@@ -38,15 +50,6 @@ public class ClienteUser extends Cliente {
         }
     }
 
-    // Cliente User
-    // Registar;
-    // Logar;
-    // Inserir origem da viagem;
-    // Inserir destino da viagem;
-    // Solicitar uma viatura com condutor para uma viagem específica;
-    // Atribuir uma pontuação (1 a 5) ao condutor para uma viagem específica;
-    // Visualizar o seu histórico de viagens e respetiva pontuação atribuída;
-    // Sair.
     @Override
     void historico() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -66,15 +69,33 @@ public class ClienteUser extends Cliente {
             String viagemDestino = lerTeclado.readLine();
 
             // enviar info para server, formato [user,origem,destino]
+            
             // fica à espera que alguem aceite o seu pedido
+            
             // print "pedido aceite por CONDUTOR nome"
+            
             // print "viagem começou"
+            
             // print "viagem terminou"
+            
             // fica à espera da cena a dizer que pode dar pontuação ao condutor
+            
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        return re;
+    }
+    
+    public int fazRegisto(){ // já tá feito no pai
+        int re = 0;
+        
+        return re;
+    }
+    
+    public int fazLogIn(){ // já tá feito no pai
+        int re = 0;
+        
         return re;
     }
 
@@ -91,6 +112,7 @@ public class ClienteUser extends Cliente {
                     + " 1 -> registo\n"
                     + " 2 -> login\n"
                     + " 0 -> Sair\n");
+            this.mensagemPorEnviarUser.add("User"); // para que o server consiga saber em que array vai guardar o Cliente
             try {
                 String opcao = lerMenu.readLine();
 

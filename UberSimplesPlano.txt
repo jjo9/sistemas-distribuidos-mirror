@@ -107,3 +107,33 @@ while list != empty
 // tenho que as processar à mesma não ?
 
 // começar Thread nos construtores sim ou não ?!
+
+// fazer LogOut ??? se calhar o server tem que saber que o tipo já não está lá ?!
+
+
+--- Formato de Pacotes ---   tratamento de dados não deixar inserir / em sitio nenhum !!!!!!!!!!!!!! Critico !!!!!!!!!!!!!!!!!
+
+[] Cliente -> Server (o que o Server recebe do Cliente)
+
+# Registo
+"TipoDeCliente/Username/Password"
+
+# LogIn
+"TipoDeCliente/Username/Password"
+
+
+[] Server-> Cliente (o que o Cliente recebe do Recebe)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

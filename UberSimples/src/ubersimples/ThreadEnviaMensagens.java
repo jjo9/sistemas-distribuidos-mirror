@@ -17,14 +17,14 @@ import java.util.logging.Logger;
  *
  * @author Crisanto
  */
-public class ThreadEnviaMensagens extends Thread{
+public class ThreadEnviaMensagens extends Thread {
+
     ArrayList<Socket> listaCondutores;
     ArrayList<Socket> listaUsers;
     SynchronizedArrayList mensagensPorEnviar;
     SynchronizedArrayList historicoMensagens;
-    
 
-    public ThreadEnviaMensagens(ArrayList<Socket> listaCondutores,ArrayList<Socket> listaUsers,SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList historicoMensagens) {
+    public ThreadEnviaMensagens(ArrayList<Socket> listaCondutores, ArrayList<Socket> listaUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList historicoMensagens) {
         this.listaCondutores = listaCondutores;
         this.listaUsers = listaUsers;
         this.mensagensPorEnviar = mensagensPorEnviar;
@@ -38,19 +38,29 @@ public class ThreadEnviaMensagens extends Thread{
         //TimeUnit.SECONDS.sleep(5);
         String outputLine;
 
-        while (true) {
+        while (true) { // tenho que ter 2 loops para os CONDUTORES e USERS \- não para cada mensagem tenho que ver se é USER ou CONDUTOR
             try {
-                TimeUnit.SECONDS.sleep(1); // default 5 !!
+                TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException ex) {
                 Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            // ------ CONDUTOR ------
 //            for (String mensagem : this.mensagensPorEnviar.get()) { // para cada mensagem
-              for (int i = 0;i < mensagensPorEnviar.getSize();i++){
-                for (Socket item : this.listaClientes) { // para cada cliente
-
-                    // outputLine = mensagem; // tenho que tratar a mensagem !! pus o processar mensagens no WorkerThread !!!!!!!
-
+            for (int i = 0; i < mensagensPorEnviar.getSize(); i++) {
+                // ver se é CONDUTOR ou USER
+                if ( == "condutor") {
+                    for (Socket item : this.listaCondutores) { // para cada CONDUTOR
+                        System.out.println(mensagensPorEnviar.get().get(i)); // para poder ver as Mensagens que serão enviadas para os Clientes na consola do servidor
+                        PrintWriter out;
+                        try {
+                            out = new PrintWriter(item.getOutputStream(), true); // tipo o so para um mas vou iterando pela lista
+                            out.println(mensagensPorEnviar.get().get(i));
+                        } catch (IOException ex) {
+                            Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }else{
+                    for (Socket item : this.listaUsers) { // para cada USER
                     System.out.println(mensagensPorEnviar.get().get(i)); // para poder ver as Mensagens que serão enviadas para os Clientes na consola do servidor
                     PrintWriter out;
                     try {
@@ -59,12 +69,12 @@ public class ThreadEnviaMensagens extends Thread{
                     } catch (IOException ex) {
                         Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
                 }
-
+                }
             }
-            // depois tenho que tirar as mensagens enviadas 
+            // depois de enviar as mensagens todas tenho que tirar as mensagens
             this.mensagensPorEnviar.clear(); // isto não deve ser a melhor solução
+
         }
 
     }

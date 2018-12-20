@@ -30,7 +30,22 @@ public class ClienteCondutor extends Cliente {
     public ClienteCondutor() {
         this.estado = 1;
         this.viagemEstado = 0; // não sei se vamos usar este ?...
+        startThreads();
+    }
 
+    // contrutor deverá começar com o estado a 1 !!
+    // Cliente Consumidor Final
+    // Registar;
+    // Logar;
+    // Alterar estado (disponível / indisponível)
+    // Receber pedidos de viatura com condutor para uma viagem específica e aceitar ou rejeitar os mesmos;
+    // Visualizar o seu histórico de viagens e respetiva pontuação recebida;
+    // Sair.
+    // tem que dizer que acavou a viagem
+    // em cmd se eu fizer print da lista de pedidos e um outro condutor aceitar o pedido, eu já não poderei aceita-lo, então ao escolher que aceito deve retornar mensagem de "este pedido já foi aceite"
+    // em GUI retirar quadrado ?...
+    
+    private void startThreads(){
         try {
             // ao iniciar temos que por a correr as threads de enviar e receber ??
             Socket echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
@@ -46,20 +61,8 @@ public class ClienteCondutor extends Cliente {
         } catch (IOException ex) {
             Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
-    // contrutor deverá começar com o estado a 1 !!
-    // Cliente Consumidor Final
-    // Registar;
-    // Logar;
-    // Alterar estado (disponível / indisponível)
-    // Receber pedidos de viatura com condutor para uma viagem específica e aceitar ou rejeitar os mesmos;
-    // Visualizar o seu histórico de viagens e respetiva pontuação recebida;
-    // Sair.
-    // tem que dizer que acavou a viagem
-    // em cmd se eu fizer print da lista de pedidos e um outro condutor aceitar o pedido, eu já não poderei aceita-lo, então ao escolher que aceito deve retornar mensagem de "este pedido já foi aceite"
-    // em GUI retirar quadrado ?...
+    
     public int getEstado() {
         return estado;
     }
@@ -142,6 +145,7 @@ public class ClienteCondutor extends Cliente {
                     + " 1 -> registo\n"
                     + " 2 -> login\n"
                     + " 0 -> Sair\n");
+            this.mensagemPorEnviarCondutor.add("Condutor"); // para que o server consiga saber em que array vai guardar o Cliente
             try {
                 String opcao = lerMenu.readLine();
 
