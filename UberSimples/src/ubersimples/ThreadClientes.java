@@ -79,16 +79,25 @@ public class ThreadClientes extends Thread {
                     // --- Loop de LogIn ---
                     // ver se é Registo ou LogIn
                     this.processoTempArray = this.processoTemp.split("/"); // separa "Registo ou LogIn/Username/Password" por "/"
-                    
-                    if(this.processoTempArray[0].equals("Registo")){
+
+                    if (this.processoTempArray[0].equals("Registo")) {
+                        boolean flagJaExiste = false;
+                        // ver se "Username" já exite
+                        for (String item : this.credenciaisCondutores) {
+                            if( this.processoTempArray[0].equals(item.split("/")[0]) ){
+                                flagJaExiste = true;
+                                break;
+                            }
+                        }
+
                         
-                    }else if(this.processoTempArray[0].equals("LogIn")){
                         
-                    }else{
+                        
+                    } else if (this.processoTempArray[0].equals("LogIn")) {
+
+                    } else {
                         System.out.println("Erro no pacote de Registo/LogIn");
                     }
-                    
-
 
                     this.historicoMensagens.add(inputLine); // para ficar no historico
                     if (inputLine.equals("Bye")) { // especifico que é o LogIn
