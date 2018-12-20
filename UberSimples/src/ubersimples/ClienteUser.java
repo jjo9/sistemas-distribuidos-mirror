@@ -76,7 +76,7 @@ public class ClienteUser extends Cliente {
             
             // print "viagem terminou"
             
-            // fica à espera da cena a dizer que pode dar pontuação ao condutor
+            // fica à espera da cena a dizer que pode dar pontuação ao condutor ("ver qual é o formato")
             
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);

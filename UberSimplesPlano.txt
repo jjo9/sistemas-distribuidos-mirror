@@ -158,6 +158,10 @@ if(this.processoTempArray[0].equals(""))
 
 # todas as mensagens para o server têm que acabar em "/" ex.:  "historico/" porque o .split("/") é sempre feito
 
+# em --> ThreadClientes.java no fim por tudo em metdos porque assim está muito confuso o codigo
+e não dá para ler tão bem depois coisas que se repetem podem ser condensadas
+
+
 ## FIX THIS
 
 --> Cliente.java

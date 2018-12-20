@@ -27,7 +27,7 @@ public class ThreadClientes extends Thread {
     SynchronizedArrayList mensagensPorEnviar;
     SynchronizedArrayList mensagensPorEnviarMulicast;
     SynchronizedArrayList historicoMensagens;
-    ArrayList historicoPontos;
+    ArrayList<String> historicoPontos;
     String clienteTipo;
     String processoTemp;
     String[] processoTempArray;
@@ -150,8 +150,13 @@ public class ThreadClientes extends Thread {
                     this.processoTemp = inputLine; 
                     this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
                     
-                    if (this.processoTempArray[0].equals("Historico")) {
+                    if (this.processoTempArray[0].equals("Historico")) { // "Condutor/User/pontuacao/origem/destino"
                         
+                        String historicoTemp;
+                        
+                        for(String item : this.historicoPontos){ // quando o CONDUTOR o HISTORICO -> comparar a condutor
+                            item.split("/")
+                        }
                     }
                     
                     
