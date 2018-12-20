@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class ThreadClientes extends Thread {
 
     private Socket socket = null;
+    private String username;
     ArrayList<Socket> listaCondutores;
     ArrayList<Socket> listaUsers;
     ArrayList<String> credenciaisCondutores;
@@ -30,6 +31,7 @@ public class ThreadClientes extends Thread {
     String clienteTipo;
     String processoTemp;
     String[] processoTempArray;
+    
 
     public ThreadClientes(Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos) {
         super("WorkerThread");
@@ -55,7 +57,7 @@ public class ThreadClientes extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // acho que é assim !!
             String inputLine;
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            String outputLine;
+            String outputLine = "/";
 
             //System.out.println("Read  Created!");
             // ------------- poem cliente na lista certa --------
@@ -83,7 +85,7 @@ public class ThreadClientes extends Thread {
                     // ver se é Registo ou LogIn
                     this.processoTempArray = this.processoTemp.split("/"); // separa "Registo ou LogIn/Username/Password" por "/"
 
-                    if (this.processoTempArray[0].equals("Registo")) {// --- Registo
+                    if (this.processoTempArray[0].equals("Registo")) {// ------------ Registo
                         boolean flagJaExiste = false;
                         // ver se "Username" já exite
                         for (String item : this.credenciaisCondutores) {
@@ -102,7 +104,7 @@ public class ThreadClientes extends Thread {
                         System.out.println(outputLine);
                         out.println(outputLine); // o que envia
 
-                    } else if (this.processoTempArray[0].equals("LogIn")) {// --- Login
+                    } else if (this.processoTempArray[0].equals("LogIn")) {// ------------ Login
                         
                         boolean flagJaExiste = false;
                         String passwordTemp = "/";
@@ -118,7 +120,8 @@ public class ThreadClientes extends Thread {
                         if(flagJaExiste == true){ // se já existir ver se a password está certa
                             
                             if(this.processoTempArray[2].equals(passwordTemp)){ // password esta certa
-                                outputLine = "";
+                                outputLine = "Sucesso";
+                                this.username = this.processoTempArray[1];
                             }else{ // password esta errada
                                 outputLine = "PasswordErrada";
                             }
@@ -135,14 +138,33 @@ public class ThreadClientes extends Thread {
                         System.out.println("Erro no pacote de Registo/LogIn");
                     }
 
-                    this.historicoMensagens.add(inputLine); // para ficar no historico
-                    if (inputLine.equals("Bye")) { // especifico que é o LogIn
-                        this.listaCondutores.remove(socket);
-                        System.out.println("--- Condutor Removido ---");
+                    //this.historicoMensagens.add(inputLine); // para ficar no historico
+                    if (outputLine.equals("Sucesso")) { 
+                        System.out.println("--- Condutor Logado ---");
                         break;
                     }
                 }
-
+                
+                while ((inputLine = in.readLine()) != null) { // ----------- Loop Condutor Processa Viagens
+                    
+                    this.processoTemp = inputLine; 
+                    this.processoTempArray = this.processoTemp.split("/"); // separa "" por "/"
+                    
+                    if (this.processoTempArray[0].equals("Registo")) {
+                        
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    if (outputLine.equals("Sucesso")) { 
+                        System.out.println("--- Condutor Logado ---");
+                        break;
+                    }
+                }
+                
                 in.close();
                 socket.close();
 

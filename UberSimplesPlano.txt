@@ -112,6 +112,8 @@ while list != empty
 
 // fazer LogOut ??? se calhar o server tem que saber que o tipo já não está lá ?!
 
+// ao fazer registo com sucesso não preciso de o logar automaticamente
+
 '''
 #conversa ?!?!?
 >agora que penso nisso precisamos de por o duas Threads no User ?
@@ -173,3 +175,6 @@ for loop que faz o registo e login
 -->ThreadClientes.java
 no registo mudar para guardar passwords como HASHS (no fim)
 
+-->ThreadClientes.java
+mudar implementação da funcionalidade de sair do menu (aka sair do programa) pois para já não dá para sair do programa a partir do 
+menu do Cliente
