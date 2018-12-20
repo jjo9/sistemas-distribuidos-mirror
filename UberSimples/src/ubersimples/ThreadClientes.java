@@ -152,11 +152,18 @@ public class ThreadClientes extends Thread {
                     
                     if (this.processoTempArray[0].equals("Historico")) { // "Condutor/User/pontuacao/origem/destino"
                         
-                        String historicoTemp;
+                        String historicoTemp = "";
                         
                         for(String item : this.historicoPontos){ // quando o CONDUTOR o HISTORICO -> comparar a condutor
-                            item.split("/")
+                            if(this.username.equals(item.split("/")[0])){ // o CONDUTOR foi o que efetuou a viagem como CONDUTOR
+                                historicoTemp += (item+"\n");
+                            }
                         }
+                        
+                        
+                        
+                    } else if(this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")){
+                        
                     }
                     
                     
