@@ -57,7 +57,7 @@ public class ClienteCondutor extends Cliente {
             MulticastSocket echoSocketRecebe = new MulticastSocket(4446);
             InetAddress address = InetAddress.getByName("230.0.0.1");
             echoSocketRecebe.joinGroup(address);
-            new CondutorMulticast(mensagemPorEnviarCondutor, mensagemPorEnviarCondutor).start();
+            new CondutorMulticast(mensagemPorEnviarCondutor, mensagemPorEnviarCondutor).start(); // ERRO isto não é condutor RECEBE MULTYCAST !!!!!!!!!!! CRITICO !!!!!!!!!!!!!
         } catch (IOException ex) {
             Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -149,7 +149,7 @@ public class ClienteCondutor extends Cliente {
             try {
                 String opcao = lerMenu.readLine();
 
-                if (opcao.compareTo("1") == 0) {
+                if (opcao.compareTo("1") == 0) { // mudar para equals ?!?!? no fim
                     Registo();
                 } else if (opcao.compareTo("2") == 0) {
                     LogIn();

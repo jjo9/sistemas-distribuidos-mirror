@@ -28,6 +28,7 @@ public class ThreadClientes extends Thread {
     ArrayList historicoPontos;
     String clienteTipo;
     String processoTemp;
+    String[] processoTempArray;
 
     public ThreadClientes(Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos) {
         super("WorkerThread");
@@ -70,14 +71,22 @@ public class ThreadClientes extends Thread {
                 }
             }
             // sai do loop de reconheciemnto e passa para o loop de LogIn
-            if (this.clienteTipo.equals("Condutor")) {
+            if (this.clienteTipo.equals("Condutor")) {// ---- Tudo para CONDUTOR
 
                 // ------------ processo normal para ler para sempre o que está a enviar
                 while ((inputLine = in.readLine()) != null) { // lê o que o CONDUTOR lhe envia
                     this.processoTemp = inputLine; // variavel temporaria que armazena o pacote de informação enviado pelo cliente
                     // --- Loop de LogIn ---
                     // ver se é Registo ou LogIn
+                    this.processoTempArray = this.processoTemp.split("/"); // separa "Registo ou LogIn/Username/Password" por "/"
                     
+                    if(this.processoTempArray[0].equals("Registo")){
+                        
+                    }else if(this.processoTempArray[0].equals("LogIn")){
+                        
+                    }else{
+                        System.out.println("Erro no pacote de Registo/LogIn");
+                    }
                     
 
 
@@ -92,7 +101,7 @@ public class ThreadClientes extends Thread {
                 in.close();
                 socket.close();
 
-            } else if (this.clienteTipo.equals("User")) {// ------------------- copiar outra vez o de cima
+            } else if (this.clienteTipo.equals("User")) {// ---- Tudo para USER
 
                 // ------------ processo normal para ler para sempre o que está a enviar
                 while ((inputLine = in.readLine()) != null) { // lê o que o User lhe envia

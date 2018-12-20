@@ -90,7 +90,16 @@ public abstract class Cliente {
 
     public int sendRegistoCreds2Server() {
         int re = 0;
+        String pacoteEnviado;
+        
+        pacoteEnviado = "Registo/"+this.username+"/"+this.password;
+        
+        // por isto nas MENSAGENS POR ENVIADAR
+        
         // mandar para o server
+        
+        // formato "Registo/Username/Password"
+        
         // ver resposta
         // se retornar 0 é porque já existe o user
         // se retornar 1 é porque foi registado com sucesso
