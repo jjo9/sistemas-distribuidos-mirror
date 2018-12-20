@@ -112,6 +112,14 @@ while list != empty
 
 // fazer LogOut ??? se calhar o server tem que saber que o tipo já não está lá ?!
 
+'''
+#conversa ?!?!?
+>agora que penso nisso precisamos de por o duas Threads no User ?
+>no Condutor sim para o multicast
+>hummmmm acho que funciona à  mesma
+>só não é tão optimizado
+>fica para o fim
+'''
 
 
 
@@ -154,10 +162,14 @@ quem diz aquele metedo diz todos os metedos presentes em Cliente.java que precis
 // ERRO isto não é condutor RECEBE MULTYCAST !!!!!!!!!!! CRITICO !!!!!!!!!!!!!
 new CondutorMulticast(mensagemPorEnviarCondutor, mensagemPorEnviarCondutor).start(); 
 
--->ThreadClientes
+-->ThreadClientes.java
 // acho que também tenho que por o Credenciais Condutores e Credenciais User como SyncronizedArrayList para funcionar bem no enanced
 for loop que faz o registo e login
 
 
+--> Para tudo do server
+// verificar se gravo no historico tudo o que ponho no System out bem como tudo o que é enviado e recebido (por data e hora também)
 
+-->ThreadClientes.java
+no registo mudar para guardar passwords como HASHS (no fim)
 

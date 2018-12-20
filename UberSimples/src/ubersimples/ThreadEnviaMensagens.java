@@ -32,7 +32,8 @@ public class ThreadEnviaMensagens extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() {  // !!!!!!!!!!!!!!!!! pagina descontinuada  !!!!!!!!!!!!!!!!!  
+                        // esta pagina não é preciso para nada pois temos o Multicast e as resposta são feitas só para o user que enviou o pedido ou seja, 1 para 1
 
         // por aqui o Sleep de 5 segunds
         //TimeUnit.SECONDS.sleep(5);

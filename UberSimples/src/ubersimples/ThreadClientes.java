@@ -8,6 +8,7 @@ package ubersimples;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class ThreadClientes extends Thread {
         this.listaUsers = listaUsers;
         this.credenciaisCondutores = credenciaisCondutores;
         this.credenciaisUsers = credenciaisUsers;
-        this.mensagensPorEnviar = mensagensPorEnviar;
+        this.mensagensPorEnviar = mensagensPorEnviar; // acho que não vou chegar a usar este ...
         this.mensagensPorEnviarMulicast = mensagensPorEnviarMulticast;
         this.historicoMensagens = historicoMensagens;
         this.historicoPontos = historicoPontos;
@@ -51,8 +52,10 @@ public class ThreadClientes extends Thread {
         try {
             // para leitura do que o cliente envia para o server
             BufferedReader in;
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // acho que é assim !!
             String inputLine;
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            String outputLine;
 
             //System.out.println("Read  Created!");
             // ------------- poem cliente na lista certa --------
@@ -80,21 +83,54 @@ public class ThreadClientes extends Thread {
                     // ver se é Registo ou LogIn
                     this.processoTempArray = this.processoTemp.split("/"); // separa "Registo ou LogIn/Username/Password" por "/"
 
-                    if (this.processoTempArray[0].equals("Registo")) {
+                    if (this.processoTempArray[0].equals("Registo")) {// --- Registo
                         boolean flagJaExiste = false;
                         // ver se "Username" já exite
                         for (String item : this.credenciaisCondutores) {
-                            if( this.processoTempArray[0].equals(item.split("/")[0]) ){
+                            if (this.processoTempArray[1].equals(item.split("/")[0])) {
                                 flagJaExiste = true;
                                 break;
                             }
                         }
+                        
+                        if(flagJaExiste == true){ // username já exite
+                            outputLine = "JaExiste";
+                        }else{
+                            this.credenciaisCondutores.add(this.processoTempArray[1]+"/"+this.processoTempArray[2]);
+                            outputLine = "Registado";
+                        }
+                        System.out.println(outputLine);
+                        out.println(outputLine); // o que envia
 
+                    } else if (this.processoTempArray[0].equals("LogIn")) {// --- Login
+                        
+                        boolean flagJaExiste = false;
+                        String passwordTemp = "/";
+                        
+                        // ver se "Username" existe
+                        for (String item : this.credenciaisCondutores) {
+                            if (this.processoTempArray[1].equals(item.split("/")[0])) {
+                                flagJaExiste = true;
+                                passwordTemp = item.split("/")[1];
+                                break;
+                            }
+                        }
+                        if(flagJaExiste == true){ // se já existir ver se a password está certa
+                            
+                            if(this.processoTempArray[2].equals(passwordTemp)){ // password esta certa
+                                outputLine = "";
+                            }else{ // password esta errada
+                                outputLine = "PasswordErrada";
+                            }
+                            
+                        }else{
+                            outputLine = "ClienteNaoExiste";
+                        }
+                        System.out.println(outputLine);
+                        out.println(outputLine); // o que envia
                         
                         
                         
-                    } else if (this.processoTempArray[0].equals("LogIn")) {
-
                     } else {
                         System.out.println("Erro no pacote de Registo/LogIn");
                     }
