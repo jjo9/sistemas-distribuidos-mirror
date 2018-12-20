@@ -166,7 +166,7 @@ public class ClienteCondutor extends Cliente {
         }
 
         while (menuRuning) {
-            System.out.print(" 1 -> ver historico\n"
+            System.out.print(" 1 -> ver historico\n"  // a implementar isto no server 
                     + " 2 -> ver pedidos de viagem\n"
                     + " 3 -> aceitar pedido de viagem\n"
                     + " 4 -> mudar estado\n"

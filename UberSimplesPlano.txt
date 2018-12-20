@@ -150,6 +150,13 @@ if(this.processoTempArray[0].equals(""))
 
 [] Server-> Cliente (o que o Cliente recebe do Recebe)
 
+# Historico 
+
+"Condutor/User/pontuacao/origem/destino"
+
+
+
+# todas as mensagens para o server têm que acabar em "/" ex.:  "historico/" porque o .split("/") é sempre feito
 
 ## FIX THIS
 

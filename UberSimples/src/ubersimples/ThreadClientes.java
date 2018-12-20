@@ -43,7 +43,7 @@ public class ThreadClientes extends Thread {
         this.mensagensPorEnviar = mensagensPorEnviar; // acho que não vou chegar a usar este ...
         this.mensagensPorEnviarMulicast = mensagensPorEnviarMulticast;
         this.historicoMensagens = historicoMensagens;
-        this.historicoPontos = historicoPontos;
+        this.historicoPontos = historicoPontos; // formato "Condutor/User/pontuacao/origem/destino"
     }
 
     @Override
@@ -148,9 +148,9 @@ public class ThreadClientes extends Thread {
                 while ((inputLine = in.readLine()) != null) { // ----------- Loop Condutor Processa Viagens
                     
                     this.processoTemp = inputLine; 
-                    this.processoTempArray = this.processoTemp.split("/"); // separa "" por "/"
+                    this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
                     
-                    if (this.processoTempArray[0].equals("Registo")) {
+                    if (this.processoTempArray[0].equals("Historico")) {
                         
                     }
                     
