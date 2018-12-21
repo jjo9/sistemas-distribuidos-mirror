@@ -179,6 +179,7 @@ public class ThreadClientes extends Thread {
                             }
                         }                        
                         if (existFlag){ // continuação do se existir
+                            out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
                             
                         }else{// se não existir
                             out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
