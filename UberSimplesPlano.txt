@@ -153,7 +153,7 @@ if(this.processoTempArray[0].equals(""))
 
 
 # pedido de viagem [Condutor]
-"AceitarPedidoViagem/"
+"AceitarPedidoViagem/UserQuePediu/Origem/Destino" # ele sabe que viagem é porque recebeu por Multicast/ also não vai haver repetidos pois cada user só pode pedir uma viagem de cada vez
 
 [] Server-> Cliente (o que o Cliente recebe do Recebe)
 
@@ -161,7 +161,12 @@ if(this.processoTempArray[0].equals(""))
 
 "Condutor/User/pontuacao/origem/destino"
 
+# Multicast a dizer que aquele pedido já foi tomado
 
+"Drop/User/origem/destino"
+
+
+-------------------------------
 
 # todas as mensagens para o server têm que acabar em "/" ex.:  "historico/" porque o .split("/") é sempre feito
 

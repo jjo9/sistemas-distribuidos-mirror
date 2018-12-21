@@ -29,7 +29,7 @@ public class ThreadClientes extends Thread {
     SynchronizedArrayList historicoMensagens;
     ArrayList<String> historicoPontos;
     SynchronizedArrayList pedidosDeViagens;
-    
+
     String clienteTipo;
     String processoTemp;
     String[] processoTempArray;
@@ -161,11 +161,22 @@ public class ThreadClientes extends Thread {
                         }
                         out.println(historicoTemp); // enviar 
 
-                    } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // receber pedido de viagem 
+                    } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // receber pedido de viagem  
+                        // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
+                        boolean existFlag = false;
 
-                        // para receber viagem ...
                         // ver se pedido o pedido ainda existe
-                        // se existir
+                        for (int x = 0; x < this.pedidosDeViagens.getSize(); x++) {
+                            System.out.println("---"+this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor
+                            if( this.pedidosDeViagens.get().get(x).toString().equals( this.processoTempArray[1]+"/"+this.processoTempArray[2]+"/"+this.processoTempArray[3] ) ){ // se existir 
+                                // tira pedido do server pois este Condutor já o aceitou e vai toma-lo para si, assim mais ninguem o pode aceitar
+                                
+                                // also enviar em Multicast para a dizer que já não é possivel aceitar aquele pedido no formato "Drop/User/origem/destino"
+                                
+                            }
+                                
+                        }
+                        
                         // se não existir
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 

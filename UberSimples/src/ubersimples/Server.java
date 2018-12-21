@@ -34,7 +34,7 @@ public class Server {
         SynchronizedArrayList mensagensPorEnviar = new SynchronizedArrayList(); // este não vai ser usado por causa da descontinuação de "ThreadEnviaMensagens"
         SynchronizedArrayList mensagensPorEnviarMulticast = new SynchronizedArrayList(); // mensagens contendo pacotes a informar que "existe um pedido de viagem" e "um pedido de viagem já foi tomado"
         SynchronizedArrayList historicoMensagens = new SynchronizedArrayList(); // guarda todas as mensagens enviadas e recebidas
-        SynchronizedArrayList pedidosDeViagens = new SynchronizedArrayList();
+        SynchronizedArrayList pedidosDeViagens = new SynchronizedArrayList(); // formato "UserQuePediu/Origem/Destino"
         
         try {
             serverSocket = new ServerSocket(port);
