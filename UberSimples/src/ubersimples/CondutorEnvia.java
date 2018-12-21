@@ -48,7 +48,7 @@ public class CondutorEnvia extends Thread {
 //                    break;
 //                }
 //            }
-            while (this.mensagemPorEnviarCondutor.getSize() != 0) { // enquanto tiver cenas para enviar
+            while (this.mensagemPorEnviarCondutor.getSize() != 0) { // enquanto tiver coisas para enviar
                 envio = (String) this.mensagemPorEnviarCondutor.get().get(0);
                 out.println(envio); // envia o mais recente 
                 if (envio.equals("Bye")) { // criterio de saida [mudar ?!]

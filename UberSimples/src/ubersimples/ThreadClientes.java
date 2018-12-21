@@ -167,17 +167,24 @@ public class ThreadClientes extends Thread {
 
                         // ver se pedido o pedido ainda existe
                         for (int x = 0; x < this.pedidosDeViagens.getSize(); x++) {
-                            System.out.println("---"+this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor
-                            if( this.pedidosDeViagens.get().get(x).toString().equals( this.processoTempArray[1]+"/"+this.processoTempArray[2]+"/"+this.processoTempArray[3] ) ){ // se existir 
+                            System.out.println("---" + this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor
+                            if (this.pedidosDeViagens.get().get(x).toString().equals(this.processoTempArray[1] + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3])) { // se existir 
                                 // tira pedido do server pois este Condutor já o aceitou e vai toma-lo para si, assim mais ninguem o pode aceitar
-                                
+                                String tempPedido = this.pedidosDeViagens.get().get(x).toString();
+                                this.pedidosDeViagens.removeFromPosition(x);
                                 // also enviar em Multicast para a dizer que já não é possivel aceitar aquele pedido no formato "Drop/User/origem/destino"
-                                
+                                this.mensagensPorEnviarMulicast.add("Drop/" + tempPedido);
+                                existFlag = true;
+                                break;
                             }
-                                
+                        }                        
+                        if (existFlag){ // continuação do se existir
+                            
+                        }else{// se não existir
+                            out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
                         }
+
                         
-                        // se não existir
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {

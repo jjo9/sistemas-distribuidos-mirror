@@ -32,7 +32,7 @@ public class CondutorMulticast extends Thread {
     }
     
     @Override
-    public void run() {
+    public void run() { // é aqui que O SERVER ENVIA as mensagens por Multicast para os CONDUTORES
 
         while (true) {
             try {
