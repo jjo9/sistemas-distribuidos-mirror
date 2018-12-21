@@ -18,8 +18,8 @@ import java.util.ArrayList;
  */
 public class ThreadClientes extends Thread {
 
-    private Socket socket = null;
-    private String username;
+    private Socket socket = null; // socket do cliente atualmente logado
+    private String username; // username do cliente atualmente logado
     ArrayList<Socket> listaCondutores;
     ArrayList<Socket> listaUsers;
     ArrayList<String> credenciaisCondutores;
@@ -28,11 +28,13 @@ public class ThreadClientes extends Thread {
     SynchronizedArrayList mensagensPorEnviarMulicast;
     SynchronizedArrayList historicoMensagens;
     ArrayList<String> historicoPontos;
+    SynchronizedArrayList pedidosDeViagens;
+    
     String clienteTipo;
     String processoTemp;
     String[] processoTempArray;
 
-    public ThreadClientes(Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos) {
+    public ThreadClientes(Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos, SynchronizedArrayList pedidosDeViagens) {
         super("WorkerThread");
         this.socket = acceptedSocket;
         this.listaCondutores = listaCondutores;
@@ -43,6 +45,7 @@ public class ThreadClientes extends Thread {
         this.mensagensPorEnviarMulicast = mensagensPorEnviarMulticast;
         this.historicoMensagens = historicoMensagens;
         this.historicoPontos = historicoPontos; // formato "Condutor/User/pontuacao/origem/destino"
+        this.pedidosDeViagens = pedidosDeViagens; // onde estão guardados os pedidos de viagem
     }
 
     @Override
@@ -158,10 +161,12 @@ public class ThreadClientes extends Thread {
                         }
                         out.println(historicoTemp); // enviar 
 
-                    } else if (this.processoTempArray[0].equals("ReceberPedido")) { // receber pedido de viagem 
+                    } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // receber pedido de viagem 
 
                         // para receber viagem ...
-                        
+                        // ver se pedido o pedido ainda existe
+                        // se existir
+                        // se não existir
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {

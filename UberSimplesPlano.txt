@@ -148,6 +148,13 @@ if(this.processoTempArray[0].equals(""))
 # credenciais são guardadas em credenciaisCondutores/credenciaisUsers no formato
 "Username/Password"
 
+# historico
+"historico/" # pois o server já sabe quem é o cliente
+
+
+# pedido de viagem [Condutor]
+"AceitarPedidoViagem/"
+
 [] Server-> Cliente (o que o Cliente recebe do Recebe)
 
 # Historico 

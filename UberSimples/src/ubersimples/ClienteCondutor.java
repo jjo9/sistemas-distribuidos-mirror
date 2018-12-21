@@ -108,6 +108,9 @@ public class ClienteCondutor extends Cliente {
             int escolhaInt = Integer.parseInt(escolha);
 
             // enviar mensagem ao server
+            
+            // fica à espera de saber que o pedido foi aceite
+            
             while (true) {// LOOP que fica aqui até dizer que COMEÇOU a viagem
                 System.out.println("a viagem já começou? [y/n]");
                 String viagemInicio = lerEscolha.readLine();

@@ -25,15 +25,16 @@ public class Server {
         int port = 7777;
         boolean listening = true;
         
-        ArrayList listaCondutores = new ArrayList();
-        ArrayList listaUsers = new ArrayList();
+        ArrayList listaCondutores = new ArrayList(); // guarda socket de condutores
+        ArrayList listaUsers = new ArrayList(); // guarda socket de users
         ArrayList historicoPontos = new ArrayList(); // [quem submeteu(condutor/user),para quem(condutor/user),pontuação]
         ArrayList credenciaisCondutores  = new ArrayList(); // [username,password]
         ArrayList credenciaisUsers  = new ArrayList(); // [username,password]
         
-        SynchronizedArrayList mensagensPorEnviar = new SynchronizedArrayList();
-        SynchronizedArrayList mensagensPorEnviarMulticast = new SynchronizedArrayList();
-        SynchronizedArrayList historicoMensagens = new SynchronizedArrayList();
+        SynchronizedArrayList mensagensPorEnviar = new SynchronizedArrayList(); // este não vai ser usado por causa da descontinuação de "ThreadEnviaMensagens"
+        SynchronizedArrayList mensagensPorEnviarMulticast = new SynchronizedArrayList(); // mensagens contendo pacotes a informar que "existe um pedido de viagem" e "um pedido de viagem já foi tomado"
+        SynchronizedArrayList historicoMensagens = new SynchronizedArrayList(); // guarda todas as mensagens enviadas e recebidas
+        SynchronizedArrayList pedidosDeViagens = new SynchronizedArrayList();
         
         try {
             serverSocket = new ServerSocket(port);
@@ -51,7 +52,7 @@ public class Server {
         while (listening) { // onde fica preso à espera de clientes
             // capturador de clientes
             Socket acceptedSocket = serverSocket.accept(); // recever clientes e o que eles enviam
-            new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos).start();
+            new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos,pedidosDeViagens).start();
         }
         
         // 
