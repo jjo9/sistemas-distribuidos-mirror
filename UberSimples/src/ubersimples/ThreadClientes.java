@@ -31,7 +31,6 @@ public class ThreadClientes extends Thread {
     String clienteTipo;
     String processoTemp;
     String[] processoTempArray;
-    
 
     public ThreadClientes(Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos) {
         super("WorkerThread");
@@ -94,21 +93,21 @@ public class ThreadClientes extends Thread {
                                 break;
                             }
                         }
-                        
-                        if(flagJaExiste == true){ // username já exite
+
+                        if (flagJaExiste == true) { // username já exite
                             outputLine = "JaExiste";
-                        }else{
-                            this.credenciaisCondutores.add(this.processoTempArray[1]+"/"+this.processoTempArray[2]);
+                        } else {
+                            this.credenciaisCondutores.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]);
                             outputLine = "Registado";
                         }
                         System.out.println(outputLine);
                         out.println(outputLine); // o que envia
 
                     } else if (this.processoTempArray[0].equals("LogIn")) {// ------------ Login
-                        
+
                         boolean flagJaExiste = false;
                         String passwordTemp = "/";
-                        
+
                         // ver se "Username" existe
                         for (String item : this.credenciaisCondutores) {
                             if (this.processoTempArray[1].equals(item.split("/")[0])) {
@@ -117,66 +116,72 @@ public class ThreadClientes extends Thread {
                                 break;
                             }
                         }
-                        if(flagJaExiste == true){ // se já existir ver se a password está certa
-                            
-                            if(this.processoTempArray[2].equals(passwordTemp)){ // password esta certa
+                        if (flagJaExiste == true) { // se já existir ver se a password está certa
+
+                            if (this.processoTempArray[2].equals(passwordTemp)) { // password esta certa
                                 outputLine = "Sucesso";
                                 this.username = this.processoTempArray[1];
-                            }else{ // password esta errada
+                            } else { // password esta errada
                                 outputLine = "PasswordErrada";
                             }
-                            
-                        }else{
+
+                        } else {
                             outputLine = "ClienteNaoExiste";
                         }
                         System.out.println(outputLine);
                         out.println(outputLine); // o que envia
-                        
-                        
-                        
+
                     } else {
                         System.out.println("Erro no pacote de Registo/LogIn");
                     }
 
                     //this.historicoMensagens.add(inputLine); // para ficar no historico
-                    if (outputLine.equals("Sucesso")) { 
+                    if (outputLine.equals("Sucesso")) {
                         System.out.println("--- Condutor Logado ---");
                         break;
                     }
                 }
-                
+
                 while ((inputLine = in.readLine()) != null) { // ----------- Loop Condutor Processa Viagens
-                    
-                    this.processoTemp = inputLine; 
+
+                    this.processoTemp = inputLine;
                     this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
-                    
+
                     if (this.processoTempArray[0].equals("Historico")) { // "Condutor/User/pontuacao/origem/destino"
-                        
+
                         String historicoTemp = "";
-                        
-                        for(String item : this.historicoPontos){ // quando o CONDUTOR o HISTORICO -> comparar a condutor
-                            if(this.username.equals(item.split("/")[0])){ // o CONDUTOR foi o que efetuou a viagem como CONDUTOR
-                                historicoTemp += (item+"\n");
+
+                        for (String item : this.historicoPontos) { // quando o CONDUTOR o HISTORICO -> comparar a condutor
+                            if (this.username.equals(item.split("/")[0])) { // o CONDUTOR foi o que efetuou a viagem como CONDUTOR
+                                historicoTemp += (item + "\n");
                             }
                         }
+                        out.println(historicoTemp); // enviar 
+
+                    } else if (this.processoTempArray[0].equals("ReceberPedido")) { // receber pedido de viagem 
+
+                        // para receber viagem ...
                         
-                        
-                        
-                    } else if(this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")){
-                        
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
                     }
-                    
-                    
-                    
-                    
-                    
-                    
-                    if (outputLine.equals("Sucesso")) { 
+
+                    if (outputLine.equals("Sucesso")) {
                         System.out.println("--- Condutor Logado ---");
                         break;
                     }
                 }
-                
+
                 in.close();
                 socket.close();
 
