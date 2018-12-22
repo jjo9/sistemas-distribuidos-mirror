@@ -144,7 +144,7 @@ public class ThreadClientes extends Thread {
                         break;
                     }
                 }
-
+                // ---------------------------------------------------------------------------------------------------------
                 while ((inputLine = in.readLine()) != null) { // ----------- Loop Condutor Processa Viagens
 
                     this.processoTemp = inputLine;
@@ -177,15 +177,17 @@ public class ThreadClientes extends Thread {
                                 existFlag = true;
                                 break;
                             }
-                        }                        
-                        if (existFlag){ // continuação do se existir
+                        }
+                        if (existFlag) { // continuação do se existir
                             out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
-                            
-                        }else{// se não existir
+
+                            // espera que o Condutor diga que a viagem começou
+                            // espera que o Condutor diga que a viagem terminou
+                            // depois notifica o cliente...
+                        } else {// se não existir
                             out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
                         }
 
-                        
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
