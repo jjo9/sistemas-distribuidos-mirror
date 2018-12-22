@@ -16,13 +16,14 @@ import java.util.logging.Logger;
  *
  * @author Crisanto
  */
-public class CondutorRecebeMulticast extends Thread{
-    
+public class CondutorRecebeMulticast extends Thread {
+
     MulticastSocket echoSocket = null;
     ArrayList ativo;
     SynchronizedArrayList mensagensMulticast;
-    
-    public CondutorRecebeMulticast(MulticastSocket echoSocket,ArrayList ativo, SynchronizedArrayList mensagensMulticast) {
+    SynchronizedArrayList listaDePedidos;
+
+    public CondutorRecebeMulticast(MulticastSocket echoSocket, ArrayList ativo, SynchronizedArrayList mensagensMulticast, SynchronizedArrayList listaDePedidos) {
         this.echoSocket = echoSocket;
         this.ativo = ativo;
         this.mensagensMulticast = mensagensMulticast;
@@ -58,10 +59,17 @@ public class CondutorRecebeMulticast extends Thread{
             }
 
             String received = new String(packet.getData(), 0, packet.getLength());
-            this.mensagensMulticast.add(received);
+            this.mensagensMulticast.add(received); // preciso de fazer isto sequer ? tipo para que é que estou a guardar ?
             System.out.println("recebe: " + received);
+            
+            
+            // fazer alguma coisa para retirar da lista
+            // fazer split "/"
+            // se for "Add/"  // foi este o nome que dei ?!!?!?
+            // se for "Drop/" -> ir a "this.listaDePedidos" e retirar esse pedido
+            
         }
-        
+
     }
-    
+
 }

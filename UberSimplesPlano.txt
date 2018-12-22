@@ -64,7 +64,9 @@ Class: Servidor
 MultiThreading - ligações de vários clientes em simultâneo
 guardar hisorico (clientes, viagens, pontuações, etc) // ou seja 
 // ? quando um "Cliente" quer ver o seu historico faz o pedido ao server e este tem essa info toda guardada em memoria e envia por mensagem ?
+\-> faz um pedido ao server
 // ? ou seja o cliente não tem isso na sua memoria interna ?
+\-> não só tá guardado no server
 
 Pedidos de viagens do servidor para os clientes condutor devem ser efetuados via multicast.
 
@@ -75,6 +77,7 @@ notas:
 pedido de estorico é feitos ao servidor(esta info só está lá)
 se condutor ficar disponivel depois de ter sido feito multicast aos condutores disponiveis ignorar (para já)
 cliente pode cancelar peedido de carro
+\-> para o fim no fim 
 
 ?? Como é que vamos fazer o LogIN/registo ??
 - a info tá armazenada no server

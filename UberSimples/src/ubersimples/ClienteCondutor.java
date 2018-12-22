@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class ClienteCondutor extends Cliente {
 
     protected int estado; // 0 = indisponível / 1 = disponível -> é só "não me chatêm" ou seja apenas não recebe novos pedidos
-    protected ArrayList listaDePedidos = new ArrayList(); // [user,origem,destino]
+    protected SynchronizedArrayList listaDePedidos = new SynchronizedArrayList(); // [user,origem,destino] // mudar para 
     protected int viagemEstado; // 0 = não esta em viagem / 1 = viagem em progresso / 2 = viagem acabou ?
     protected SynchronizedArrayList mensagemPorEnviarCondutor;
     protected SynchronizedArrayList mensagemRecebidasCondutor;
@@ -60,7 +60,7 @@ public class ClienteCondutor extends Cliente {
             MulticastSocket echoSocketRecebe = new MulticastSocket(4446);
             InetAddress address = InetAddress.getByName("230.0.0.1");
             echoSocketRecebe.joinGroup(address);
-            new CondutorRecebeMulticast(echoSocketRecebe,this.activo, mensagemRecebidasMulticastCondutor).start();
+            new CondutorRecebeMulticast(echoSocketRecebe,activo, mensagemRecebidasMulticastCondutor, listaDePedidos).start();
         } catch (IOException ex) {
             Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -94,8 +94,8 @@ public class ClienteCondutor extends Cliente {
     }
 
     public void verPedidos() {
-        for (int i = 0; i < listaDePedidos.size(); i++) {
-            System.out.println(i + "->" + listaDePedidos.get(i));
+        for (int i = 0; i < listaDePedidos.getSize(); i++) {
+            System.out.println(i + "->" + listaDePedidos.get().get(i));
         }
     }
 
