@@ -184,12 +184,24 @@ public class ThreadClientes extends Thread {
                         if (existFlag) { // continuação do se existir
                             out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
 
-                            // envio ao "User" a dizer quem é condutor ?
-                            // espera que o "Condutor" diga que a viagem começou
-                            // espera que o "Condutor" diga que a viagem terminou
+                            String oSeuCondutor = this.processoTempArray[1] + "User" + this.username;
+
+                            this.mensagensPorEnviar.add(oSeuCondutor); // envio ao "User" a dizer quem é condutor
                             
-                            this.mensagensPorEnviar.add(""); // depois notifica o cliente que pode dar a "Pontuação"
+                            while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem começou
+                                if(inputLine.equals("Comecou")){
+                                    break;
+                                }
+                            }
                             
+                            while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem terminou
+                                if(inputLine.equals("Terminou")){
+                                    break;
+                                }
+                            }
+                            // depois notifica o cliente que pode dar a "Pontuação"
+                            this.mensagensPorEnviar.add(this.processoTempArray[1]+"User/PodePontuar");  // username/tipoCliente/Mensagem
+
                         } else {// se não existir
                             out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
                         }

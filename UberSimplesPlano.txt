@@ -168,6 +168,10 @@ if(this.processoTempArray[0].equals(""))
 
 "Drop/User/origem/destino"
 
+# mensagens por enviar
+
+"Username/Tipo/Mensagem"
+
 
 -------------------------------
 
@@ -178,6 +182,10 @@ e não dá para ler tão bem depois coisas que se repetem podem ser condensadas
 
 
 ## FIX THIS
+
+-->ThreadClientes.java
+limpar this.processoTempArray em  antes de usar ou fazer dela uma variavel local ao metedo ! 
+
 
 --> Cliente.java
 --> ClienteCondutor.java

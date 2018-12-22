@@ -8,6 +8,7 @@ package ubersimples;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import static java.lang.Thread.sleep;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,9 +41,9 @@ public class ClienteUser extends Cliente {
         try {
             echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
             // criar uma thread para enviar
-            new CondutorEnvia(echoSocket, mensagemPorEnviarUser).start();
+            new UserEnvia(echoSocket, mensagemPorEnviarUser).start();
             // criar uma thread para receber normal
-            new CondutorRecebe(echoSocket, mensagemRecebidasUser).start();
+            new UserRecebe(echoSocket, mensagemRecebidasUser).start();
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -66,34 +67,41 @@ public class ClienteUser extends Cliente {
             System.out.println("insira o Destino da viagem");
             String viagemDestino = lerTeclado.readLine();
 
-            // enviar info para server, formato [user,origem,destino]
-            
+            String pedirViagemPacote = this.username + viagemOrigem + viagemDestino;
+
+            this.mensagemPorEnviarUser.add(pedirViagemPacote); // enviar info para server, formato [user,origem,destino]
+
             // fica à espera que alguem aceite o seu pedido
+            while(this.mensagemRecebidasUser.getSize() == 0){ // fica à espera de receber mensagens
+                try {
+                    sleep(1);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            
             
             // print "pedido aceite por CONDUTOR nome"
-            
             // print "viagem começou"
-            
             // print "viagem terminou"
-            
             // fica à espera da cena a dizer que pode dar pontuação ao condutor ("ver qual é o formato")
-            
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return re;
     }
-    
-    public int fazRegisto(){ // já tá feito no pai
+
+    public int fazRegisto() { // já tá feito no pai
         int re = 0;
-        
+
         return re;
     }
-    
-    public int fazLogIn(){ // já tá feito no pai
+
+    public int fazLogIn() { // já tá feito no pai
         int re = 0;
-        
+
         return re;
     }
 

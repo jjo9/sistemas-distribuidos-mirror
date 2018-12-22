@@ -17,7 +17,7 @@ public class UsernameSocketConection {
     private Socket socket; // socket onde está guardado
     private String tipo; // tipo de Cliente ( "User" ou "Condutor" )
 
-    public UsernameSocketConection(String username, Socket socket, String tipo) {
+    public UsernameSocketConection(Socket socket, String username, String tipo) {
         this.username = username;
         this.socket = socket;
         this.tipo = tipo;

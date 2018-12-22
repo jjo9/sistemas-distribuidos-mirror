@@ -23,12 +23,14 @@ public class ThreadEnviaMensagens extends Thread {
     ArrayList<Socket> listaUsers;
     SynchronizedArrayList mensagensPorEnviar;
     SynchronizedArrayList historicoMensagens;
+    USClist listaUserSocket;
 
-    public ThreadEnviaMensagens(ArrayList<Socket> listaCondutores, ArrayList<Socket> listaUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList historicoMensagens) {
+    public ThreadEnviaMensagens(ArrayList<Socket> listaCondutores, ArrayList<Socket> listaUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList historicoMensagens, USClist listaUserSocket) {
         this.listaCondutores = listaCondutores;
         this.listaUsers = listaUsers;
         this.mensagensPorEnviar = mensagensPorEnviar;
         this.historicoMensagens = historicoMensagens;
+        this.listaUserSocket = listaUserSocket;
     }
 
     @Override
@@ -46,14 +48,36 @@ public class ThreadEnviaMensagens extends Thread {
                 Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            // ok
-            // isto vai estar num só loop que envia tanto para ambos os Clientes
-            // se tiver mensagens por enviar dar split para saber o username e saber se é "User" ou "Condutor"
-            // depois ver qual é a sua socket
-            // enviar mensagem para esse user
+            PrintWriter out;
+
+            for (int i = 0; i < this.mensagensPorEnviar.getSize(); i++) { // isto vai estar num só loop que envia tanto para ambos os Clientes
+                // se tiver mensagens por enviar dar split para saber o username e saber se é "User" ou "Condutor"
+                String[] tempStrings = this.mensagensPorEnviar.get().get(i).toString().split("/");  // formato "Username/Tipo/Mensagem"
+                // agora que sei quem é a pessoa tenho que descobrir a sua socket
+
+                if (this.listaUserSocket.usernameExiste(tempStrings[0], tempStrings[1])) { // se existir
+                    // depois ver qual é a sua socket
+                    Socket socketTemp = this.listaUserSocket.socketDeUsername(tempStrings[0], tempStrings[1]); // socket do destinatario
+                    try {
+                        out = new PrintWriter(socketTemp.getOutputStream(), true);
+                        // enviar mensagem para esse user
+                        out.println(tempStrings[2]); // envio de "Mensagem"
+                    } catch (IOException ex) {
+                        Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } else {
+                    System.out.println("Erro Cliente não existe");
+                }
+
+            }
             // retirar mensagem
+            this.mensagensPorEnviar.clear();
+
             
-            // ------ CONDUTOR ------
+            
+            
+            // ------ CONDUTOR ------ >>>>>>>>>>>>>>> este aqui está feito para mandar para todos mas o que precisamos está a cima que envia só para quem é suposto <<<<<<<<<<<<<<<<
             //for (String mensagem : this.mensagensPorEnviar.get()) { // para cada mensagem
             for (int i = 0; i < mensagensPorEnviar.getSize(); i++) {
                 // ver se é CONDUTOR ou USER

@@ -24,7 +24,7 @@ public class USClist {
 
     public boolean add(Socket socket, String username, String tipo) {
         boolean re = false; // não tá a fazer nada a variavel mas podemos mudar no futuro por isso fica
-        UsernameSocketConection temp = new UsernameSocketConection(username, socket, tipo);
+        UsernameSocketConection temp = new UsernameSocketConection(socket, username, tipo);
         this.lista.add(temp);
         re = true;
         return re;

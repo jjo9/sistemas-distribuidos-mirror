@@ -21,17 +21,16 @@ import java.util.logging.Logger;
  */
 public class ClienteCondutor extends Cliente {
 
-    protected int estado; // 0 = indisponível / 1 = disponível -> é só "não me chatêm" ou seja apenas não recebe novos pedidos
+    protected ArrayList estado; // 0 = indisponível / 1 = disponível -> é só "não me chatêm" ou seja apenas não recebe novos pedidos // depois mudar para boolean se der ... ou int outra vez ...
     protected SynchronizedArrayList listaDePedidos = new SynchronizedArrayList(); // [user,origem,destino] // mudar para 
     protected int viagemEstado; // 0 = não esta em viagem / 1 = viagem em progresso / 2 = viagem acabou ?
     protected SynchronizedArrayList mensagemPorEnviarCondutor;
     protected SynchronizedArrayList mensagemRecebidasCondutor;
     protected SynchronizedArrayList mensagemRecebidasMulticastCondutor;
     protected ArrayList<String> activo = new ArrayList();
-        
 
     public ClienteCondutor() {
-        this.estado = 1;
+        this.estado.add("On");
         this.viagemEstado = 0; // não sei se vamos usar este ?...
         startThreads();
     }
@@ -55,22 +54,22 @@ public class ClienteCondutor extends Cliente {
             // criar uma thread para enviar
             new CondutorEnvia(echoSocket, mensagemPorEnviarCondutor).start();
             // criar uma thread para receber normal
-            new CondutorRecebe(echoSocket, mensagemRecebidasCondutor).start();
+            new CondutorRecebe(echoSocket, mensagemRecebidasCondutor, estado).start();
             // criar uma thread para receber em multicast
             MulticastSocket echoSocketRecebe = new MulticastSocket(4446);
             InetAddress address = InetAddress.getByName("230.0.0.1");
             echoSocketRecebe.joinGroup(address);
-            new CondutorRecebeMulticast(echoSocketRecebe,activo, mensagemRecebidasMulticastCondutor, listaDePedidos).start();
+            new CondutorRecebeMulticast(echoSocketRecebe, activo, mensagemRecebidasMulticastCondutor, listaDePedidos).start();
         } catch (IOException ex) {
             Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public int getEstado() {
+    public ArrayList getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(ArrayList estado) {
         this.estado = estado;
     }
 
@@ -84,10 +83,10 @@ public class ClienteCondutor extends Cliente {
     public int mudarEstado() {
         int re = 0;
 
-        if (getEstado() == 1) { // esta disponivel e fica indesponivel
-            setEstado(0);
-        } else if (getEstado() == 0) { // esta indisponivel e fica disponivel
-            setEstado(1);
+        if (!getEstado().isEmpty()) { // esta disponivel e fica indesponivel
+            this.estado.clear();
+        } else if (getEstado().isEmpty()) { // esta indisponivel e fica disponivel
+            this.estado.add("On");
         }
 
         return re;
@@ -110,32 +109,41 @@ public class ClienteCondutor extends Cliente {
             // ver se é um numero
             int escolhaInt = Integer.parseInt(escolha);
 
-            // enviar mensagem ao server
-            // fica à espera de saber que o pedido foi aceite
-            while (this.mensagemRecebidasCondutor.getSize() != 0) { // ---------------- ponderar em por isto num while (True) pois assim pode não funcionar pois se for muito rapido passa à frente
-                if (this.mensagemRecebidasCondutor.get().get(0).equals("PedidoAceite")) {
+            if (escolhaInt >= 0 && escolhaInt < this.listaDePedidos.getSize()) { // vê se está na range de pedidos
 
-                    while (true) {// LOOP que fica aqui até dizer que COMEÇOU a viagem
-                        System.out.println("a viagem já começou? [y/n]");
-                        String viagemInicio = lerEscolha.readLine();
-                        if (viagemInicio.compareTo("y") == 0) {
-                            break;
+                String pedidoPacote = this.listaDePedidos.get().get(escolhaInt).toString();
+                
+                this.mensagemPorEnviarCondutor.add(pedidoPacote); // enviar mensagem ao server
+                
+                // fica à espera de saber que o pedido foi aceite
+                while (this.mensagemRecebidasCondutor.getSize() != 0) { // ---------------- ponderar em por isto num while (True) pois assim pode não funcionar pois se for muito rapido passa à frente
+                    if (this.mensagemRecebidasCondutor.get().get(0).equals("PedidoAceite")) {
+
+                        while (true) {// LOOP que fica aqui até dizer que COMEÇOU a viagem
+                            System.out.println("a viagem já começou? [y/n]");
+                            String viagemInicio = lerEscolha.readLine();
+                            if (viagemInicio.compareTo("y") == 0) {
+                                break;
+                            }
+                            // envia mensagem ao server a dizer que a viagem já COMEÇOU e notifica o cliente
                         }
-                        // envia mensagem ao server a dizer que a viagem já COMEÇOU e notifica o cliente
-                    }
-                    while (true) {// LOOP que fica aqui até dizer que a viagem TERMINOU
-                        System.out.println("a viagem já começou? [y/n]");
-                        String viagemInicio = lerEscolha.readLine();
-                        if (viagemInicio.compareTo("y") == 0) {
-                            break;
+                        while (true) {// LOOP que fica aqui até dizer que a viagem TERMINOU
+                            System.out.println("a viagem já começou? [y/n]");
+                            String viagemInicio = lerEscolha.readLine();
+                            if (viagemInicio.compareTo("y") == 0) {
+                                break;
+                            }
+                            // envia mensagem ao server a dizer que a viagem já TERMINOU e notifica o cliente
                         }
-                        // envia mensagem ao server a dizer que a viagem já TERMINOU e notifica o cliente
+                    } else if (this.mensagemRecebidasCondutor.get().get(0).equals("PedidoNaoExiste")) {
+                        System.out.println("O pedido já não existe");
+                    } else {
+                        System.out.println("Erro");
                     }
-                } else if (this.mensagemRecebidasCondutor.get().get(0).equals("PedidoNaoExiste")) {
-                    System.out.println("O pedido já não existe");
-                }else{
-                    System.out.println("Erro");
                 }
+
+            } else {
+                System.out.println("Pedido invalido");
             }
 
         } catch (IOException ex) {

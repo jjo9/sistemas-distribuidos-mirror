@@ -48,7 +48,7 @@ public class Server {
         
         System.out.println("port: " + port);
         
-        new ThreadEnviaMensagens(listaCondutores,listaUsers,mensagensPorEnviar,historicoMensagens).start(); // envia mensagens tanto para Condutores como para Users (a escolha é processada lá dentro)
+        new ThreadEnviaMensagens(listaCondutores,listaUsers,mensagensPorEnviar,historicoMensagens,listaUserSocket).start(); // envia mensagens tanto para Condutores como para Users (a escolha é processada lá dentro)
         new CondutorMulticast(mensagensPorEnviarMulticast,historicoMensagens).start();     // multicast que envia para os condutores todos
         
         while (listening) { // onde fica preso à espera de clientes
