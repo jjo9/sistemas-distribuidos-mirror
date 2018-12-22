@@ -31,6 +31,8 @@ public class Server {
         ArrayList credenciaisCondutores  = new ArrayList(); // [username,password]
         ArrayList credenciaisUsers  = new ArrayList(); // [username,password]
         
+        USClist listaUserSocket = new USClist(); // lista que cria a relação entre sockets e usernames tanto dos Users como dos Condutores
+        
         SynchronizedArrayList mensagensPorEnviar = new SynchronizedArrayList(); // este não vai ser usado por causa da descontinuação de "ThreadEnviaMensagens"
         SynchronizedArrayList mensagensPorEnviarMulticast = new SynchronizedArrayList(); // mensagens contendo pacotes a informar que "existe um pedido de viagem" e "um pedido de viagem já foi tomado"
         SynchronizedArrayList historicoMensagens = new SynchronizedArrayList(); // guarda todas as mensagens enviadas e recebidas
@@ -52,7 +54,7 @@ public class Server {
         while (listening) { // onde fica preso à espera de clientes
             // capturador de clientes
             Socket acceptedSocket = serverSocket.accept(); // recever clientes e o que eles enviam
-            new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos,pedidosDeViagens).start();
+            new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,listaUserSocket,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos,pedidosDeViagens).start();
         }
         
         // 

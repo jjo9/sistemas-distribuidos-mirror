@@ -26,6 +26,9 @@ public class ClienteCondutor extends Cliente {
     protected int viagemEstado; // 0 = não esta em viagem / 1 = viagem em progresso / 2 = viagem acabou ?
     protected SynchronizedArrayList mensagemPorEnviarCondutor;
     protected SynchronizedArrayList mensagemRecebidasCondutor;
+    protected SynchronizedArrayList mensagemRecebidasMulticastCondutor;
+    protected ArrayList<String> activo = new ArrayList();
+        
 
     public ClienteCondutor() {
         this.estado = 1;
@@ -45,6 +48,7 @@ public class ClienteCondutor extends Cliente {
     // em cmd se eu fizer print da lista de pedidos e um outro condutor aceitar o pedido, eu já não poderei aceita-lo, então ao escolher que aceito deve retornar mensagem de "este pedido já foi aceite"
     // em GUI retirar quadrado ?...
     private void startThreads() {
+        this.activo.add("ON");
         try {
             // ao iniciar temos que por a correr as threads de enviar e receber ??
             Socket echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
@@ -56,7 +60,7 @@ public class ClienteCondutor extends Cliente {
             MulticastSocket echoSocketRecebe = new MulticastSocket(4446);
             InetAddress address = InetAddress.getByName("230.0.0.1");
             echoSocketRecebe.joinGroup(address);
-            new CondutorMulticast(mensagemPorEnviarCondutor, mensagemPorEnviarCondutor).start(); // ERRO isto não é condutor RECEBE MULTYCAST !!!!!!!!!!! CRITICO !!!!!!!!!!!!!
+            new CondutorRecebeMulticast(echoSocketRecebe,this.activo, mensagemRecebidasMulticastCondutor).start();
         } catch (IOException ex) {
             Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -204,6 +208,7 @@ public class ClienteCondutor extends Cliente {
                 } else if (opcao.compareTo("0") == 0) {
                     // sair
                     menuRuning = false;
+                    this.activo.clear(); // para para as cenas todas ...
                 }
 
             } catch (IOException ex) {

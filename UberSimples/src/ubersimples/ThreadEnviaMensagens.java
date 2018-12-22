@@ -33,7 +33,7 @@ public class ThreadEnviaMensagens extends Thread {
 
     @Override
     public void run() {  // !!!!!!!!!!!!!!!!! pagina descontinuada  !!!!!!!!!!!!!!!!!  
-                        // esta pagina não é preciso para nada pois temos o Multicast e as resposta são feitas só para o user que enviou o pedido ou seja, 1 para 1
+        // esta pagina não é preciso para nada pois temos o Multicast e as resposta são feitas só para o user que enviou o pedido ou seja, 1 para 1
 
         // por aqui o Sleep de 5 segunds
         //TimeUnit.SECONDS.sleep(5);
@@ -45,8 +45,16 @@ public class ThreadEnviaMensagens extends Thread {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            // ok
+            // isto vai estar num só loop que envia tanto para ambos os Clientes
+            // se tiver mensagens por enviar dar split para saber o username e saber se é "User" ou "Condutor"
+            // depois ver qual é a sua socket
+            // enviar mensagem para esse user
+            // retirar mensagem
+            
             // ------ CONDUTOR ------
-//            for (String mensagem : this.mensagensPorEnviar.get()) { // para cada mensagem
+            //for (String mensagem : this.mensagensPorEnviar.get()) { // para cada mensagem
             for (int i = 0; i < mensagensPorEnviar.getSize(); i++) {
                 // ver se é CONDUTOR ou USER
                 if ( == "condutor") {
@@ -60,17 +68,17 @@ public class ThreadEnviaMensagens extends Thread {
                             Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                }else{
+                } else {
                     for (Socket item : this.listaUsers) { // para cada USER
-                    System.out.println(mensagensPorEnviar.get().get(i)); // para poder ver as Mensagens que serão enviadas para os Clientes na consola do servidor
-                    PrintWriter out;
-                    try {
-                        out = new PrintWriter(item.getOutputStream(), true); // tipo o so para um mas vou iterando pela lista
-                        out.println(mensagensPorEnviar.get().get(i));
-                    } catch (IOException ex) {
-                        Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println(mensagensPorEnviar.get().get(i)); // para poder ver as Mensagens que serão enviadas para os Clientes na consola do servidor
+                        PrintWriter out;
+                        try {
+                            out = new PrintWriter(item.getOutputStream(), true); // tipo o so para um mas vou iterando pela lista
+                            out.println(mensagensPorEnviar.get().get(i));
+                        } catch (IOException ex) {
+                            Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-                }
                 }
             }
             // depois de enviar as mensagens todas tenho que tirar as mensagens

@@ -24,6 +24,7 @@ public class ThreadClientes extends Thread {
     ArrayList<Socket> listaUsers;
     ArrayList<String> credenciaisCondutores;
     ArrayList<String> credenciaisUsers;
+    USClist listaUserSocket;
     SynchronizedArrayList mensagensPorEnviar;
     SynchronizedArrayList mensagensPorEnviarMulicast;
     SynchronizedArrayList historicoMensagens;
@@ -34,13 +35,14 @@ public class ThreadClientes extends Thread {
     String processoTemp;
     String[] processoTempArray;
 
-    public ThreadClientes(Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos, SynchronizedArrayList pedidosDeViagens) {
+    public ThreadClientes(Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, USClist listaUserSocket, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos, SynchronizedArrayList pedidosDeViagens) {
         super("WorkerThread");
         this.socket = acceptedSocket;
         this.listaCondutores = listaCondutores;
         this.listaUsers = listaUsers;
         this.credenciaisCondutores = credenciaisCondutores;
         this.credenciaisUsers = credenciaisUsers;
+        this.listaUserSocket = listaUserSocket; // depois do login associa o username e a socket 
         this.mensagensPorEnviar = mensagensPorEnviar; // acho que não vou chegar a usar este ...
         this.mensagensPorEnviarMulicast = mensagensPorEnviarMulticast;
         this.historicoMensagens = historicoMensagens;
@@ -141,6 +143,7 @@ public class ThreadClientes extends Thread {
                     //this.historicoMensagens.add(inputLine); // para ficar no historico
                     if (outputLine.equals("Sucesso")) {
                         System.out.println("--- Condutor Logado ---");
+                        this.listaUserSocket.add(this.socket, this.username, this.clienteTipo); // adiciona link entre username e socket
                         break;
                     }
                 }
@@ -181,9 +184,12 @@ public class ThreadClientes extends Thread {
                         if (existFlag) { // continuação do se existir
                             out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
 
-                            // espera que o Condutor diga que a viagem começou
-                            // espera que o Condutor diga que a viagem terminou
-                            // depois notifica o cliente...
+                            // envio ao "User" a dizer quem é condutor ?
+                            // espera que o "Condutor" diga que a viagem começou
+                            // espera que o "Condutor" diga que a viagem terminou
+                            
+                            this.mensagensPorEnviar.add(""); // depois notifica o cliente que pode dar a "Pontuação"
+                            
                         } else {// se não existir
                             out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
                         }
