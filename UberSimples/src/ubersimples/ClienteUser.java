@@ -72,20 +72,53 @@ public class ClienteUser extends Cliente {
             this.mensagemPorEnviarUser.add(pedirViagemPacote); // enviar info para server, formato [user,origem,destino]
 
             // fica à espera que alguem aceite o seu pedido
-            while(this.mensagemRecebidasUser.getSize() == 0){ // fica à espera de receber mensagens
+            while (this.mensagemRecebidasUser.getSize() == 0) { // fica à espera de receber mensagens
                 try {
                     sleep(1);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+
+            // mostrar o que recebeu (só recebe a "Mensagem" porque o resto ficou para traz por causa do split do server)
+            String condutor = this.mensagemRecebidasUser.get().get(0).toString();
+            System.out.println("O seu Condutor é: " + condutor); // print "pedido aceite por CONDUTOR nome"
+            this.mensagemRecebidasUser.removeFromPosition(0); // é importante remover pois usamos sempre o indice zero para ver a mensagem
             
+
+            // print "viagem começou"            
+            while (this.mensagemRecebidasUser.getSize() == 0) { // fica à espera de receber mensagens
+                try {
+                    sleep(1);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            System.out.println("A sua viagem começou :"+this.mensagemRecebidasUser.get().get(0).toString());
+            this.mensagemRecebidasUser.removeFromPosition(0);
             
-            
-            // print "pedido aceite por CONDUTOR nome"
-            // print "viagem começou"
             // print "viagem terminou"
+            while (this.mensagemRecebidasUser.getSize() == 0) { // fica à espera de receber mensagens
+                try {
+                    sleep(1);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            System.out.println("A sua viagem terminou :"+this.mensagemRecebidasUser.get().get(0).toString());
+            
             // fica à espera da cena a dizer que pode dar pontuação ao condutor ("ver qual é o formato")
+            
+            // codigo para ler pontuação de 1 a 5
+            int pontuacaoInt = 0;
+            System.out.println("Atribua uma pontuação ao condutor: "+condutor);
+            while ( pontuacaoInt > 5 || pontuacaoInt < 1){
+                System.out.println("a pontuação deve ser de 1 a 5");
+                String pontuacao = lerTeclado.readLine();
+                pontuacaoInt = Integer.parseInt(pontuacao);
+            }
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
