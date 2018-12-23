@@ -161,15 +161,12 @@ if(this.processoTempArray[0].equals(""))
 [] Server-> Cliente (o que o Cliente recebe do Recebe)
 
 # Historico 
-
 "Condutor/User/pontuacao/origem/destino"
 
 # Multicast a dizer que aquele pedido já foi tomado
-
 "Drop/User/origem/destino"
 
 # mensagens por enviar
-
 "Username/Tipo/Mensagem"
 
 

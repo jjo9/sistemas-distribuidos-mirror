@@ -60,7 +60,7 @@ public class ThreadClientes extends Thread {
             BufferedReader in;
             in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // acho que é assim !!
             String inputLine;
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true); // out.println() permite falar diretamente com o Cliente desta Thread
             String outputLine = "/";
 
             //System.out.println("Read  Created!");
@@ -321,22 +321,33 @@ public class ThreadClientes extends Thread {
 
                     this.processoTemp = inputLine;
                     this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
-///////////////////////////////// primeira funcionalidade /////////////////////////////////
+
                     if (this.processoTempArray[0].equals("Historico")) { // ----------------------------------------------------------------------------------------------- "Condutor/User/pontuacao/origem/destino"
 
                         String historicoTemp = "";
 
-                        for (String item : this.historicoPontos) { // quando o CONDUTOR o HISTORICO -> comparar a condutor
-                            if (this.username.equals(item.split("/")[0])) { // o CONDUTOR foi o que efetuou a viagem como CONDUTOR
+                        for (String item : this.historicoPontos) { // quando o USER o HISTORICO -> comparar a condutor
+                            if (this.username.equals(item.split("/")[1])) { // o USER foi o que efetuou a viagem com o CONDUTOR
                                 historicoTemp += (item + "\n");
                             }
                         }
                         out.println(historicoTemp); // enviar 
 
-                    } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
+// ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI ------- AQUI -------                         
+                    } else if (this.processoTempArray[0].equals("SolicitarViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
                         // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
                         boolean existFlag = false;
 
+                        // 
+                        // tenho que o por na lista de mensagens por enviar Multicast ????
+                        // separo e vai para o multicast porque aqui não precisa de ser mais processada
+                        //
+                        //
+                        //
+                        //
+                        
+                        
+                        
                         // ver se pedido o pedido ainda existe
                         for (int x = 0; x < this.pedidosDeViagens.getSize(); x++) {
                             System.out.println("---" + this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor

@@ -67,9 +67,9 @@ public class ClienteUser extends Cliente {
             System.out.println("insira o Destino da viagem");
             String viagemDestino = lerTeclado.readLine();
 
-            String pedirViagemPacote = this.username + viagemOrigem + viagemDestino;
+            String pedirViagemPacote = "SolicitarViagem/" + this.username + "/" + viagemOrigem + "/" + viagemDestino;
 
-            this.mensagemPorEnviarUser.add(pedirViagemPacote); // enviar info para server, formato [user,origem,destino]
+            this.mensagemPorEnviarUser.add(pedirViagemPacote); // enviar info para server, formato [ação,user,origem,destino]
 
             // fica à espera que alguem aceite o seu pedido
             while (this.mensagemRecebidasUser.getSize() == 0) { // fica à espera de receber mensagens
