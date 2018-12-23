@@ -80,7 +80,7 @@ public class ThreadClientes extends Thread {
                 }
             }
             // sai do loop de reconheciemnto e passa para o loop de LogIn
-            if (this.clienteTipo.equals("Condutor")) {// ---- Tudo para CONDUTOR
+            if (this.clienteTipo.equals("Condutor")) {// ------------------------------------------------------------------------------------------------------------------------ Tudo para CONDUTOR
 
                 // ------------ processo normal para ler para sempre o que está a enviar
                 while ((inputLine = in.readLine()) != null) { // lê o que o CONDUTOR lhe envia
@@ -89,7 +89,7 @@ public class ThreadClientes extends Thread {
                     // ver se é Registo ou LogIn
                     this.processoTempArray = this.processoTemp.split("/"); // separa "Registo ou LogIn/Username/Password" por "/"
 
-                    if (this.processoTempArray[0].equals("Registo")) {// ------------ Registo
+                    if (this.processoTempArray[0].equals("Registo")) {// ------------------------------------------------------------------------------------------------------------ Registo
                         boolean flagJaExiste = false;
                         // ver se "Username" já exite
                         for (String item : this.credenciaisCondutores) {
@@ -108,7 +108,7 @@ public class ThreadClientes extends Thread {
                         System.out.println(outputLine);
                         out.println(outputLine); // o que envia
 
-                    } else if (this.processoTempArray[0].equals("LogIn")) {// ------------ Login
+                    } else if (this.processoTempArray[0].equals("LogIn")) {// --------------------------------------------------------------------------------------------------------- Login
 
                         boolean flagJaExiste = false;
                         String passwordTemp = "/";
@@ -147,13 +147,13 @@ public class ThreadClientes extends Thread {
                         break;
                     }
                 }
-                // ---------------------------------------------------------------------------------------------------------
+                // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 while ((inputLine = in.readLine()) != null) { // ----------- Loop Condutor Processa Viagens
 
                     this.processoTemp = inputLine;
                     this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
 
-                    if (this.processoTempArray[0].equals("Historico")) { // "Condutor/User/pontuacao/origem/destino"
+                    if (this.processoTempArray[0].equals("Historico")) { // ----------------------------------------------------------------------------------------------- "Condutor/User/pontuacao/origem/destino"
 
                         String historicoTemp = "";
 
@@ -164,7 +164,7 @@ public class ThreadClientes extends Thread {
                         }
                         out.println(historicoTemp); // enviar 
 
-                    } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // receber pedido de viagem  
+                    } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
                         // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
                         boolean existFlag = false;
 
@@ -187,20 +187,20 @@ public class ThreadClientes extends Thread {
                             String oSeuCondutor = this.processoTempArray[1] + "User" + this.username;
 
                             this.mensagensPorEnviar.add(oSeuCondutor); // envio ao "User" a dizer quem é condutor
-                            
+
                             while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem começou
-                                if(inputLine.equals("Comecou")){
+                                if (inputLine.equals("Comecou")) {
                                     break;
                                 }
                             }
-                            
+
                             while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem terminou
-                                if(inputLine.equals("Terminou")){
+                                if (inputLine.equals("Terminou")) {
                                     break;
                                 }
                             }
                             // depois notifica o cliente que pode dar a "Pontuação"
-                            this.mensagensPorEnviar.add(this.processoTempArray[1]+"User/PodePontuar");  // username/tipoCliente/Mensagem
+                            this.mensagensPorEnviar.add(this.processoTempArray[1] + "User/PodePontuar");  // username/tipoCliente/Mensagem
 
                         } else {// se não existir
                             out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
@@ -220,7 +220,7 @@ public class ThreadClientes extends Thread {
 
                     }
 
-                    if (outputLine.equals("Sucesso")) {
+                    if (outputLine.equals("Sucesso")) { // porque este tá a aqui ?
                         System.out.println("--- Condutor Logado ---");
                         break;
                     }
@@ -229,27 +229,175 @@ public class ThreadClientes extends Thread {
                 in.close();
                 socket.close();
 
-            } else if (this.clienteTipo.equals("User")) {// ---- Tudo para USER
+            } else if (this.clienteTipo.equals("User")) {// -------------------------------------------------------------------------------------------------------------------- Tudo para USER
 
+//                // ------------ processo normal para ler para sempre o que está a enviar
+//                while ((inputLine = in.readLine()) != null) { // lê o que o User lhe envia
+//
+//                    String TreatedinputLine = new ProcessaMensagem(inputLine, socket).processa(); // ver se é Condutor ou User
+//
+//                    // o que faz com o que reve do cliente 
+//                    // poem numa lista o que o cliente enviou
+//                    //this.mensagensPorEnviar.add(TreatedinputLine); // para depois fazer multicast
+//                    this.historicoMensagens.add(TreatedinputLine); // para ficar no historico
+//
+//                    if (inputLine.equals("Bye")) {
+//                        this.listaUsers.remove(socket);
+//                        System.out.println("--- User Removido ---");
+//                        break;
+//                    }
+//                }
+//
+//                in.close();
+//                socket.close();
+/////// ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- 
                 // ------------ processo normal para ler para sempre o que está a enviar
-                while ((inputLine = in.readLine()) != null) { // lê o que o User lhe envia
+                while ((inputLine = in.readLine()) != null) { // lê o que o CONDUTOR lhe envia
+                    this.processoTemp = inputLine; // variavel temporaria que armazena o pacote de informação enviado pelo cliente
+                    // --- Loop de LogIn ---
+                    // ver se é Registo ou LogIn
+                    this.processoTempArray = this.processoTemp.split("/"); // separa "Registo ou LogIn/Username/Password" por "/"
 
-                    String TreatedinputLine = new ProcessaMensagem(inputLine, socket).processa(); // ver se é Condutor ou User
+                    if (this.processoTempArray[0].equals("Registo")) {// ------------------------------------------------------------------------------------------------------------ Registo
+                        boolean flagJaExiste = false;
+                        // ver se "Username" já exite
+                        for (String item : this.credenciaisUsers) {
+                            if (this.processoTempArray[1].equals(item.split("/")[0])) {
+                                flagJaExiste = true;
+                                break;
+                            }
+                        }
 
-                    // o que faz com o que reve do cliente 
-                    // poem numa lista o que o cliente enviou
-                    //this.mensagensPorEnviar.add(TreatedinputLine); // para depois fazer multicast
-                    this.historicoMensagens.add(TreatedinputLine); // para ficar no historico
+                        if (flagJaExiste == true) { // username já exite
+                            outputLine = "JaExiste";
+                        } else {
+                            this.credenciaisUsers.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]);
+                            outputLine = "Registado";
+                        }
+                        System.out.println(outputLine);
+                        out.println(outputLine); // o que envia
 
-                    if (inputLine.equals("Bye")) {
-                        this.listaUsers.remove(socket);
-                        System.out.println("--- User Removido ---");
+                    } else if (this.processoTempArray[0].equals("LogIn")) {// --------------------------------------------------------------------------------------------------------- Login
+
+                        boolean flagJaExiste = false;
+                        String passwordTemp = "/";
+
+                        // ver se "Username" existe
+                        for (String item : this.credenciaisUsers) {
+                            if (this.processoTempArray[1].equals(item.split("/")[0])) {
+                                flagJaExiste = true;
+                                passwordTemp = item.split("/")[1];
+                                break;
+                            }
+                        }
+                        if (flagJaExiste == true) { // se já existir ver se a password está certa
+
+                            if (this.processoTempArray[2].equals(passwordTemp)) { // password esta certa
+                                outputLine = "Sucesso";
+                                this.username = this.processoTempArray[1];
+                            } else { // password esta errada
+                                outputLine = "PasswordErrada";
+                            }
+
+                        } else {
+                            outputLine = "ClienteNaoExiste";
+                        }
+                        System.out.println(outputLine);
+                        out.println(outputLine); // o que envia
+
+                    } else {
+                        System.out.println("Erro no pacote de Registo/LogIn");
+                    }
+
+                    //this.historicoMensagens.add(inputLine); // para ficar no historico
+                    if (outputLine.equals("Sucesso")) {
+                        System.out.println("--- User Logado ---");
+                        this.listaUserSocket.add(this.socket, this.username, this.clienteTipo); // adiciona link entre username e socket
+                        break;
+                    }
+                }
+                // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                while ((inputLine = in.readLine()) != null) { // ----------- Loop User Processa Viagens
+
+                    this.processoTemp = inputLine;
+                    this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
+///////////////////////////////// primeira funcionalidade /////////////////////////////////
+                    if (this.processoTempArray[0].equals("Historico")) { // ----------------------------------------------------------------------------------------------- "Condutor/User/pontuacao/origem/destino"
+
+                        String historicoTemp = "";
+
+                        for (String item : this.historicoPontos) { // quando o CONDUTOR o HISTORICO -> comparar a condutor
+                            if (this.username.equals(item.split("/")[0])) { // o CONDUTOR foi o que efetuou a viagem como CONDUTOR
+                                historicoTemp += (item + "\n");
+                            }
+                        }
+                        out.println(historicoTemp); // enviar 
+
+                    } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
+                        // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
+                        boolean existFlag = false;
+
+                        // ver se pedido o pedido ainda existe
+                        for (int x = 0; x < this.pedidosDeViagens.getSize(); x++) {
+                            System.out.println("---" + this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor
+                            if (this.pedidosDeViagens.get().get(x).toString().equals(this.processoTempArray[1] + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3])) { // se existir 
+                                // tira pedido do server pois este Condutor já o aceitou e vai toma-lo para si, assim mais ninguem o pode aceitar
+                                String tempPedido = this.pedidosDeViagens.get().get(x).toString();
+                                this.pedidosDeViagens.removeFromPosition(x);
+                                // also enviar em Multicast para a dizer que já não é possivel aceitar aquele pedido no formato "Drop/User/origem/destino"
+                                this.mensagensPorEnviarMulicast.add("Drop/" + tempPedido);
+                                existFlag = true;
+                                break;
+                            }
+                        }
+                        if (existFlag) { // continuação do se existir
+                            out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
+
+                            String oSeuCondutor = this.processoTempArray[1] + "User" + this.username;
+
+                            this.mensagensPorEnviar.add(oSeuCondutor); // envio ao "User" a dizer quem é condutor
+
+                            while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem começou
+                                if (inputLine.equals("Comecou")) {
+                                    break;
+                                }
+                            }
+
+                            while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem terminou
+                                if (inputLine.equals("Terminou")) {
+                                    break;
+                                }
+                            }
+                            // depois notifica o cliente que pode dar a "Pontuação"
+                            this.mensagensPorEnviar.add(this.processoTempArray[1] + "User/PodePontuar");  // username/tipoCliente/Mensagem
+
+                        } else {// se não existir
+                            out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
+                        }
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+
+                    }
+
+                    if (outputLine.equals("Sucesso")) { // porque este tá a aqui ?
+                        System.out.println("--- Condutor Logado ---");
                         break;
                     }
                 }
 
                 in.close();
                 socket.close();
+
             } else {
                 System.out.println("Chegada de Cliente Erro!");
             }

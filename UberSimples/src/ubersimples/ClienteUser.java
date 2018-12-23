@@ -84,7 +84,6 @@ public class ClienteUser extends Cliente {
             String condutor = this.mensagemRecebidasUser.get().get(0).toString();
             System.out.println("O seu Condutor é: " + condutor); // print "pedido aceite por CONDUTOR nome"
             this.mensagemRecebidasUser.removeFromPosition(0); // é importante remover pois usamos sempre o indice zero para ver a mensagem
-            
 
             // print "viagem começou"            
             while (this.mensagemRecebidasUser.getSize() == 0) { // fica à espera de receber mensagens
@@ -94,9 +93,9 @@ public class ClienteUser extends Cliente {
                     Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            System.out.println("A sua viagem começou :"+this.mensagemRecebidasUser.get().get(0).toString());
+            System.out.println("A sua viagem começou :" + this.mensagemRecebidasUser.get().get(0).toString());
             this.mensagemRecebidasUser.removeFromPosition(0);
-            
+
             // print "viagem terminou"
             while (this.mensagemRecebidasUser.getSize() == 0) { // fica à espera de receber mensagens
                 try {
@@ -105,35 +104,24 @@ public class ClienteUser extends Cliente {
                     Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            System.out.println("A sua viagem terminou :"+this.mensagemRecebidasUser.get().get(0).toString());
-            
+            System.out.println("A sua viagem terminou :" + this.mensagemRecebidasUser.get().get(0).toString());
+
             // fica à espera da cena a dizer que pode dar pontuação ao condutor ("ver qual é o formato")
-            
             // codigo para ler pontuação de 1 a 5
             int pontuacaoInt = 0;
-            System.out.println("Atribua uma pontuação ao condutor: "+condutor);
-            while ( pontuacaoInt > 5 || pontuacaoInt < 1){
+            System.out.println("Atribua uma pontuação ao condutor: " + condutor);
+            while (pontuacaoInt > 5 || pontuacaoInt < 1) {
                 System.out.println("a pontuação deve ser de 1 a 5");
                 String pontuacao = lerTeclado.readLine();
                 pontuacaoInt = Integer.parseInt(pontuacao);
             }
-            
-            
+
+            // enviar pontução
+            this.mensagemPorEnviarUser.add(condutor + "/" + this.username + "/" + pontuacaoInt + "/" + viagemOrigem + "/" + viagemDestino); // "Condutor/User/Pontuacao/Origem/Destino"
+
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return re;
-    }
-
-    public int fazRegisto() { // já tá feito no pai
-        int re = 0;
-
-        return re;
-    }
-
-    public int fazLogIn() { // já tá feito no pai
-        int re = 0;
 
         return re;
     }
@@ -156,9 +144,9 @@ public class ClienteUser extends Cliente {
                 String opcao = lerMenu.readLine();
 
                 if (opcao.compareTo("1") == 0) {
-                    // fazer registo
+                    Registo(); // fazer registo
                 } else if (opcao.compareTo("2") == 0) {
-                    // fazer login
+                    LogIn(); // fazer login -> depois de ser feito o LogIn() o userStatus fica == 1
                 } else if (opcao.compareTo("0") == 0) {
                     menuRuning = false;
                 }
