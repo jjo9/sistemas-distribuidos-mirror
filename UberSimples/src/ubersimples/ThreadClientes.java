@@ -69,8 +69,10 @@ public class ThreadClientes extends Thread {
                 // adiciona cliente Mas tenho que ver se é um "User" ou um "Condutor"
                 this.clienteTipo = inputLine;
                 if (this.clienteTipo.equals("Condutor")) {
+                    System.out.println("<<<<<Condutor>>>>>");
                     listaCondutores.add(socket);
                 } else if (this.clienteTipo.equals("User")) {
+                    System.out.println("<<<<<User>>>>>");
                     listaUsers.add(socket);
                 }
                 this.historicoMensagens.add(this.clienteTipo); // para ficar no historico
@@ -84,6 +86,7 @@ public class ThreadClientes extends Thread {
 
                 // ------------ processo normal para ler para sempre o que está a enviar
                 while ((inputLine = in.readLine()) != null) { // lê o que o CONDUTOR lhe envia
+                    System.out.println("---"+inputLine); ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  
                     this.processoTemp = inputLine; // variavel temporaria que armazena o pacote de informação enviado pelo cliente
                     // --- Loop de LogIn ---
                     // ver se é Registo ou LogIn

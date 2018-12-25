@@ -209,3 +209,23 @@ no registo mudar para guardar passwords como HASHS (no fim)
 -->ThreadClientes.java
 mudar implementação da funcionalidade de sair do menu (aka sair do programa) pois para já não dá para sair do programa a partir do 
 menu do Cliente
+
+-->ThreadClientes.java
+devia ter uma nova arquitetura tipo:
+
+lê o que lhe é envia (no atual é meio confuso tenho tipo bue de cenas a serem processadas... e volto a repetir varias vezes pelo codigo a baixo)
+
+if == Condutor:
+	switch:
+	diferentes estados de progresso
+	diferentes estados de progresso
+	diferentes estados de progresso
+	diferentes estados de progresso
+else if == User
+	switch:
+	diferentes estados de progresso
+	diferentes estados de progresso
+	diferentes estados de progresso
+	diferentes estados de progresso
+else print "erro"
+

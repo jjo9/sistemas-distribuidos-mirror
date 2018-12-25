@@ -129,6 +129,8 @@ public class ClienteUser extends Cliente {
 
         return re;
     }
+    
+    
 
     @Override
     int menu() {
@@ -139,7 +141,7 @@ public class ClienteUser extends Cliente {
         BufferedReader lerMenu = new BufferedReader(new InputStreamReader(System.in));
 
         while (menuRuning) {
-            System.out.print(" --- Condutor --- \n"
+            System.out.print(" --- User --- \n"
                     + " 1 -> registo\n"
                     + " 2 -> login\n"
                     + " 0 -> Sair\n");
@@ -148,9 +150,9 @@ public class ClienteUser extends Cliente {
                 String opcao = lerMenu.readLine();
 
                 if (opcao.compareTo("1") == 0) {
-                    Registo(); // fazer registo
+                    Registo(this.mensagemPorEnviarUser,this.mensagemRecebidasUser); // fazer registo
                 } else if (opcao.compareTo("2") == 0) {
-                    LogIn(); // fazer login -> depois de ser feito o LogIn() o userStatus fica == 1
+                    LogIn(this.mensagemPorEnviarUser,this.mensagemRecebidasUser); // fazer login -> depois de ser feito o LogIn() o userStatus fica == 1
                 } else if (opcao.compareTo("0") == 0) {
                     menuRuning = false;
                 }

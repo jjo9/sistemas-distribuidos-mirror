@@ -166,14 +166,14 @@ public class ClienteCondutor extends Cliente {
                     + " 1 -> registo\n"
                     + " 2 -> login\n"
                     + " 0 -> Sair\n");
-            this.mensagemPorEnviarCondutor.add("Condutor"); // para que o server consiga saber em que array vai guardar o Cliente
+            this.mensagemPorEnviarCondutor.add("Condutor"); // para que o server consiga saber em que array vai guardar o Cliente --- este está sempre a ser enviado e acho que só precisa de ser uma vez
             try {
                 String opcao = lerMenu.readLine();  // não está a parar aqui para ler a linha existe aqui um erro !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 if (opcao.compareTo("1") == 0) { // mudar para equals ?!?!? no fim
-                    Registo();
+                    Registo(this.mensagemPorEnviarCondutor,this.mensagemRecebidasCondutor);
                 } else if (opcao.compareTo("2") == 0) {
-                    LogIn();
+                    LogIn(this.mensagemPorEnviarCondutor,this.mensagemRecebidasCondutor);
                 } else if (opcao.compareTo("0") == 0) {
                     menuRuning = false;
                 }
