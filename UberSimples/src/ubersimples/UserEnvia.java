@@ -53,30 +53,30 @@ public class UserEnvia extends Thread {
             } catch (InterruptedException ex) {
                 Logger.getLogger(UserEnvia.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            try {
+
 //            while ((envio = stdIn.readLine()) != null) {
 //                out.println(envio); //o que eu mando/envio
 //                if (envio.equals("Bye")) { // criterio de saida [mudar ?!]
 //                    break;
 //                }
 //            }
-                while (this.mensagemPorEnviarUser.getSize() != 0) { // enquanto tiver cenas para enviar
-                    envio = (String) this.mensagemPorEnviarUser.get().get(0);
-                    out.println(envio); // envia o mais recente 
-                    if (envio.equals("Bye")) { // criterio de saida [mudar ?!]
-                        break;
-                    }
-                    this.mensagemPorEnviarUser.removeFromPosition(0);
+            while (this.mensagemPorEnviarUser.getSize() != 0) { // enquanto tiver cenas para enviar
+                envio = (String) this.mensagemPorEnviarUser.get().get(0);
+                out.println(envio); // envia o mais recente 
+                if (envio.equals("Bye")) { // criterio de saida [mudar ?!]
+                    break;
                 }
-                System.out.println("Envia Closed");  // ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada 
-                //stdIn.close();
-                out.close();
-                echoSocket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(CondutorEnvia.class.getName()).log(Level.SEVERE, null, ex);
+                this.mensagemPorEnviarUser.removeFromPosition(0);
             }
-        }
 
+        }
+        System.out.println("Envia Closed");  // ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada 
+        //stdIn.close();
+        out.close();
+        try {
+            echoSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(UserEnvia.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
