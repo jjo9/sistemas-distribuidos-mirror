@@ -45,35 +45,36 @@ public class CondutorEnvia extends Thread {
 
         // criar aqui um loop infinito --- o MELHOR !!!! até aquela cena de ativo estar vazia(fica assim quando o user acaba a sua execução)
         while (!this.activo.isEmpty()) {
-            
+
             try {
                 sleep(1);
             } catch (InterruptedException ex) {
                 Logger.getLogger(CondutorEnvia.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            try {
+
 //            while ((envio = stdIn.readLine()) != null) {
 //                out.println(envio); //o que eu mando/envio
 //                if (envio.equals("Bye")) { // criterio de saida [mudar ?!]
 //                    break;
 //                }
 //            }
-                while (this.mensagemPorEnviarCondutor.getSize() != 0) { // enquanto tiver coisas para enviar
-                    envio = (String) this.mensagemPorEnviarCondutor.get().get(0);
-                    out.println(envio); // envia o mais recente 
-                    if (envio.equals("Bye")) { // criterio de saida [mudar ?!] agora tenho o this.activo.getSize() continuo a usar este !?!?
-                        break;
-                    }
-                    this.mensagemPorEnviarCondutor.removeFromPosition(0);
+            while (this.mensagemPorEnviarCondutor.getSize() != 0) { // enquanto tiver coisas para enviar
+                envio = (String) this.mensagemPorEnviarCondutor.get().get(0);
+                out.println(envio); // envia o mais recente 
+                if (envio.equals("Bye")) { // criterio de saida [mudar ?!] agora tenho o this.activo.getSize() continuo a usar este !?!?
+                    break;
                 }
-                System.out.println("Envia Closed");
-                // stdIn.close();
-                out.close();
-                echoSocket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(CondutorEnvia.class.getName()).log(Level.SEVERE, null, ex);
+                this.mensagemPorEnviarCondutor.removeFromPosition(0);
             }
+
+        }
+        System.out.println("Envia Closed");
+        // stdIn.close();
+        out.close();
+        try {
+            echoSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CondutorEnvia.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
