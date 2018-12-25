@@ -19,12 +19,16 @@ import java.util.logging.Logger;
  */
 public class ClienteUser extends Cliente {
 
-    protected SynchronizedArrayList mensagemPorEnviarUser;
-    protected SynchronizedArrayList mensagemRecebidasUser;
+//    protected SynchronizedArrayList mensagemPorEnviarUser;
+//    protected SynchronizedArrayList mensagemRecebidasUser;
+    protected SynchronizedArrayList mensagemPorEnviarUser = new SynchronizedArrayList();
+    protected SynchronizedArrayList mensagemRecebidasUser = new SynchronizedArrayList();
+    protected SynchronizedArrayList ativo = new SynchronizedArrayList();
 
     public ClienteUser() {
         // ao iniciar temos que por a correr as threads de enviar e receber ?? Sim
         startThreads();
+        ativo.add("ON");
     }
 
     // Cliente User
@@ -41,7 +45,7 @@ public class ClienteUser extends Cliente {
         try {
             echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
             // criar uma thread para enviar
-            new UserEnvia(echoSocket, mensagemPorEnviarUser).start();
+            new UserEnvia(echoSocket, mensagemPorEnviarUser,ativo).start();
             // criar uma thread para receber normal
             new UserRecebe(echoSocket, mensagemRecebidasUser).start();
         } catch (IOException ex) {

@@ -77,36 +77,36 @@ public class ThreadEnviaMensagens extends Thread {
             
             
             
-            // ------ CONDUTOR ------ >>>>>>>>>>>>>>> este aqui está feito para mandar para todos mas o que precisamos está a cima que envia só para quem é suposto <<<<<<<<<<<<<<<<
-            //for (String mensagem : this.mensagensPorEnviar.get()) { // para cada mensagem
-            for (int i = 0; i < mensagensPorEnviar.getSize(); i++) {
-                // ver se é CONDUTOR ou USER
-                if ( == "condutor") {
-                    for (Socket item : this.listaCondutores) { // para cada CONDUTOR
-                        System.out.println(mensagensPorEnviar.get().get(i)); // para poder ver as Mensagens que serão enviadas para os Clientes na consola do servidor
-                        PrintWriter out;
-                        try {
-                            out = new PrintWriter(item.getOutputStream(), true); // tipo o so para um mas vou iterando pela lista
-                            out.println(mensagensPorEnviar.get().get(i));
-                        } catch (IOException ex) {
-                            Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                } else {
-                    for (Socket item : this.listaUsers) { // para cada USER
-                        System.out.println(mensagensPorEnviar.get().get(i)); // para poder ver as Mensagens que serão enviadas para os Clientes na consola do servidor
-                        PrintWriter out;
-                        try {
-                            out = new PrintWriter(item.getOutputStream(), true); // tipo o so para um mas vou iterando pela lista
-                            out.println(mensagensPorEnviar.get().get(i));
-                        } catch (IOException ex) {
-                            Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            }
-            // depois de enviar as mensagens todas tenho que tirar as mensagens
-            this.mensagensPorEnviar.clear(); // isto não deve ser a melhor solução
+//            // ------ CONDUTOR ------ >>>>>>>>>>>>>>> este aqui está feito para mandar para todos mas o que precisamos está a cima que envia só para quem é suposto <<<<<<<<<<<<<<<<
+//            //for (String mensagem : this.mensagensPorEnviar.get()) { // para cada mensagem
+//            for (int i = 0; i < mensagensPorEnviar.getSize(); i++) {
+//                // ver se é CONDUTOR ou USER
+//                if ( == "condutor") {
+//                    for (Socket item : this.listaCondutores) { // para cada CONDUTOR
+//                        System.out.println(mensagensPorEnviar.get().get(i)); // para poder ver as Mensagens que serão enviadas para os Clientes na consola do servidor
+//                        PrintWriter out;
+//                        try {
+//                            out = new PrintWriter(item.getOutputStream(), true); // tipo o so para um mas vou iterando pela lista
+//                            out.println(mensagensPorEnviar.get().get(i));
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                    }
+//                } else {
+//                    for (Socket item : this.listaUsers) { // para cada USER
+//                        System.out.println(mensagensPorEnviar.get().get(i)); // para poder ver as Mensagens que serão enviadas para os Clientes na consola do servidor
+//                        PrintWriter out;
+//                        try {
+//                            out = new PrintWriter(item.getOutputStream(), true); // tipo o so para um mas vou iterando pela lista
+//                            out.println(mensagensPorEnviar.get().get(i));
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                    }
+//                }
+//            }
+//            // depois de enviar as mensagens todas tenho que tirar as mensagens
+//            this.mensagensPorEnviar.clear(); // isto não deve ser a melhor solução
 
         }
 

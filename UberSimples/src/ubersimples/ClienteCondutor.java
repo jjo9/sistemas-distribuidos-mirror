@@ -21,13 +21,13 @@ import java.util.logging.Logger;
  */
 public class ClienteCondutor extends Cliente {
 
-    protected ArrayList estado; // 0 = indisponível / 1 = disponível -> é só "não me chatêm" ou seja apenas não recebe novos pedidos // depois mudar para boolean se der ... ou int outra vez ...
+    protected ArrayList estado = new ArrayList(); // 0 = indisponível / 1 = disponível -> é só "não me chatêm" ou seja apenas não recebe novos pedidos // depois mudar para boolean se der ... ou int outra vez ...
     protected SynchronizedArrayList listaDePedidos = new SynchronizedArrayList(); // [user,origem,destino] // mudar para 
     protected int viagemEstado; // 0 = não esta em viagem / 1 = viagem em progresso / 2 = viagem acabou ?
-    protected SynchronizedArrayList mensagemPorEnviarCondutor;
-    protected SynchronizedArrayList mensagemRecebidasCondutor;
-    protected SynchronizedArrayList mensagemRecebidasMulticastCondutor;
-    protected ArrayList<String> activo = new ArrayList();
+    protected SynchronizedArrayList mensagemPorEnviarCondutor = new SynchronizedArrayList();
+    protected SynchronizedArrayList mensagemRecebidasCondutor = new SynchronizedArrayList();
+    protected SynchronizedArrayList mensagemRecebidasMulticastCondutor = new SynchronizedArrayList();
+    protected ArrayList<String> activo = new ArrayList(); // não sei se ponha este como SyncArraylista também ...
 
     public ClienteCondutor() {
         this.estado.add("On");
@@ -52,7 +52,7 @@ public class ClienteCondutor extends Cliente {
             // ao iniciar temos que por a correr as threads de enviar e receber ??
             Socket echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
             // criar uma thread para enviar
-            new CondutorEnvia(echoSocket, mensagemPorEnviarCondutor).start();
+            new CondutorEnvia(echoSocket, mensagemPorEnviarCondutor, this.activo).start();
             // criar uma thread para receber normal
             new CondutorRecebe(echoSocket, mensagemRecebidasCondutor, estado).start();
             // criar uma thread para receber em multicast
@@ -168,7 +168,7 @@ public class ClienteCondutor extends Cliente {
                     + " 0 -> Sair\n");
             this.mensagemPorEnviarCondutor.add("Condutor"); // para que o server consiga saber em que array vai guardar o Cliente
             try {
-                String opcao = lerMenu.readLine();
+                String opcao = lerMenu.readLine();  // não está a parar aqui para ler a linha existe aqui um erro !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 if (opcao.compareTo("1") == 0) { // mudar para equals ?!?!? no fim
                     Registo();

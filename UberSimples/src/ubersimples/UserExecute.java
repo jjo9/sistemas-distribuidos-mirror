@@ -18,6 +18,7 @@ public class UserExecute {
         // --- USER ---
         
         ClienteUser user1 = new ClienteUser();
+        user1.menu();
         
     }
     

@@ -125,7 +125,7 @@ public abstract class Cliente {
         return re;
     }
 
-    public int sendLoginCreds2Server() {
+    public int sendLoginCreds2Server() { // ---------- este ainda não faz nada
         int re = 0;
         // mandar para o server
         // ver resposta

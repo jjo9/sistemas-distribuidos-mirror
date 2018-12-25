@@ -57,11 +57,13 @@ public class Server {
             new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,listaUserSocket,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos,pedidosDeViagens).start();
         }
         
-        // 
+        // se ouver um "Exception in thread "WorkerThread" java.lang.NullPointerException
+	// at ubersimples.ThreadClientes.run(ThreadClientes.java:83)"
+        // será que dá para o tirar da lista de clientes ativos ??
 
         serverSocket.close();
         
-        
+        // por os processos todos a parar quando a execução acabar tanto para o SERVER como para os CONDUTORES como para os USERS
         
     }
     
