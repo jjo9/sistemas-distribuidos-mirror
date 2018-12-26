@@ -86,7 +86,7 @@ public class ThreadClientes extends Thread {
 
                 // ------------ processo normal para ler para sempre o que está a enviar
                 while ((inputLine = in.readLine()) != null) { // lê o que o CONDUTOR lhe envia
-                    System.out.println("---"+inputLine); ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  
+                    System.out.println("---" + inputLine); ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  
                     this.processoTemp = inputLine; // variavel temporaria que armazena o pacote de informação enviado pelo cliente
                     // --- Loop de LogIn ---
                     // ver se é Registo ou LogIn
@@ -105,7 +105,7 @@ public class ThreadClientes extends Thread {
                         if (flagJaExiste == true) { // username já exite
                             outputLine = "JaExiste";
                         } else {
-                            this.credenciaisCondutores.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]);
+                            this.credenciaisCondutores.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]); // "nome/password"
                             outputLine = "Registado";
                         }
                         System.out.println(outputLine);
@@ -152,7 +152,7 @@ public class ThreadClientes extends Thread {
                 }
                 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 while ((inputLine = in.readLine()) != null) { // ----------- Loop Condutor Processa Viagens
-
+                    System.out.println("---" + inputLine);
                     this.processoTemp = inputLine;
                     this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
 
@@ -187,18 +187,22 @@ public class ThreadClientes extends Thread {
                         if (existFlag) { // continuação do se existir
                             out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
 
-                            String oSeuCondutor = this.processoTempArray[1] + "User" + this.username;
+                            String oSeuCondutor = this.processoTempArray[1] + "/User/" + this.username;
 
                             this.mensagensPorEnviar.add(oSeuCondutor); // envio ao "User" a dizer quem é condutor
 
                             while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem começou
                                 if (inputLine.equals("Comecou")) {
+                                    String comecou = this.processoTempArray[1] + "/User/Comecou";
+                                    this.mensagensPorEnviar.add(comecou); // informa user que comecou
                                     break;
                                 }
                             }
 
                             while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem terminou
                                 if (inputLine.equals("Terminou")) {
+                                    String terminou = this.processoTempArray[1] + "/User/Terminou";
+                                    this.mensagensPorEnviar.add(terminou); // informa user que terminou
                                     break;
                                 }
                             }
@@ -220,13 +224,13 @@ public class ThreadClientes extends Thread {
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
-
+// criterio de saida ???????
                     }
 
-                    if (outputLine.equals("Sucesso")) { // porque este tá a aqui ?
-                        System.out.println("--- Condutor Logado ---");
-                        break;
-                    }
+//                    if (outputLine.equals("Sucesso")) { // porque este tá a aqui ?
+//                        System.out.println("--- Condutor Logado ---");
+//                        break;
+//                    }
                 }
 
                 in.close();
@@ -255,7 +259,7 @@ public class ThreadClientes extends Thread {
 //                socket.close();
 /////// ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- NOVO ----------- 
                 // ------------ processo normal para ler para sempre o que está a enviar
-                while ((inputLine = in.readLine()) != null) { // lê o que o CONDUTOR lhe envia
+                while ((inputLine = in.readLine()) != null) { // lê o que o USER lhe envia
                     this.processoTemp = inputLine; // variavel temporaria que armazena o pacote de informação enviado pelo cliente
                     // --- Loop de LogIn ---
                     // ver se é Registo ou LogIn
@@ -321,7 +325,7 @@ public class ThreadClientes extends Thread {
                 }
                 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 while ((inputLine = in.readLine()) != null) { // ----------- Loop User Processa Viagens
-
+                    System.out.println("---" + inputLine);
                     this.processoTemp = inputLine;
                     this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
 
@@ -329,7 +333,7 @@ public class ThreadClientes extends Thread {
 
                         String historicoTemp = "";
 
-                        for (String item : this.historicoPontos) { // quando o USER o HISTORICO -> comparar a condutor
+                        for (String item : this.historicoPontos) { // quando o USER o HISTORICO -> comparar a user
                             if (this.username.equals(item.split("/")[1])) { // o USER foi o que efetuou a viagem com o CONDUTOR
                                 historicoTemp += (item + "\n");
                             }
@@ -341,53 +345,64 @@ public class ThreadClientes extends Thread {
                         // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
                         boolean existFlag = false;
 
+                        // tenho que adicionar às mensagens existentes de pedidos 
+                        this.pedidosDeViagens.add(this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
                         // 
                         // tenho que o por na lista de mensagens por enviar Multicast ????
                         // separo e vai para o multicast porque aqui não precisa de ser mais processada
-                        //
-                        //
-                        //
-                        //
-                        
-                        
-                        
-                        // ver se pedido o pedido ainda existe
-                        for (int x = 0; x < this.pedidosDeViagens.getSize(); x++) {
-                            System.out.println("---" + this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor
-                            if (this.pedidosDeViagens.get().get(x).toString().equals(this.processoTempArray[1] + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3])) { // se existir 
-                                // tira pedido do server pois este Condutor já o aceitou e vai toma-lo para si, assim mais ninguem o pode aceitar
-                                String tempPedido = this.pedidosDeViagens.get().get(x).toString();
-                                this.pedidosDeViagens.removeFromPosition(x);
-                                // also enviar em Multicast para a dizer que já não é possivel aceitar aquele pedido no formato "Drop/User/origem/destino"
-                                this.mensagensPorEnviarMulicast.add("Drop/" + tempPedido);
-                                existFlag = true;
-                                break;
-                            }
-                        }
-                        if (existFlag) { // continuação do se existir
-                            out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
+                        this.mensagensPorEnviarMulicast.add("Add/" + this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
 
-                            String oSeuCondutor = this.processoTempArray[1] + "User" + this.username;
+                        while ((inputLine = in.readLine()) != null) {
+                            System.out.println("---" + inputLine);
+                            this.processoTemp = inputLine;
+                            this.historicoPontos.add(inputLine);
+                            break;
+                        } 
+                            
 
-                            this.mensagensPorEnviar.add(oSeuCondutor); // envio ao "User" a dizer quem é condutor
-
-                            while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem começou
-                                if (inputLine.equals("Comecou")) {
-                                    break;
-                                }
-                            }
-
-                            while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem terminou
-                                if (inputLine.equals("Terminou")) {
-                                    break;
-                                }
-                            }
-                            // depois notifica o cliente que pode dar a "Pontuação"
-                            this.mensagensPorEnviar.add(this.processoTempArray[1] + "User/PodePontuar");  // username/tipoCliente/Mensagem
-
-                        } else {// se não existir
-                            out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
-                        }
+                            // depois fico à espera que alguem aceite
+                            // ver pedidos de aceitação
+                            // não preciso de fazer nada aqui por a espera é feita no user e os seguites envios para ele serão feitos pelo Condutor atravez do server 
+                            // acho que depis tenho de esperar pela pontuação que o user atribuiu ao condutor ???
+//                        
+//                        // ver se pedido o pedido ainda existe
+//                        for (int x = 0; x < this.pedidosDeViagens.getSize(); x++) {
+//                            System.out.println("---" + this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor
+//                            if (this.pedidosDeViagens.get().get(x).toString().equals(this.processoTempArray[1] + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3])) { // se existir 
+//                                // tira pedido do server pois este Condutor já o aceitou e vai toma-lo para si, assim mais ninguem o pode aceitar
+//                                String tempPedido = this.pedidosDeViagens.get().get(x).toString();
+//                                this.pedidosDeViagens.removeFromPosition(x);
+//                                // also enviar em Multicast para a dizer que já não é possivel aceitar aquele pedido no formato "Drop/User/origem/destino"
+//                                this.mensagensPorEnviarMulicast.add("Drop/" + tempPedido);
+//                                existFlag = true;
+//                                break;
+//                            }
+//                        }
+//                        if (existFlag) { // continuação do se existir
+//                            out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
+//
+//                            String oSeuCondutor = this.processoTempArray[1] + "User" + this.username;
+//
+//                            this.mensagensPorEnviar.add(oSeuCondutor); // envio ao "User" a dizer quem é condutor
+//
+//                            while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem começou
+//                                if (inputLine.equals("Comecou")) {
+//                                    break;
+//                                }
+//                            }
+//
+//                            while ((inputLine = in.readLine()) != null) { // espera que o "Condutor" diga que a viagem terminou
+//                                if (inputLine.equals("Terminou")) {
+//                                    break;
+//                                }
+//                            }
+//                            // depois notifica o cliente que pode dar a "Pontuação"
+//                            this.mensagensPorEnviar.add(this.processoTempArray[1] + "User/PodePontuar");  // username/tipoCliente/Mensagem
+//
+//                        } else {// se não existir
+//                            out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
+//                        }
+                        }else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
@@ -398,27 +413,25 @@ public class ThreadClientes extends Thread {
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
-
-                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
-
+// criterio de saida ???????
                     }
 
-                    if (outputLine.equals("Sucesso")) { // porque este tá a aqui ?
-                        System.out.println("--- Condutor Logado ---");
-                        break;
+//                    if (outputLine.equals("Sucesso")) { // porque este tá a aqui ?
+//                        System.out.println("--- Condutor Logado ---");
+//                        break;
+//                    }
                     }
-                }
 
-                in.close();
-                socket.close();
+                    in.close();
+                    socket.close();
 
-            } else {
+                }else {
                 System.out.println("Chegada de Cliente Erro!");
             }
 
-        } catch (IOException e) {
+            }catch (IOException e) {
             e.printStackTrace();
         }
-    }
+        }
 
-}
+    }

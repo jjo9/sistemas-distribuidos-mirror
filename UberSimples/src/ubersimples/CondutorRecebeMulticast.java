@@ -27,6 +27,7 @@ public class CondutorRecebeMulticast extends Thread {
         this.echoSocket = echoSocket;
         this.ativo = ativo;
         this.mensagensMulticast = mensagensMulticast;
+        this.listaDePedidos = listaDePedidos;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class CondutorRecebeMulticast extends Thread {
                         break;
                     }
                 }
-                System.out.println("Removido com sucesso");
+                System.out.println("Removido com sucesso -- Drop --");
 
             } else {
                 System.out.println("Erro");

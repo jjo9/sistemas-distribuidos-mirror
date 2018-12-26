@@ -154,14 +154,22 @@ if(this.processoTempArray[0].equals(""))
 # historico
 "historico/" # pois o server já sabe quem é o cliente
 
+# solicitar viagem [User]
+"SolicitarViagem/username/origem/destino"
 
 # pedido de viagem [Condutor]
 "AceitarPedidoViagem/UserQuePediu/Origem/Destino" # ele sabe que viagem é porque recebeu por Multicast/ also não vai haver repetidos pois cada user só pode pedir uma viagem de cada vez
+
+# UserPontuaCondutor
+"Condutor/User/pontuacao/origem/destino"
 
 [] Server-> Cliente (o que o Cliente recebe do Recebe)
 
 # Historico 
 "Condutor/User/pontuacao/origem/destino"
+
+# Multicast a dizer que aquele pedido existe
+"Add/User/origem/destino"
 
 # Multicast a dizer que aquele pedido já foi tomado
 "Drop/User/origem/destino"
@@ -228,4 +236,7 @@ else if == User
 	diferentes estados de progresso
 	diferentes estados de progresso
 else print "erro"
-
+### To fix / Debug
+--> erro ao sair quer antes e depois do login!
+--> User, vejo o historico uma vez, vejo o historico uma segunda vez e fica encravado ----> ainda não sei o porque de acontecer acho que tem a ver com o \n
+--> erro quando um condutor aceita a segunda viagem do mesmo user

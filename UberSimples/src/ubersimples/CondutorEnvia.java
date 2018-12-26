@@ -61,6 +61,7 @@ public class CondutorEnvia extends Thread {
             while (this.mensagemPorEnviarCondutor.getSize() != 0) { // enquanto tiver coisas para enviar
                 envio = (String) this.mensagemPorEnviarCondutor.get().get(0);
                 out.println(envio); // envia o mais recente 
+                System.out.println("envia: "+envio);
                 if (envio.equals("Bye")) { // criterio de saida [mudar ?!] agora tenho o this.activo.getSize() continuo a usar este !?!?
                     break;
                 }

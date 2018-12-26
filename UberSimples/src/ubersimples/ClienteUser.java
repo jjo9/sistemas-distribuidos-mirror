@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import static java.lang.Thread.sleep;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +24,7 @@ public class ClienteUser extends Cliente {
 //    protected SynchronizedArrayList mensagemRecebidasUser;
     protected SynchronizedArrayList mensagemPorEnviarUser = new SynchronizedArrayList();
     protected SynchronizedArrayList mensagemRecebidasUser = new SynchronizedArrayList();
-    protected SynchronizedArrayList ativo = new SynchronizedArrayList();
+    protected ArrayList ativo = new ArrayList();
 
     public ClienteUser() {
         // ao iniciar temos que por a correr as threads de enviar e receber ?? Sim
@@ -45,7 +46,7 @@ public class ClienteUser extends Cliente {
         try {
             echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
             // criar uma thread para enviar
-            new UserEnvia(echoSocket, mensagemPorEnviarUser,ativo).start();
+            new UserEnvia(echoSocket, mensagemPorEnviarUser, ativo).start();
             // criar uma thread para receber normal
             new UserRecebe(echoSocket, mensagemRecebidasUser).start();
         } catch (IOException ex) {
@@ -55,9 +56,31 @@ public class ClienteUser extends Cliente {
 
     @Override
     void historico() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("----- Historico -----");
+        String pacoteRecebido;
+
         // para ver o historico fazer pedido ao servidor, este envia toda a informação
+        this.mensagemPorEnviarUser.add("Historico/");
+
         // Visualizar o seu histórico de viagens e respetiva pontuação ATRIBUIDA
+        while (true) {
+            try {
+                sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (this.mensagemRecebidasUser.getSize() != 0) {
+                pacoteRecebido = (String) this.mensagemRecebidasUser.get().get(0);
+                this.mensagemRecebidasUser.removeFromPosition(0);
+                break;
+            }
+        }
+
+        if (pacoteRecebido.equals("")) {
+            System.out.println("Historico vazio");
+        } else {
+            System.out.println(pacoteRecebido);
+        }
     }
 
     public int pedirViagem() {
@@ -129,8 +152,6 @@ public class ClienteUser extends Cliente {
 
         return re;
     }
-    
-    
 
     @Override
     int menu() {
@@ -140,19 +161,21 @@ public class ClienteUser extends Cliente {
 
         BufferedReader lerMenu = new BufferedReader(new InputStreamReader(System.in));
 
+        this.mensagemPorEnviarUser.add("User"); // para que o server consiga saber em que array vai guardar o Cliente
+        
         while (menuRuning) {
             System.out.print(" --- User --- \n"
                     + " 1 -> registo\n"
                     + " 2 -> login\n"
                     + " 0 -> Sair\n");
-            this.mensagemPorEnviarUser.add("User"); // para que o server consiga saber em que array vai guardar o Cliente
+            // this.mensagemPorEnviarUser.add("User"); // para que o server consiga saber em que array vai guardar o Cliente
             try {
                 String opcao = lerMenu.readLine();
 
                 if (opcao.compareTo("1") == 0) {
-                    Registo(this.mensagemPorEnviarUser,this.mensagemRecebidasUser); // fazer registo
+                    Registo(this.mensagemPorEnviarUser, this.mensagemRecebidasUser); // fazer registo
                 } else if (opcao.compareTo("2") == 0) {
-                    LogIn(this.mensagemPorEnviarUser,this.mensagemRecebidasUser); // fazer login -> depois de ser feito o LogIn() o userStatus fica == 1
+                    LogIn(this.mensagemPorEnviarUser, this.mensagemRecebidasUser); // fazer login -> depois de ser feito o LogIn() o userStatus fica == 1
                 } else if (opcao.compareTo("0") == 0) {
                     menuRuning = false;
                 }
@@ -166,6 +189,7 @@ public class ClienteUser extends Cliente {
         }
 
         while (menuRuning) {
+            System.out.println(" --- User --- ");
             System.out.print(" 1 -> ver historico\n"
                     + " 2 -> solicitar viagem\n"
                     + " 3 -> opção3\n"
@@ -177,7 +201,7 @@ public class ClienteUser extends Cliente {
 
             try {
                 String opcao = lerMenu.readLine();
-
+                
                 if (opcao.compareTo("1") == 0) {
                     historico();
                 } else if (opcao.compareTo("2") == 0) {
@@ -201,6 +225,8 @@ public class ClienteUser extends Cliente {
             }
 
         }
+        
+        // parar Threads aqui ao sair !!! com o ativo
 
         return re;
 

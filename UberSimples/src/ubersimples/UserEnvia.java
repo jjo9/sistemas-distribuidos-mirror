@@ -5,11 +5,10 @@
  */
 package ubersimples;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,9 +21,10 @@ public class UserEnvia extends Thread {
     Socket echoSocket;
     //SynchronizedArrayList mensagemPorEnviarUser = new SynchronizedArrayList();
     SynchronizedArrayList mensagemPorEnviarUser;
-    SynchronizedArrayList ativo;
+    //SynchronizedArrayList ativo;
+    ArrayList<String> ativo;
 
-    public UserEnvia(Socket echoSocket, SynchronizedArrayList mensagemPorEnviarUser, SynchronizedArrayList ativo) {
+    public UserEnvia(Socket echoSocket, SynchronizedArrayList mensagemPorEnviarUser, ArrayList ativo) {
         this.echoSocket = echoSocket;
         this.mensagemPorEnviarUser = mensagemPorEnviarUser;
         this.ativo = ativo;
@@ -47,7 +47,7 @@ public class UserEnvia extends Thread {
         String envio; // ---- tenho que por o que se segue num loop infinito ---- tenho que por o que se segue num loop infinito ---- tenho que por o que se segue num loop infinito 
 
         // also por um sleep de 1 segundo !
-        while (this.ativo.getSize() != 0) {
+        while (!this.ativo.isEmpty()) {
             try {
                 sleep(1);
             } catch (InterruptedException ex) {
@@ -63,6 +63,7 @@ public class UserEnvia extends Thread {
             while (this.mensagemPorEnviarUser.getSize() != 0) { // enquanto tiver cenas para enviar
                 envio = (String) this.mensagemPorEnviarUser.get().get(0);
                 out.println(envio); // envia o mais recente 
+                System.out.println("envia: "+envio);
                 if (envio.equals("Bye")) { // criterio de saida [mudar ?!]
                     break;
                 }

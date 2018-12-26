@@ -8,6 +8,7 @@ package ubersimples;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  * @author Crisanto
  */
 public abstract class Cliente {
-    
+
     protected String username;
     protected String password;
     protected int userStatus; // 0 o user não está logado / 1 o user esta logado
@@ -41,33 +42,33 @@ public abstract class Cliente {
     public String getUsername() {
         return username;
     }
-    
+
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     public String getPassword() {
         return password;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public int getUserStatus() {
         return userStatus;
     }
-    
+
     public void setUserStatus(int userStatus) {
         this.userStatus = userStatus;
     }
-    
+
     public int enterCredentials() {
         int re = 0;
-        
+
         String ClientUserName;
         String ClientPassword;
-        
+
         BufferedReader clientRead = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter your username: ");
         try {
@@ -84,35 +85,53 @@ public abstract class Cliente {
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return re; // se re for 1 as credenciais foram inseridas corretamente
     }
+
     // ---- Creds Listas ---- Creds Listas ---- Creds Listas ---- Creds Listas ---- Creds Listas ---- Creds Listas ---- Creds Listas ---- Creds Listas ---- Creds Listas ---- Creds Listas ---- Creds Listas 
-    public int sendRegistoCreds2Server(SynchronizedArrayList listaEnvia,SynchronizedArrayList listaReceve) {
+    public int sendRegistoCreds2Server(SynchronizedArrayList listaEnvia, SynchronizedArrayList listaReceve) {
         int re = 0;
         String pacoteEnviado;
-        
+        String pacoteRecebido;
         pacoteEnviado = "Registo/" + this.username + "/" + this.password;
 
         // por isto nas MENSAGENS POR ENVIADAR
         listaEnvia.add(pacoteEnviado); // mandar para o server
         // formato "Registo/Username/Password"
-        
-        // ver resposta --- estou aqui  --- estou aqui  --- estou aqui  --- estou aqui  --- estou aqui  --- estou aqui  --- estou aqui  --- estou aqui  --- estou aqui  --- estou aqui  --- estou aqui  
-        
-        
-        // se retornar 0 é porque já existe o user
-        // se retornar 1 é porque foi registado com sucesso
+
+        // ver resposta
+        while (true) {
+            try {
+                sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (listaReceve.getSize() != 0) {
+                pacoteRecebido = (String) listaReceve.get().get(0);
+                listaReceve.removeFromPosition(0);
+                break;
+            }
+        }
+
+        if (pacoteRecebido.equals("JaExiste")) { // se retornar 0 é porque já existe o user
+            re = 0;
+        } else if (pacoteRecebido.equals("Registado")) { // se retornar 1 é porque foi registado com sucesso
+            re = 1;
+        } else {
+            System.out.println("Erro de pacote");
+        }
+
         return re;
     }
-    
-    public int Registo(SynchronizedArrayList listaEnvia,SynchronizedArrayList listaReceve) { // adicionar passagem por referencia a ArrayList de mensagens por enviar !!
+
+    public int Registo(SynchronizedArrayList listaEnvia, SynchronizedArrayList listaReceve) { // adicionar passagem por referencia a ArrayList de mensagens por enviar !!
         int re = 0;
 
         // le credenciais
         if (enterCredentials() == 1) { // faz o resto
             // mandar para o server
-            int registoResponse = sendRegistoCreds2Server(listaEnvia,listaReceve);
+            int registoResponse = sendRegistoCreds2Server(listaEnvia, listaReceve);
             if (registoResponse == 1) { // se retornar 1 é porque foi registado com sucesso
                 System.out.println("registado com sucesso!");
             } else if (registoResponse == 0) { // se retornar 0 é porque já existe o user
@@ -121,30 +140,57 @@ public abstract class Cliente {
         } else {
             System.out.println("erro ao inserir credenciais");
         }
-        
+
         return re;
     }
-    
-    public int sendLoginCreds2Server(SynchronizedArrayList listaEnvia,SynchronizedArrayList listaReceve) { // ---------- este ainda não faz nada
+
+    public int sendLoginCreds2Server(SynchronizedArrayList listaEnvia, SynchronizedArrayList listaReceve) { // ---------- este ainda não faz nada
         int re = 0;
         // mandar para o server
-        
-        
-        
+
+        String pacoteEnviado;
+        String pacoteRecebido;
+        pacoteEnviado = "LogIn/" + this.username + "/" + this.password;
+
+        // por isto nas MENSAGENS POR ENVIADAR
+        listaEnvia.add(pacoteEnviado); // mandar para o server
+        // formato "LogIn/Username/Password"
+
         // ver resposta
-        // se retornar 0 é porque o user não existe
-        // se retornar 1 é porque a password está errada
-        // se retornar 2 é porque o logIn foi feito com sucesso
+        while (true) {
+            try {
+                sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (listaReceve.getSize() != 0) {
+                pacoteRecebido = (String) listaReceve.get().get(0);
+                listaReceve.removeFromPosition(0);
+                break;
+            }
+        }
+
+        // ver resposta
+        if (pacoteRecebido.equals("ClienteNaoExiste")) { // se retornar 0 é porque o user não existe
+            re = 0;
+        } else if (pacoteRecebido.equals("PasswordErrada")) { // se retornar 1 é porque a password está errada
+            re = 1;
+        } else if (pacoteRecebido.equals("Sucesso")) { // se retornar 2 é porque o logIn foi feito com sucesso
+            re = 2;
+        } else {
+            System.out.println("Erro de pacote");
+        }
+
         return re;
     }
-    
-    public int LogIn(SynchronizedArrayList listaEnvia,SynchronizedArrayList listaReceve) {
+
+    public int LogIn(SynchronizedArrayList listaEnvia, SynchronizedArrayList listaReceve) {
         int re = 0;
 
         // le credenciais
         if (enterCredentials() == 1) { // faz o resto
             // mandar para o server
-            int loginResponse = sendLoginCreds2Server(listaEnvia,listaReceve);
+            int loginResponse = sendLoginCreds2Server(listaEnvia, listaReceve);
             if (loginResponse == 2) { // se retornar 2 é porque o logIn foi feito com sucesso
                 this.userStatus = 1; // fica identificado como logado
                 System.out.println("login com sucesso!");
@@ -153,16 +199,16 @@ public abstract class Cliente {
             } else if (loginResponse == 0) { // se retornar 0 é porque o user não existe
                 System.out.println("o user não existe");
             }
-            
+
         } else {
             System.out.println("erro ao inserir credenciais");
         }
-        
+
         return re;
     }
-    
+
     abstract void historico();
-    
+
     abstract int menu();
-    
+
 }

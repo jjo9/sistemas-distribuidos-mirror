@@ -8,6 +8,7 @@ package ubersimples;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import static java.lang.Thread.sleep;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.Socket;
@@ -75,9 +76,32 @@ public class ClienteCondutor extends Cliente {
 
     @Override
     void historico() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        String pacoteRecebido;
+
         // para ver o historico fazer pedido ao servidor, este envia toda a informação
+        this.mensagemPorEnviarCondutor.add("Historico/");
+
         // Visualizar o seu histórico de viagens e respetiva pontuação RECEBIDA
+        while (true) {
+            try {
+                sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (this.mensagemRecebidasCondutor.getSize() != 0) {
+                pacoteRecebido = (String) this.mensagemRecebidasCondutor.get().get(0);
+                this.mensagemRecebidasCondutor.removeFromPosition(0);
+                break;
+            }
+        }
+
+        if (pacoteRecebido.equals("")) {
+            System.out.println("Historico vazio");
+        } else {
+            System.out.println(pacoteRecebido);
+        }
+
     }
 
     public int mudarEstado() {
@@ -85,69 +109,97 @@ public class ClienteCondutor extends Cliente {
 
         if (!getEstado().isEmpty()) { // esta disponivel e fica indesponivel
             this.estado.clear();
+            System.out.println("O estado é agora Indesponivel");
         } else if (getEstado().isEmpty()) { // esta indisponivel e fica disponivel
             this.estado.add("On");
+            System.out.println("O estado é agora Dindesponivel");
         }
 
         return re;
     }
 
-    public void verPedidos() {
-        for (int i = 0; i < listaDePedidos.getSize(); i++) {
-            System.out.println(i + "->" + listaDePedidos.get().get(i));
+    public int verPedidos() {
+        int re = 0;
+
+        if (listaDePedidos.getSize() == 0) {
+            System.out.println("Não existem pedidos");
+        } else {
+            for (int i = 0; i < listaDePedidos.getSize(); i++) {
+                System.out.println(i + "->" + listaDePedidos.get().get(i));
+            }
+            re = 1;
         }
+
+        return re;
+
     }
 
     public int aceitarPedidoDeViagem() {
         int re = 0;
 
-        verPedidos();
-        BufferedReader lerEscolha = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            // ler escolha
-            String escolha = lerEscolha.readLine();
-            // ver se é um numero
-            int escolhaInt = Integer.parseInt(escolha);
+        int check = verPedidos();
 
-            if (escolhaInt >= 0 && escolhaInt < this.listaDePedidos.getSize()) { // vê se está na range de pedidos
+        if (check == 1) {
+            BufferedReader lerEscolha = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                // ler escolha
+                String escolha = lerEscolha.readLine();
+                // ver se é um numero
+                int escolhaInt = Integer.parseInt(escolha);
 
-                String pedidoPacote = this.listaDePedidos.get().get(escolhaInt).toString();
-                
-                this.mensagemPorEnviarCondutor.add(pedidoPacote); // enviar mensagem ao server
-                
-                // fica à espera de saber que o pedido foi aceite
-                while (this.mensagemRecebidasCondutor.getSize() != 0) { // ---------------- ponderar em por isto num while (True) pois assim pode não funcionar pois se for muito rapido passa à frente
-                    if (this.mensagemRecebidasCondutor.get().get(0).equals("PedidoAceite")) {
+                if (escolhaInt >= 0 && escolhaInt < this.listaDePedidos.getSize()) { // vê se está na range de pedidos
 
-                        while (true) {// LOOP que fica aqui até dizer que COMEÇOU a viagem
-                            System.out.println("a viagem já começou? [y/n]");
-                            String viagemInicio = lerEscolha.readLine();
-                            if (viagemInicio.compareTo("y") == 0) {
-                                break;
-                            }
-                            // envia mensagem ao server a dizer que a viagem já COMEÇOU e notifica o cliente
+                    String pedidoPacote = this.listaDePedidos.get().get(escolhaInt).toString();
+
+                    this.mensagemPorEnviarCondutor.add("AceitarPedidoViagem/" + pedidoPacote); // enviar mensagem ao server
+
+                    // fica à espera de saber que o pedido foi aceite
+                    boolean working = true;
+                    while (working) {
+                        try {
+                            sleep(1);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        while (true) {// LOOP que fica aqui até dizer que a viagem TERMINOU
-                            System.out.println("a viagem já começou? [y/n]");
-                            String viagemInicio = lerEscolha.readLine();
-                            if (viagemInicio.compareTo("y") == 0) {
-                                break;
+// ponho antes um IF ????????????????????????????????????????
+                        while (this.mensagemRecebidasCondutor.getSize() != 0) { // ---------------- ponderar em por isto num while (True) pois assim pode não funcionar pois se for muito rapido passa à frente
+                            working = false;
+                            if (this.mensagemRecebidasCondutor.get().get(0).equals("PedidoAceite")) {
+
+                                while (true) {// LOOP que fica aqui até dizer que COMEÇOU a viagem
+                                    System.out.println("a viagem já começou? [y/n]");
+                                    String viagemInicio = lerEscolha.readLine();
+                                    if (viagemInicio.equals("y")) {
+                                        // envia mensagem ao server a dizer que a viagem já COMEÇOU e notifica o cliente
+                                        this.mensagemPorEnviarCondutor.add("Comecou");
+                                        break;
+                                    }
+                                }
+                                while (true) {// LOOP que fica aqui até dizer que a viagem TERMINOU
+                                    System.out.println("a viagem já acabou? [y/n]");
+                                    String viagemFim = lerEscolha.readLine();
+                                    if (viagemFim.equals("y")) {
+                                        // envia mensagem ao server a dizer que a viagem já TERMINOU e notifica o cliente
+                                        this.mensagemPorEnviarCondutor.add("Terminou");
+                                        break;
+                                    }
+                                }
+                            } else if (this.mensagemRecebidasCondutor.get().get(0).equals("PedidoNaoExiste")) {
+                                System.out.println("O pedido já não existe");
+                            } else {
+                                System.out.println("Erro");
                             }
-                            // envia mensagem ao server a dizer que a viagem já TERMINOU e notifica o cliente
+                            this.mensagemRecebidasCondutor.removeFromPosition(0);
                         }
-                    } else if (this.mensagemRecebidasCondutor.get().get(0).equals("PedidoNaoExiste")) {
-                        System.out.println("O pedido já não existe");
-                    } else {
-                        System.out.println("Erro");
                     }
+
+                } else {
+                    System.out.println("Pedido invalido");
                 }
 
-            } else {
-                System.out.println("Pedido invalido");
+            } catch (IOException ex) {
+                Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        } catch (IOException ex) {
-            Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return re;
@@ -160,20 +212,20 @@ public class ClienteCondutor extends Cliente {
         boolean menuRuning = true;
 
         BufferedReader lerMenu = new BufferedReader(new InputStreamReader(System.in));
-
+        this.mensagemPorEnviarCondutor.add("Condutor"); // é o que tá em baixo mas aqui só envia uma vez porque só preciso de enviar uma vez
         while (menuRuning) {
             System.out.print(" --- Condutor --- \n"
                     + " 1 -> registo\n"
                     + " 2 -> login\n"
                     + " 0 -> Sair\n");
-            this.mensagemPorEnviarCondutor.add("Condutor"); // para que o server consiga saber em que array vai guardar o Cliente --- este está sempre a ser enviado e acho que só precisa de ser uma vez
+//            this.mensagemPorEnviarCondutor.add("Condutor"); // para que o server consiga saber em que array vai guardar o Cliente --- este está sempre a ser enviado e acho que só precisa de ser uma vez
             try {
                 String opcao = lerMenu.readLine();  // não está a parar aqui para ler a linha existe aqui um erro !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 if (opcao.compareTo("1") == 0) { // mudar para equals ?!?!? no fim
-                    Registo(this.mensagemPorEnviarCondutor,this.mensagemRecebidasCondutor);
+                    Registo(this.mensagemPorEnviarCondutor, this.mensagemRecebidasCondutor);
                 } else if (opcao.compareTo("2") == 0) {
-                    LogIn(this.mensagemPorEnviarCondutor,this.mensagemRecebidasCondutor);
+                    LogIn(this.mensagemPorEnviarCondutor, this.mensagemRecebidasCondutor);
                 } else if (opcao.compareTo("0") == 0) {
                     menuRuning = false;
                 }
@@ -187,6 +239,7 @@ public class ClienteCondutor extends Cliente {
         }
 
         while (menuRuning) {
+            System.out.println(" --- Condutor --- ");
             System.out.print(" 1 -> ver historico\n" // a implementar isto no server 
                     + " 2 -> ver pedidos de viagem\n"
                     + " 3 -> aceitar pedido de viagem\n"
@@ -225,6 +278,7 @@ public class ClienteCondutor extends Cliente {
 
         }
 
+        // parar Threads aqui ao sair !!! com o ativo
         return re;
 
     }
