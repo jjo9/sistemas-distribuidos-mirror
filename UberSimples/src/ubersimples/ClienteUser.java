@@ -193,10 +193,6 @@ public class ClienteUser extends Cliente {
             System.out.print(" 1 -> ver historico\n"
                     + " 2 -> solicitar viagem\n"
                     + " 3 -> opção3\n"
-                    + " 4 -> opção4\n"
-                    + " 5 -> opção5\n"
-                    + " 6 -> opção6\n"
-                    + " 7 -> opção7\n"
                     + " 0 -> Sair\n");
 
             try {
@@ -208,14 +204,6 @@ public class ClienteUser extends Cliente {
                     pedirViagem();
                 } else if (opcao.compareTo("3") == 0) {
                     // fazer opção 3
-                } else if (opcao.compareTo("4") == 0) {
-                    // fazer opção 4
-                } else if (opcao.compareTo("5") == 0) {
-                    // fazer opção 5
-                } else if (opcao.compareTo("6") == 0) {
-                    // fazer opção 6
-                } else if (opcao.compareTo("7") == 0) {
-                    // fazer opção 7
                 } else if (opcao.compareTo("0") == 0) {
                     menuRuning = false;
                 }

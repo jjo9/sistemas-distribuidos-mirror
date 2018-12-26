@@ -239,4 +239,4 @@ else print "erro"
 ### To fix / Debug
 --> erro ao sair quer antes e depois do login!
 --> User, vejo o historico uma vez, vejo o historico uma segunda vez e fica encravado ----> ainda não sei o porque de acontecer acho que tem a ver com o \n
---> erro quando um condutor aceita a segunda viagem do mesmo user
+--> erro quando um condutor aceita a segunda viagem do mesmo user // acho que é o faacto de pedir o historico que parte as coisas 

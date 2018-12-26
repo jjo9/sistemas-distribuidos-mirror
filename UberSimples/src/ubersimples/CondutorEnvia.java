@@ -52,12 +52,6 @@ public class CondutorEnvia extends Thread {
                 Logger.getLogger(CondutorEnvia.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-//            while ((envio = stdIn.readLine()) != null) {
-//                out.println(envio); //o que eu mando/envio
-//                if (envio.equals("Bye")) { // criterio de saida [mudar ?!]
-//                    break;
-//                }
-//            }
             while (this.mensagemPorEnviarCondutor.getSize() != 0) { // enquanto tiver coisas para enviar
                 envio = (String) this.mensagemPorEnviarCondutor.get().get(0);
                 out.println(envio); // envia o mais recente 

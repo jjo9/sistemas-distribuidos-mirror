@@ -54,16 +54,10 @@ public class UserEnvia extends Thread {
                 Logger.getLogger(UserEnvia.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-//            while ((envio = stdIn.readLine()) != null) {
-//                out.println(envio); //o que eu mando/envio
-//                if (envio.equals("Bye")) { // criterio de saida [mudar ?!]
-//                    break;
-//                }
-//            }
             while (this.mensagemPorEnviarUser.getSize() != 0) { // enquanto tiver cenas para enviar
                 envio = (String) this.mensagemPorEnviarUser.get().get(0);
                 out.println(envio); // envia o mais recente 
-                System.out.println("envia: "+envio);
+                System.out.println("envia: " + envio);
                 if (envio.equals("Bye")) { // criterio de saida [mudar ?!]
                     break;
                 }
@@ -71,8 +65,7 @@ public class UserEnvia extends Thread {
             }
 
         }
-        System.out.println("Envia Closed");  // ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada ------ esta linha é ativada 
-        //stdIn.close();
+        System.out.println("Envia Closed");
         out.close();
         try {
             echoSocket.close();
