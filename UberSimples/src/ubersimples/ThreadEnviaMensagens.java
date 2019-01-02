@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +55,7 @@ public class ThreadEnviaMensagens extends Thread {
                 // se tiver mensagens por enviar dar split para saber o username e saber se é "User" ou "Condutor"
                 String[] tempStrings = this.mensagensPorEnviar.get().get(i).toString().split("/");  // formato "Username/Tipo/Mensagem"
                 // agora que sei quem é a pessoa tenho que descobrir a sua socket
-
+                System.out.println("TEnviaMensagens::Mensagem Por ENviar " + Arrays.toString(tempStrings));
                 if (this.listaUserSocket.usernameExiste(tempStrings[0], tempStrings[1])) { // se existir
                     // depois ver qual é a sua socket
                     Socket socketTemp = this.listaUserSocket.socketDeUsername(tempStrings[0], tempStrings[1]); // socket do destinatario
@@ -62,6 +63,7 @@ public class ThreadEnviaMensagens extends Thread {
                         out = new PrintWriter(socketTemp.getOutputStream(), true);
                         // enviar mensagem para esse user
                         out.println(tempStrings[2]); // envio de "Mensagem"
+                        System.out.println("TEnviaMensagens::Mensagem ENVIADA " + tempStrings[2]);
                     } catch (IOException ex) {
                         Logger.getLogger(ThreadEnviaMensagens.class.getName()).log(Level.SEVERE, null, ex);
                     }

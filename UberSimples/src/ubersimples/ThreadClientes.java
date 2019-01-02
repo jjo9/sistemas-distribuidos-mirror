@@ -86,7 +86,7 @@ public class ThreadClientes extends Thread {
 
                 // ------------ processo normal para ler para sempre o que está a enviar
                 while ((inputLine = in.readLine()) != null) { // lê o que o CONDUTOR lhe envia
-                    System.out.println("---" + inputLine); ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  
+                    System.out.println("Condutor Input Login" + inputLine); ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  
                     this.processoTemp = inputLine; // variavel temporaria que armazena o pacote de informação enviado pelo cliente
                     // --- Loop de LogIn ---
                     // ver se é Registo ou LogIn
@@ -108,7 +108,7 @@ public class ThreadClientes extends Thread {
                             this.credenciaisCondutores.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]); // "nome/password"
                             outputLine = "Registado";
                         }
-                        System.out.println(outputLine);
+                        System.out.println("Registo EStado"+outputLine);
                         out.println(outputLine); // o que envia
 
                     } else if (this.processoTempArray[0].equals("LogIn")) {// --------------------------------------------------------------------------------------------------------- Login
@@ -136,7 +136,7 @@ public class ThreadClientes extends Thread {
                         } else {
                             outputLine = "ClienteNaoExiste";
                         }
-                        System.out.println(outputLine);
+                        System.out.println("Login Estado"+outputLine);
                         out.println(outputLine); // o que envia
 
                     } else {
@@ -152,7 +152,7 @@ public class ThreadClientes extends Thread {
                 }
                 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 while ((inputLine = in.readLine()) != null) { // ----------- Loop Condutor Processa Viagens
-                    System.out.println("---" + inputLine);
+                    System.out.println("Loop Condutor processa Viagens" + inputLine);
                     this.processoTemp = inputLine;
                     this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
 
@@ -161,11 +161,13 @@ public class ThreadClientes extends Thread {
                         String historicoTemp = "";
 
                         for (String item : this.historicoPontos) { // quando o CONDUTOR o HISTORICO -> comparar a condutor
+                            System.out.println("Condutor Historico Pontos ciclo "+item);
                             if (this.username.equals(item.split("/")[0])) { // o CONDUTOR foi o que efetuou a viagem como CONDUTOR
                                 historicoTemp += (item + "\n");
                             }
                         }
                         out.print(historicoTemp); // enviar 
+                        System.out.println("enviado historico condutor");
 
                     } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
                         // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
@@ -173,7 +175,7 @@ public class ThreadClientes extends Thread {
 
                         // ver se pedido o pedido ainda existe
                         for (int x = 0; x < this.pedidosDeViagens.getSize(); x++) {
-                            System.out.println("---" + this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor
+                            System.out.println("Ver se pedido ainda existe" + this.pedidosDeViagens.get().get(x).toString()); // compara pedidos guardados no Server -com- pedidos de aceitação feito pelo Condutor
                             if (this.pedidosDeViagens.get().get(x).toString().equals(this.processoTempArray[1] + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3])) { // se existir 
                                 // tira pedido do server pois este Condutor já o aceitou e vai toma-lo para si, assim mais ninguem o pode aceitar
                                 String tempPedido = this.pedidosDeViagens.get().get(x).toString();
@@ -207,7 +209,7 @@ public class ThreadClientes extends Thread {
                                 }
                             }
                             // depois notifica o cliente que pode dar a "Pontuação"
-                            this.mensagensPorEnviar.add(this.processoTempArray[1] + "User/PodePontuar");  // username/tipoCliente/Mensagem
+                            //this.mensagensPorEnviar.add(this.processoTempArray[1] + "/User/PodePontuar");  // username/tipoCliente/Mensagem
 
                         } else {// se não existir
                             out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
@@ -257,7 +259,7 @@ public class ThreadClientes extends Thread {
                             this.credenciaisUsers.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]);
                             outputLine = "Registado";
                         }
-                        System.out.println(outputLine);
+                        System.out.println("User Registo status"+outputLine);
                         out.println(outputLine); // o que envia
 
                     } else if (this.processoTempArray[0].equals("LogIn")) {// --------------------------------------------------------------------------------------------------------- Login
@@ -285,7 +287,7 @@ public class ThreadClientes extends Thread {
                         } else {
                             outputLine = "ClienteNaoExiste";
                         }
-                        System.out.println(outputLine);
+                        System.out.println("User LogIn status"+outputLine);
                         out.println(outputLine); // o que envia
 
                     } else {
@@ -301,7 +303,7 @@ public class ThreadClientes extends Thread {
                 }
                 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 while ((inputLine = in.readLine()) != null) { // ----------- Loop User Processa Viagens
-                    System.out.println("---" + inputLine);
+                    System.out.println("Loop User Processa Viagens " + inputLine);
                     this.processoTemp = inputLine;
                     this.processoTempArray = this.processoTemp.split("/"); // separa "something/something/" por "/"
 
@@ -316,7 +318,6 @@ public class ThreadClientes extends Thread {
                         }
                         out.print(historicoTemp); // enviar mudei de println() para print()
 
-
                     } else if (this.processoTempArray[0].equals("SolicitarViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
                         // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
                         boolean existFlag = false;
@@ -328,8 +329,8 @@ public class ThreadClientes extends Thread {
                         // separo e vai para o multicast porque aqui não precisa de ser mais processada
                         this.mensagensPorEnviarMulicast.add("Add/" + this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
 
-                        while ((inputLine = in.readLine()) != null) {
-                            System.out.println("---" + inputLine);
+                        while ((inputLine = in.readLine()) != null) { // lê pontuação dada
+                            System.out.println("Pontuação dada" + inputLine);
                             this.processoTemp = inputLine;
                             this.historicoPontos.add(inputLine);
                             break;

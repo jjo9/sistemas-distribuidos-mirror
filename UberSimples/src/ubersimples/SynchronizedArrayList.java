@@ -38,4 +38,15 @@ public class SynchronizedArrayList {
     public synchronized void removeFromPosition(int position) {
         list.remove(position);
     }
+
+    @Override
+    public synchronized String toString() {
+        String re = "";
+
+        for (int x = 0; x < list.size(); x++) { // por index 
+            re += ("index:"+x+":"+list.get(x) + "\n");
+        }
+
+        return re;
+    }
 }

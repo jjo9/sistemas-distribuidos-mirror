@@ -48,7 +48,7 @@ public class ClienteCondutor extends Cliente {
     // em cmd se eu fizer print da lista de pedidos e um outro condutor aceitar o pedido, eu já não poderei aceita-lo, então ao escolher que aceito deve retornar mensagem de "este pedido já foi aceite"
     // em GUI retirar quadrado ?...
     private void startThreads() {
-        this.activo.add("ON");
+        this.activo.add("On");
         try {
             // ao iniciar temos que por a correr as threads de enviar e receber ??
             Socket echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
@@ -74,6 +74,18 @@ public class ClienteCondutor extends Cliente {
         this.estado = estado;
     }
 
+    public String disponivilidade() {
+        String re;
+
+        if (!this.estado.isEmpty()) {
+            re = "Disponivel";
+        } else {
+            re = "Indisponivel";
+        }
+
+        return re;
+    }
+
     @Override
     void historico() {
 
@@ -84,12 +96,14 @@ public class ClienteCondutor extends Cliente {
 
         // Visualizar o seu histórico de viagens e respetiva pontuação RECEBIDA
         while (true) {
+            System.out.println("lista:::" + this.mensagemRecebidasCondutor.toString()); // por no menu para ver tudo
             try {
-                sleep(1);
+                sleep(100);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (this.mensagemRecebidasCondutor.getSize() != 0) {
+                System.out.println("processando...");
                 pacoteRecebido = (String) this.mensagemRecebidasCondutor.get().get(0);
                 this.mensagemRecebidasCondutor.removeFromPosition(0);
                 break;
@@ -142,8 +156,9 @@ public class ClienteCondutor extends Cliente {
         if (check == 1) {
             BufferedReader lerEscolha = new BufferedReader(new InputStreamReader(System.in));
             try {
+                System.out.println("Insira o numero da viagem que quer aceitar");
                 // ler escolha
-                String escolha = lerEscolha.readLine();
+                String escolha = lerEscolha.readLine(); // se não numero parte ?
                 // ver se é um numero
                 int escolhaInt = Integer.parseInt(escolha);
 
@@ -239,11 +254,19 @@ public class ClienteCondutor extends Cliente {
         }
 
         while (menuRuning) {
+            //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG 
+            System.out.println("//  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG ");
+            System.out.println("lista:Enviar::" + this.mensagemPorEnviarCondutor.toString());
+            System.out.println("lista:Recebidas::" + this.mensagemRecebidasCondutor.toString());
+            System.out.println("lista:RecebidasMulticast::" + this.mensagemRecebidasMulticastCondutor.toString());
+            //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG 
             System.out.println(" --- Condutor --- ");
+            System.out.println("Username: " + this.username);
+
             System.out.print(" 1 -> ver historico\n" // a implementar isto no server 
                     + " 2 -> ver pedidos de viagem\n"
                     + " 3 -> aceitar pedido de viagem\n"
-                    + " 4 -> mudar estado\n"
+                    + " 4 -> mudar estado (atualmente: " + this.disponivilidade() + " )\n"
                     + " 5 -> opção5\n"
                     + " 6 -> opção6\n"
                     + " 7 -> opção7\n"

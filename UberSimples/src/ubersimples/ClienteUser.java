@@ -132,6 +132,7 @@ public class ClienteUser extends Cliente {
                 }
             }
             System.out.println("A sua viagem terminou :" + this.mensagemRecebidasUser.get().get(0).toString());
+            this.mensagemRecebidasUser.removeFromPosition(0); // para tirar o "Terminou"
 
             // fica à espera da cena a dizer que pode dar pontuação ao condutor ("ver qual é o formato")
             // codigo para ler pontuação de 1 a 5
@@ -189,7 +190,12 @@ public class ClienteUser extends Cliente {
         }
 
         while (menuRuning) {
+            //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG 
+            System.out.println("lista:Enviar::"+this.mensagemPorEnviarUser);
+            System.out.println("lista:Recebidas::"+this.mensagemRecebidasUser);
+            //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG 
             System.out.println(" --- User --- ");
+            System.out.println("Username: "+this.username);
             System.out.print(" 1 -> ver historico\n"
                     + " 2 -> solicitar viagem\n"
                     + " 3 -> opção3\n"
