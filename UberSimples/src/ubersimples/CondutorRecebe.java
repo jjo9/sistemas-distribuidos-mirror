@@ -38,9 +38,12 @@ public class CondutorRecebe extends Thread {
             in = new BufferedReader(new InputStreamReader(this.echoSocket.getInputStream())); // para se obter um objeto do tipo BufferedReader
             while (((recebo = in.readLine()) != null) && (this.echoSocket != null)) {
                 if (!this.estado.isEmpty()) { // modo de não incomodar 
-                    // recebo = in.readLine();// o que eu recebo
+                    
                     this.mensagemRecebidasCondutor.add(recebo);
                     System.out.println("recebo: " + recebo);
+                }else{ // mas esta aqui à mesma 
+                    this.mensagemRecebidasCondutor.add(recebo); // acho que nunca é usado ...
+                    System.out.println("recebo mas não quero ser incomodado: " + recebo); // acho que nunca é usado ...
                 }
             }
             //System.out.println("Recebe Closed");

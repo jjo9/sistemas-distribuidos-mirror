@@ -29,9 +29,11 @@ public class ClienteCondutor extends Cliente {
     protected SynchronizedArrayList mensagemRecebidasCondutor = new SynchronizedArrayList();
     protected SynchronizedArrayList mensagemRecebidasMulticastCondutor = new SynchronizedArrayList();
     protected ArrayList<String> activo = new ArrayList(); // não sei se ponha este como SyncArraylista também ...
+    // ativo é para dizer se está ativo e se não tiver vai parar as threads todas pois isso é ao acabar a execução do programa
 
     public ClienteCondutor() {
-        this.estado.add("On");
+        this.estado.add("On"); // apenas não recebe novos pedidos de viagem
+        this.activo.add("On");
         this.viagemEstado = 0; // não sei se vamos usar este ?...
         startThreads();
     }
@@ -48,7 +50,6 @@ public class ClienteCondutor extends Cliente {
     // em cmd se eu fizer print da lista de pedidos e um outro condutor aceitar o pedido, eu já não poderei aceita-lo, então ao escolher que aceito deve retornar mensagem de "este pedido já foi aceite"
     // em GUI retirar quadrado ?...
     private void startThreads() {
-        this.activo.add("On");
         try {
             // ao iniciar temos que por a correr as threads de enviar e receber ??
             Socket echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
@@ -60,7 +61,7 @@ public class ClienteCondutor extends Cliente {
             MulticastSocket echoSocketRecebe = new MulticastSocket(4446);
             InetAddress address = InetAddress.getByName("230.0.0.1");
             echoSocketRecebe.joinGroup(address);
-            new CondutorRecebeMulticast(echoSocketRecebe, activo, mensagemRecebidasMulticastCondutor, listaDePedidos).start();
+            new CondutorRecebeMulticast(echoSocketRecebe, activo, mensagemRecebidasMulticastCondutor, listaDePedidos, estado).start();
         } catch (IOException ex) {
             Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,20 +96,24 @@ public class ClienteCondutor extends Cliente {
         this.mensagemPorEnviarCondutor.add("Historico/");
 
         // Visualizar o seu histórico de viagens e respetiva pontuação RECEBIDA
-        while (true) {
+        while (this.mensagemRecebidasCondutor.getSize() == 0) {
             System.out.println("lista:::" + this.mensagemRecebidasCondutor.toString()); // por no menu para ver tudo
+            System.out.println("processando...");
             try {
                 sleep(100);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (this.mensagemRecebidasCondutor.getSize() != 0) {
-                System.out.println("processando...");
-                pacoteRecebido = (String) this.mensagemRecebidasCondutor.get().get(0);
-                this.mensagemRecebidasCondutor.removeFromPosition(0);
-                break;
-            }
+//            if (this.mensagemRecebidasCondutor.getSize() != 0) {
+//                System.out.println("processando...");
+//                pacoteRecebido = (String) this.mensagemRecebidasCondutor.get().get(0);
+//                this.mensagemRecebidasCondutor.removeFromPosition(0);
+//                break;
+//            }
         }
+
+        pacoteRecebido = (String) this.mensagemRecebidasCondutor.get().get(0);
+        this.mensagemRecebidasCondutor.removeFromPosition(0);
 
         if (pacoteRecebido.equals("")) {
             System.out.println("Historico vazio");

@@ -108,7 +108,7 @@ public class ThreadClientes extends Thread {
                             this.credenciaisCondutores.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]); // "nome/password"
                             outputLine = "Registado";
                         }
-                        System.out.println("Registo EStado"+outputLine);
+                        System.out.println("Registo EStado" + outputLine);
                         out.println(outputLine); // o que envia
 
                     } else if (this.processoTempArray[0].equals("LogIn")) {// --------------------------------------------------------------------------------------------------------- Login
@@ -136,7 +136,7 @@ public class ThreadClientes extends Thread {
                         } else {
                             outputLine = "ClienteNaoExiste";
                         }
-                        System.out.println("Login Estado"+outputLine);
+                        System.out.println("Login Estado" + outputLine);
                         out.println(outputLine); // o que envia
 
                     } else {
@@ -161,13 +161,15 @@ public class ThreadClientes extends Thread {
                         String historicoTemp = "";
 
                         for (String item : this.historicoPontos) { // quando o CONDUTOR o HISTORICO -> comparar a condutor
-                            System.out.println("Condutor Historico Pontos ciclo "+item);
+                            System.out.println("Condutor Historico Pontos ciclo " + item);
                             if (this.username.equals(item.split("/")[0])) { // o CONDUTOR foi o que efetuou a viagem como CONDUTOR
                                 historicoTemp += (item + "\n");
+//                                historicoTemp += (item + "/");
                             }
                         }
-                        out.print(historicoTemp); // enviar 
-                        System.out.println("enviado historico condutor");
+//                        out.print(historicoTemp); // enviar 
+                        out.println(historicoTemp); // enviar 
+                        System.out.println("enviado historico condutor: " + historicoTemp + " ::::");
 
                     } else if (this.processoTempArray[0].equals("AceitarPedidoViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
                         // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
@@ -259,7 +261,7 @@ public class ThreadClientes extends Thread {
                             this.credenciaisUsers.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]);
                             outputLine = "Registado";
                         }
-                        System.out.println("User Registo status"+outputLine);
+                        System.out.println("User Registo status" + outputLine);
                         out.println(outputLine); // o que envia
 
                     } else if (this.processoTempArray[0].equals("LogIn")) {// --------------------------------------------------------------------------------------------------------- Login
@@ -287,7 +289,7 @@ public class ThreadClientes extends Thread {
                         } else {
                             outputLine = "ClienteNaoExiste";
                         }
-                        System.out.println("User LogIn status"+outputLine);
+                        System.out.println("User LogIn status" + outputLine);
                         out.println(outputLine); // o que envia
 
                     } else {
@@ -316,8 +318,8 @@ public class ThreadClientes extends Thread {
                                 historicoTemp += (item + "\n");
                             }
                         }
-                        out.print(historicoTemp); // enviar mudei de println() para print()
-
+                        out.println(historicoTemp); // enviar mudei de println() para print()
+                        System.out.println("::fim de historico::");
                     } else if (this.processoTempArray[0].equals("SolicitarViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
                         // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
                         boolean existFlag = false;
@@ -330,7 +332,7 @@ public class ThreadClientes extends Thread {
                         this.mensagensPorEnviarMulicast.add("Add/" + this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
 
                         while ((inputLine = in.readLine()) != null) { // lê pontuação dada
-                            System.out.println("Pontuação dada" + inputLine);
+                            System.out.println("Pontuação dada " + inputLine);
                             this.processoTemp = inputLine;
                             this.historicoPontos.add(inputLine);
                             break;
