@@ -25,15 +25,18 @@ public class Server {
         int port = 7777;
         boolean listening = true;
         
-        ArrayList listaCondutores = new ArrayList();
-        ArrayList listaUsers = new ArrayList();
+        ArrayList listaCondutores = new ArrayList(); // guarda socket de condutores
+        ArrayList listaUsers = new ArrayList(); // guarda socket de users
         ArrayList historicoPontos = new ArrayList(); // [quem submeteu(condutor/user),para quem(condutor/user),pontuação]
         ArrayList credenciaisCondutores  = new ArrayList(); // [username,password]
         ArrayList credenciaisUsers  = new ArrayList(); // [username,password]
         
-        SynchronizedArrayList mensagensPorEnviar = new SynchronizedArrayList();
-        SynchronizedArrayList mensagensPorEnviarMulticast = new SynchronizedArrayList();
-        SynchronizedArrayList historicoMensagens = new SynchronizedArrayList();
+        USClist listaUserSocket = new USClist(); // lista que cria a relação entre sockets e usernames tanto dos Users como dos Condutores
+        
+        SynchronizedArrayList mensagensPorEnviar = new SynchronizedArrayList(); // este não vai ser usado por causa da descontinuação de "ThreadEnviaMensagens"
+        SynchronizedArrayList mensagensPorEnviarMulticast = new SynchronizedArrayList(); // mensagens contendo pacotes a informar que "existe um pedido de viagem" e "um pedido de viagem já foi tomado"
+        SynchronizedArrayList historicoMensagens = new SynchronizedArrayList(); // guarda todas as mensagens enviadas e recebidas
+        SynchronizedArrayList pedidosDeViagens = new SynchronizedArrayList(); // formato "UserQuePediu/Origem/Destino"
         
         try {
             serverSocket = new ServerSocket(port);
@@ -44,20 +47,23 @@ public class Server {
         }
         
         System.out.println("port: " + port);
-        new ThreadEnviaMensagens(listaCondutores,listaUsers,mensagensPorEnviar).start(); // envia mensagens tanto para Condutores como para Users (a escolha é processada lá dentro)
-        new CondutorMulticast(mensagensPorEnviarMulticast).star();     // multicast que envia para os condutores todos
+        
+        new ThreadEnviaMensagens(listaCondutores,listaUsers,mensagensPorEnviar,historicoMensagens,listaUserSocket).start(); // envia mensagens tanto para Condutores como para Users (a escolha é processada lá dentro)
+        new CondutorMulticast(mensagensPorEnviarMulticast,historicoMensagens).start();     // multicast que envia para os condutores todos
         
         while (listening) { // onde fica preso à espera de clientes
             // capturador de clientes
             Socket acceptedSocket = serverSocket.accept(); // recever clientes e o que eles enviam
-            new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos).start();
+            new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,listaUserSocket,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos,pedidosDeViagens).start();
         }
         
-        // 
+        // se ouver um "Exception in thread "WorkerThread" java.lang.NullPointerException
+	// at ubersimples.ThreadClientes.run(ThreadClientes.java:83)"
+        // será que dá para o tirar da lista de clientes ativos ??
 
         serverSocket.close();
         
-        
+        // por os processos todos a parar quando a execução acabar tanto para o SERVER como para os CONDUTORES como para os USERS
         
     }
     

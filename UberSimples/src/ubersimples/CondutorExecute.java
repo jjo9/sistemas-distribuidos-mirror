@@ -18,7 +18,7 @@ public class CondutorExecute {
         // --- CONDUTOR ---
         
         ClienteCondutor condutor1 = new ClienteCondutor();
-        condutor1.menu();
+        condutor1.menu();   // posso experimentar iniciar o metedo do menu no construtor !!
     }
     
 }

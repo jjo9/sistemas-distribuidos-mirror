@@ -14,24 +14,39 @@ import java.util.ArrayList;
 public class SynchronizedArrayList {
 
     private ArrayList list;
-    
+
     public SynchronizedArrayList() {
         this.list = new ArrayList();
     }
-    
+
     public synchronized void add(Object o) {
         list.add(o);
     }
 
-    public synchronized ArrayList get() {
+    public synchronized ArrayList get() { // devia tirar este e criar um que só retornava uma posição em vez de retornar tudo ...
         return list;
     }
-    
+
     public synchronized void clear() {
         list.clear();
     }
-    
+
     public synchronized int getSize() {
         return list.size();
+    }
+
+    public synchronized void removeFromPosition(int position) {
+        list.remove(position);
+    }
+
+    @Override
+    public synchronized String toString() {
+        String re = "";
+
+        for (int x = 0; x < list.size(); x++) { // por index 
+            re += ("index:"+x+":"+list.get(x) + "\n");
+        }
+
+        return re;
     }
 }

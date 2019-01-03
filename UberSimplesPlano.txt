@@ -1,5 +1,7 @@
 ﻿UberSimplesV1
 
+Para entregar até Dia "06/01/2019"
+
 Plano/Raciocinio
 
 Class: Cliente User
@@ -62,7 +64,9 @@ Class: Servidor
 MultiThreading - ligações de vários clientes em simultâneo
 guardar hisorico (clientes, viagens, pontuações, etc) // ou seja 
 // ? quando um "Cliente" quer ver o seu historico faz o pedido ao server e este tem essa info toda guardada em memoria e envia por mensagem ?
+\-> faz um pedido ao server
 // ? ou seja o cliente não tem isso na sua memoria interna ?
+\-> não só tá guardado no server
 
 Pedidos de viagens do servidor para os clientes condutor devem ser efetuados via multicast.
 
@@ -73,6 +77,7 @@ notas:
 pedido de estorico é feitos ao servidor(esta info só está lá)
 se condutor ficar disponivel depois de ter sido feito multicast aos condutores disponiveis ignorar (para já)
 cliente pode cancelar peedido de carro
+\-> para o fim no fim 
 
 ?? Como é que vamos fazer o LogIN/registo ??
 - a info tá armazenada no server
@@ -89,3 +94,149 @@ ou seja o formato de envio do servidor é
 [precisasse][quem é o cliente]
 [já foi tomado][quem é o cliente]
 
+// ho shit o cliente vai .. ho espera... tava tipo
+o cliente Condutor vai ter que receber por Multicast e por normal mas se não der com a mesma socket acho que dá para fazer outra thread
+echoSocketRecebe.joinGroup(address); // e este é só para receber tou quase posiivo que posso fazer duas threads uma para receber normal e outra para receber multicast 
+
+// no historico vão ser guardadas as mensagens recebidas e enviadas
+
+// para os clientes enviarem coisas faz-se uma arrayList na thread de envio faze-se
+while list != empty
+	send list[0]
+	list[0] remove
+	
+\\ e em todas as operações do cliente ao carregar numa opção que é suposto enviar algo para o server
+\\ este apenas faz lista.append("string num formato pre defenido para que o ser saiba o que fazer e não estourar")
+
+// tipo nos clientes"User" tenho que gravar o qeu recebem num array ? ou imprimo só?
+// tenho que as processar à mesma não ?
+
+// começar Thread nos construtores sim ou não ?!
+
+// fazer LogOut ??? se calhar o server tem que saber que o tipo já não está lá ?!
+
+// ao fazer registo com sucesso não preciso de o logar automaticamente
+
+'''
+#conversa ?!?!?
+>agora que penso nisso precisamos de por o duas Threads no User ?
+>no Condutor sim para o multicast
+>hummmmm acho que funciona à  mesma
+>só não é tão optimizado
+>fica para o fim
+'''
+
+
+
+'''
+# aqui "no Server" tenho dois loops um para o User e outro para o Condutor então não preciso de por no inicio de cada pacote a dizer se é Condutor ou User
+
+this.processoTempArray = this.processoTemp.split("/"); // separa "TipoDeCliente/Username/Password" por "/"
+
+if(this.processoTempArray[0].equals(""))
+'''
+
+// se vir que não dá pego e ponho TipoDeCliente no inicio de cada um dos pacotes
+
+--- Formato de Pacotes ---   tratamento de dados não deixar inserir / em sitio nenhum !!!!!!!!!!!!!! Critico !!!!!!!!!!!!!!!!!
+
+[] Cliente -> Server (o que o Server recebe do Cliente)
+
+# Registo
+"Registo/Username/Password"
+
+# LogIn
+"LogIn/Username/Password"
+
+# credenciais são guardadas em credenciaisCondutores/credenciaisUsers no formato
+"Username/Password"
+
+# historico
+"historico/" # pois o server já sabe quem é o cliente
+
+# solicitar viagem [User]
+"SolicitarViagem/username/origem/destino"
+
+# pedido de viagem [Condutor]
+"AceitarPedidoViagem/UserQuePediu/Origem/Destino" # ele sabe que viagem é porque recebeu por Multicast/ also não vai haver repetidos pois cada user só pode pedir uma viagem de cada vez
+
+# UserPontuaCondutor
+"Condutor/User/pontuacao/origem/destino"
+
+[] Server-> Cliente (o que o Cliente recebe do Recebe)
+
+# Historico 
+"Condutor/User/pontuacao/origem/destino"
+
+# Multicast a dizer que aquele pedido existe
+"Add/User/origem/destino"
+
+# Multicast a dizer que aquele pedido já foi tomado
+"Drop/User/origem/destino"
+
+# mensagens por enviar
+"Username/Tipo/Mensagem"
+
+
+-------------------------------
+
+# todas as mensagens para o server têm que acabar em "/" ex.:  "historico/" porque o .split("/") é sempre feito
+
+# em --> ThreadClientes.java no fim por tudo em metdos porque assim está muito confuso o codigo
+e não dá para ler tão bem depois coisas que se repetem podem ser condensadas
+
+
+## FIX THIS
+
+-->ThreadClientes.java
+limpar this.processoTempArray em  antes de usar ou fazer dela uma variavel local ao metedo ! 
+
+
+--> Cliente.java
+--> ClienteCondutor.java
+--> ClienteUser.java
+// por os arrays lists de enviar e receber condutores no Cliente.java (pai) para poder por o metedo send Creds2 server a funcionar como deve de ser
+quem diz aquele metedo diz todos os metedos presentes em Cliente.java que precisam de Enviar e Receber pacotes !!
+
+
+--> ClienteCondutor.java
+// ERRO isto não é condutor RECEBE MULTYCAST !!!!!!!!!!! CRITICO !!!!!!!!!!!!!
+new CondutorMulticast(mensagemPorEnviarCondutor, mensagemPorEnviarCondutor).start(); 
+
+-->ThreadClientes.java
+// acho que também tenho que por o Credenciais Condutores e Credenciais User como SyncronizedArrayList para funcionar bem no enanced
+for loop que faz o registo e login
+
+
+--> Para tudo do server
+// verificar se gravo no historico tudo o que ponho no System out bem como tudo o que é enviado e recebido (por data e hora também)
+
+-->ThreadClientes.java
+no registo mudar para guardar passwords como HASHS (no fim)
+
+-->ThreadClientes.java
+mudar implementação da funcionalidade de sair do menu (aka sair do programa) pois para já não dá para sair do programa a partir do 
+menu do Cliente
+
+-->ThreadClientes.java
+devia ter uma nova arquitetura tipo:
+
+lê o que lhe é envia (no atual é meio confuso tenho tipo bue de cenas a serem processadas... e volto a repetir varias vezes pelo codigo a baixo)
+
+if == Condutor:
+	switch:
+	diferentes estados de progresso
+	diferentes estados de progresso
+	diferentes estados de progresso
+	diferentes estados de progresso
+else if == User
+	switch:
+	diferentes estados de progresso
+	diferentes estados de progresso
+	diferentes estados de progresso
+	diferentes estados de progresso
+else print "erro"
+### To fix / Debug
+--> erro ao sair quer antes e depois do login!
+--> User, vejo o historico uma vez, vejo o historico uma segunda vez e fica encravado ----> ainda não sei o porque de acontecer acho que tem a ver com o \n
+--> erro quando um condutor aceita a segunda viagem do mesmo user // acho que é o faacto de pedir o historico que parte as coisas 
