@@ -249,7 +249,7 @@ else print "erro"
 --> condutor rejeitar viagem-> tirar da lista do condutor-> "se toda os Condutores regeitarem avisar User"
 --> adicionar redundancia no condutor/User
     \-> User manda pedido ... Condutor recebe pedido crasha ... volta a logar ainda pode voltar a ver o pedido
-	
+--> se User pedir viagem e não ouver codutores disponiveis avisar USer
 	
 	
 	
