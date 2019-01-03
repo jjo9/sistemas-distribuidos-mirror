@@ -57,7 +57,7 @@ public class ClienteUser extends Cliente {
     @Override
     void historico() {
         System.out.println("----- Historico -----");
-        String pacoteRecebido;
+        ArrayList pacoteRecebido;
 
         // para ver o historico fazer pedido ao servidor, este envia toda a informação
         this.mensagemPorEnviarUser.add("Historico/");
@@ -70,8 +70,9 @@ public class ClienteUser extends Cliente {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (this.mensagemRecebidasUser.getSize() != 0) {
-                pacoteRecebido = (String) this.mensagemRecebidasUser.get().get(0);
-                this.mensagemRecebidasUser.removeFromPosition(0);
+//                pacoteRecebido = (String) this.mensagemRecebidasUser.get().get(0);
+//                this.mensagemRecebidasUser.removeFromPosition(0);
+                pacoteRecebido = this.mensagemRecebidasUser.get();
                 break;
             }
         }
@@ -79,8 +80,16 @@ public class ClienteUser extends Cliente {
         if (pacoteRecebido.equals("")) {
             System.out.println("Historico vazio");
         } else {
-            System.out.println(pacoteRecebido);
+            //System.out.println(pacoteRecebido);
+            for (int x = 0;x<pacoteRecebido.size();x++){
+                System.out.println(""+pacoteRecebido.get(x));
+            }
         }
+
+        // limpar historico da lista de mensagens recevidas localmente
+        this.mensagemRecebidasUser.clear();
+        System.out.println("---------------------");
+
     }
 
     public int pedirViagem() {
@@ -163,7 +172,7 @@ public class ClienteUser extends Cliente {
         BufferedReader lerMenu = new BufferedReader(new InputStreamReader(System.in));
 
         this.mensagemPorEnviarUser.add("User"); // para que o server consiga saber em que array vai guardar o Cliente
-        
+
         while (menuRuning) {
             System.out.print(" --- User --- \n"
                     + " 1 -> registo\n"
@@ -191,11 +200,11 @@ public class ClienteUser extends Cliente {
 
         while (menuRuning) {
             //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG 
-            System.out.println("lista:Enviar::"+this.mensagemPorEnviarUser);
-            System.out.println("lista:Recebidas::"+this.mensagemRecebidasUser);
+            System.out.println("lista:Enviar::" + this.mensagemPorEnviarUser);
+            System.out.println("lista:Recebidas::" + this.mensagemRecebidasUser);
             //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG //  DEBUG 
             System.out.println(" --- User --- ");
-            System.out.println("Username: "+this.username);
+            System.out.println("Username: " + this.username);
             System.out.print(" 1 -> ver historico\n"
                     + " 2 -> solicitar viagem\n"
                     + " 3 -> opção3\n"
@@ -203,7 +212,7 @@ public class ClienteUser extends Cliente {
 
             try {
                 String opcao = lerMenu.readLine();
-                
+
                 if (opcao.compareTo("1") == 0) {
                     historico();
                 } else if (opcao.compareTo("2") == 0) {
@@ -219,9 +228,8 @@ public class ClienteUser extends Cliente {
             }
 
         }
-        
-        // parar Threads aqui ao sair !!! com o ativo
 
+        // parar Threads aqui ao sair !!! com o ativo
         return re;
 
     }

@@ -319,7 +319,7 @@ public class ThreadClientes extends Thread {
                             }
                         }
                         out.println(historicoTemp); // enviar mudei de println() para print()
-                        System.out.println("::fim de historico::");
+                        System.out.println("::fim de historico do User::");
                     } else if (this.processoTempArray[0].equals("SolicitarViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
                         // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
                         boolean existFlag = false;
