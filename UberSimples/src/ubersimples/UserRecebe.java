@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,10 +21,12 @@ public class UserRecebe extends Thread {
 
     Socket echoSocket = null;
     SynchronizedArrayList mensagemRecebidasUser;
+    ArrayList ativo;
 
-    public UserRecebe(Socket echoSocket, SynchronizedArrayList mensagemRecebidasUser) {
+    public UserRecebe(Socket echoSocket, SynchronizedArrayList mensagemRecebidasUser, ArrayList ativo) {
         this.echoSocket = echoSocket;
         this.mensagemRecebidasUser = mensagemRecebidasUser;
+        this.ativo = ativo;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class UserRecebe extends Thread {
         BufferedReader in;
         try {
             in = new BufferedReader(new InputStreamReader(this.echoSocket.getInputStream())); // para se obter um objeto do tipo BufferedReader
-            while (((recebo = in.readLine()) != null) && (this.echoSocket != null)) {
+            while ((!this.ativo.isEmpty()) && ((recebo = in.readLine()) != null) && (this.echoSocket != null)) {
                 this.mensagemRecebidasUser.add(recebo);
                 System.out.println("recebo: " + recebo);
             }
@@ -43,6 +46,6 @@ public class UserRecebe extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(CondutorRecebe.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        System.out.println("--- Thread Recebe foi fechada ---");
     }
 }

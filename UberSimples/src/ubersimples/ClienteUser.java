@@ -48,7 +48,7 @@ public class ClienteUser extends Cliente {
             // criar uma thread para enviar
             new UserEnvia(echoSocket, mensagemPorEnviarUser, ativo).start();
             // criar uma thread para receber normal
-            new UserRecebe(echoSocket, mensagemRecebidasUser).start();
+            new UserRecebe(echoSocket, mensagemRecebidasUser, ativo).start();
         } catch (IOException ex) {
             Logger.getLogger(ClienteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -229,7 +229,29 @@ public class ClienteUser extends Cliente {
 
         }
 
+        
+        //antes de para as thread tenho que mandar para o server a dizer que terminei a seção
+        // assim sabe que pode fechar a thread de forma segura/ livertar sockets
+        this.mensagemPorEnviarUser.add("TerminaSessao/");
+        this.mensagemPorEnviarUser.add("TerminaSessao/");
+
+        // espera que a mensagem seja enviada
+        while (this.mensagemPorEnviarUser.getSize() != 0) {
+            try {
+                // para aquando não houver mensagens
+                sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         // parar Threads aqui ao sair !!! com o ativo
+        this.ativo.clear();
+        
+        System.out.println("--- Fim de execução ---");
+        
+        
+        
         return re;
 
     }

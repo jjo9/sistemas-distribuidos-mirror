@@ -63,10 +63,14 @@ public class CondutorEnvia extends Thread {
             }
 
         }
-        System.out.println("Envia foi fechado");
+        System.out.println("--- Thread Envia foi fechada ---");
         // stdIn.close();
         out.close();
 
-        //echoSocket.close(); //socket não será fechada aqui mas sim no programa principal
+        try {
+            echoSocket.close(); //socket não será fechada aqui mas sim no programa principal
+        } catch (IOException ex) {
+            Logger.getLogger(CondutorEnvia.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

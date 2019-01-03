@@ -36,7 +36,7 @@ public class CondutorRecebeMulticast extends Thread {
     public void run() {
 
         DatagramPacket packet;
-        while (!ativo.isEmpty()) { // eu sei 
+        while (!ativo.isEmpty()) {
             byte[] buf = new byte[256];
             packet = new DatagramPacket(buf, buf.length);
 
@@ -75,6 +75,8 @@ public class CondutorRecebeMulticast extends Thread {
             }
 
         }
+        
+        System.out.println("--- Thread Multicast foi fechada ---");
 
     }
 

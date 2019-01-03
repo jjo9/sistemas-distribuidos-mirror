@@ -312,6 +312,7 @@ public class ClienteCondutor extends Cliente {
         //antes de para as thread tenho que mandar para o server a dizer que terminei a seção
         // assim sabe que pode fechar a thread de forma segura/ livertar sockets
         this.mensagemPorEnviarCondutor.add("TerminaSessao/");
+        this.mensagemPorEnviarCondutor.add("TerminaSessao/");
 
         // espera que a mensagem seja enviada
         while (this.mensagemPorEnviarCondutor.getSize() != 0) {
@@ -325,6 +326,8 @@ public class ClienteCondutor extends Cliente {
 
         // parar Threads aqui ao sair !!! com o ativo
         this.activo.clear();
+        
+        System.out.println("--- Fim de execução ---");
         
         return re;
 

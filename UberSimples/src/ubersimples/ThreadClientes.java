@@ -165,8 +165,8 @@ public class ThreadClientes extends Thread {
                         System.out.println("Login Estado" + outputLine);
                         out.println(outputLine); // o que envia
 
-                    } else if (this.processoTempArray[0].equals("LogIn")) {
-                        
+                    } else if (this.processoTempArray[0].equals("TerminaSessao")) { // ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  
+                        outputLine = "Exit";
                     } else {
                         System.out.println("Erro no pacote de Registo/LogIn");
                     }
@@ -175,6 +175,9 @@ public class ThreadClientes extends Thread {
                     if (outputLine.equals("Sucesso")) {
                         System.out.println("--- Condutor Logado ---");
                         this.listaUserSocket.add(this.socket, this.username, this.clienteTipo); // adiciona link entre username e socket
+                        break;
+                    } else if (outputLine.equals("Exit")) {
+                        System.out.println("--- Condutor Saindo ---");
                         break;
                     }
                 }
@@ -245,10 +248,9 @@ public class ThreadClientes extends Thread {
                             out.println("PedidoNaoExiste"); // manda mensagem ao Condutor a dizer que não pode aceitar o pedido pois este já existe
                         }
 
-                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
-
-                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
-
+                    } else if (this.processoTempArray[0].equals("TerminaSessao")) { // ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  
+                        System.out.println("in session Desconetar...");
+                        break;
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
@@ -323,7 +325,8 @@ public class ThreadClientes extends Thread {
                         }
                         System.out.println("User LogIn status" + outputLine);
                         out.println(outputLine); // o que envia
-
+                    } else if (this.processoTempArray[0].equals("TerminaSessao")) { // ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  
+                        outputLine = "Exit";
                     } else {
                         System.out.println("Erro no pacote de Registo/LogIn");
                     }
@@ -332,6 +335,9 @@ public class ThreadClientes extends Thread {
                     if (outputLine.equals("Sucesso")) {
                         System.out.println("--- User Logado ---");
                         this.listaUserSocket.add(this.socket, this.username, this.clienteTipo); // adiciona link entre username e socket
+                        break;
+                    } else if (outputLine.equals("Exit")) {
+                        System.out.println("--- User Saindo ---");
                         break;
                     }
                 }
@@ -374,8 +380,9 @@ public class ThreadClientes extends Thread {
                         // ver pedidos de aceitação
                         // não preciso de fazer nada aqui por a espera é feita no user e os seguites envios para ele serão feitos pelo Condutor atravez do server 
                         // acho que depis tenho de esperar pela pontuação que o user atribuiu ao condutor ???
-                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
-
+                    } else if (this.processoTempArray[0].equals("TerminaSessao")) { // ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  
+                        System.out.println("in session Desconetar...");
+                        break;
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
@@ -395,11 +402,13 @@ public class ThreadClientes extends Thread {
                 }
 
                 in.close();
-                socket.close();
+                socket.close(); // fecha a socket que o liga ao cliente 
 
             } else {
                 System.out.println("Chegada de Cliente Erro!");
             }
+
+            System.out.println("Cliente Desconectado");
 
         } catch (IOException e) {
             e.printStackTrace();

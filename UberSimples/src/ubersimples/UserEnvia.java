@@ -72,5 +72,6 @@ public class UserEnvia extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(UserEnvia.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("--- Thread Envia foi fechada ---");
     }
 }
