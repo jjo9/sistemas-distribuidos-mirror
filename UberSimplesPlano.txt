@@ -240,10 +240,18 @@ else print "erro"
 --> erro ao sair quer antes e depois do login!
 [FIXED]--> User, vejo o historico uma vez, vejo o historico uma segunda vez e fica encravado ----> ainda não sei o porque de acontecer acho que tem a ver com o \n
 [FIXED]--> erro quando um condutor aceita a segunda viagem do mesmo user // acho que é o faacto de pedir o historico que parte as coisas 
+[FIXED]--> dois pedidos seguidos no user erro #-solução?-> limpar lista 
+[FIXED]--> incriptar passwords (incriptar no servidor)
 
 ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### 
 
-
-[FIXED]--> dois pedidos seguidos no user erro #-solução?-> limpar lista 
---> incriptar passwords (incriptar no servidor)
+--> sair fechar cenas todas
+--> condutor rejeitar viagem-> tirar da lista do condutor-> "se toda os Condutores regeitarem avisar User"
 --> adicionar redundancia no condutor/User
+    \-> User manda pedido ... Condutor recebe pedido crasha ... volta a logar ainda pode voltar a ver o pedido
+	
+	
+	
+	
+	
+	
