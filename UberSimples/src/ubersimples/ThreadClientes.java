@@ -9,7 +9,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.Socket;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 /**
@@ -50,8 +53,27 @@ public class ThreadClientes extends Thread {
         this.pedidosDeViagens = pedidosDeViagens; // onde estão guardados os pedidos de viagem
     }
 
+    public static String md5(String input) {
+        String md5 = null;
+        if (null == input) {
+            return null;
+        }
+        try {
+            //Create MessageDigest object for MD5
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            //Update input string in message digest
+            digest.update(input.getBytes(), 0, input.length());
+            //Converts message digest value in base 16 (hex) 
+            md5 = new BigInteger(1, digest.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return md5;
+    }
+
     @Override
     public void run() {
+        String salt = "WhatIsAManAMisarablePileOfSecrets...BueEnoughtTalk!HaveAtYou!12@$@4&#%^$*"; // maybe Fix ?!!? latter ?
 
         System.out.print("run() Started!");
 
@@ -105,7 +127,11 @@ public class ThreadClientes extends Thread {
                         if (flagJaExiste == true) { // username já exite
                             outputLine = "JaExiste";
                         } else {
-                            this.credenciaisCondutores.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]); // "nome/password"
+                            // password gravada em plainText
+                            //this.credenciaisCondutores.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]); // "nome/password"
+                            // password gravada com md5 e salt
+                            this.credenciaisCondutores.add(this.processoTempArray[1] + "/" + md5(this.processoTempArray[2] + salt)); // "nome/password"
+                            System.out.println("Condutor Registo Creds: " + this.processoTempArray[1] + "/" + md5(this.processoTempArray[2] + salt));
                             outputLine = "Registado";
                         }
                         System.out.println("Registo EStado" + outputLine);
@@ -126,7 +152,7 @@ public class ThreadClientes extends Thread {
                         }
                         if (flagJaExiste == true) { // se já existir ver se a password está certa
 
-                            if (this.processoTempArray[2].equals(passwordTemp)) { // password esta certa
+                            if (md5(this.processoTempArray[2] + salt).equals(passwordTemp)) { // password esta certa
                                 outputLine = "Sucesso";
                                 this.username = this.processoTempArray[1];
                             } else { // password esta errada
@@ -258,7 +284,11 @@ public class ThreadClientes extends Thread {
                         if (flagJaExiste == true) { // username já exite
                             outputLine = "JaExiste";
                         } else {
-                            this.credenciaisUsers.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]);
+                            // password gravada em plain text
+                            //this.credenciaisUsers.add(this.processoTempArray[1] + "/" + this.processoTempArray[2]); // username/password
+                            // password gravada com md5 e salt
+
+                            this.credenciaisUsers.add(this.processoTempArray[1] + "/" + md5(this.processoTempArray[2] + salt)); // username/password
                             outputLine = "Registado";
                         }
                         System.out.println("User Registo status" + outputLine);
@@ -279,7 +309,7 @@ public class ThreadClientes extends Thread {
                         }
                         if (flagJaExiste == true) { // se já existir ver se a password está certa
 
-                            if (this.processoTempArray[2].equals(passwordTemp)) { // password esta certa
+                            if (md5(this.processoTempArray[2] + salt).equals(passwordTemp)) { // password esta certa
                                 outputLine = "Sucesso";
                                 this.username = this.processoTempArray[1];
                             } else { // password esta errada
