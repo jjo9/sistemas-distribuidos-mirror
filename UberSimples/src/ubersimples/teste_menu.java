@@ -11,6 +11,7 @@ package ubersimples;
  */
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class teste_menu {
 
@@ -20,6 +21,7 @@ public class teste_menu {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        String nome = JTextField(nome);
         String nome = JOptionPane.showInputDialog("ensira o nome de utilizador");
         String pass = JOptionPane.showInputDialog("ensira a password");
         
