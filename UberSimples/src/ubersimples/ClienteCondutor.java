@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import static java.lang.Thread.sleep;
+import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.Socket;
@@ -89,8 +90,8 @@ public class ClienteCondutor extends Cliente {
 
     @Override
     void historico() {
-
-        String pacoteRecebido;
+        System.out.println("----- Historico -----");
+        ArrayList pacoteRecebido;
 
         // para ver o historico fazer pedido ao servidor, este envia toda a informação
         this.mensagemPorEnviarCondutor.add("Historico/");
@@ -104,22 +105,25 @@ public class ClienteCondutor extends Cliente {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
-//            if (this.mensagemRecebidasCondutor.getSize() != 0) {
-//                System.out.println("processando...");
-//                pacoteRecebido = (String) this.mensagemRecebidasCondutor.get().get(0);
-//                this.mensagemRecebidasCondutor.removeFromPosition(0);
-//                break;
-//            }
         }
+// isto só punha na variavel a primeira linha do historico
+//        pacoteRecebido = (String) this.mensagemRecebidasCondutor.get().get(0);
+//        this.mensagemRecebidasCondutor.removeFromPosition(0);
 
-        pacoteRecebido = (String) this.mensagemRecebidasCondutor.get().get(0);
-        this.mensagemRecebidasCondutor.removeFromPosition(0);
+        pacoteRecebido = this.mensagemRecebidasCondutor.get();
 
         if (pacoteRecebido.equals("")) {
             System.out.println("Historico vazio");
         } else {
-            System.out.println(pacoteRecebido);
+            //System.out.println(pacoteRecebido);
+            for (int x = 0;x<pacoteRecebido.size();x++){
+                System.out.println(""+pacoteRecebido.get(x));
+            }
         }
+
+        // limpar historico da lista de mensagens recevidas localmente
+        this.mensagemRecebidasCondutor.clear();
+        System.out.println("---------------------");
 
     }
 
