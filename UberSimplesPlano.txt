@@ -245,13 +245,11 @@ else print "erro"
 
 ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### 
 
---> sair fechar cenas todas
+--> sair fechar cenas todas -> *fetio*: Condutor mas mostra erro no fim, mas funciona 
+	\-> por fazer no server matar thread
 --> condutor rejeitar viagem-> tirar da lista do condutor-> "se toda os Condutores regeitarem avisar User"
 --> adicionar redundancia no condutor/User
     \-> User manda pedido ... Condutor recebe pedido crasha ... volta a logar ainda pode voltar a ver o pedido
 --> se User pedir viagem e não ouver codutores disponiveis avisar USer
-	
-	
-	
-	
-	
+
+## -> vai ajudar saber quantos clientes de cada tipo é que estão no server a um dado momento

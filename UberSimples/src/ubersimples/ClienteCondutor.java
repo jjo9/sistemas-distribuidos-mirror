@@ -55,9 +55,9 @@ public class ClienteCondutor extends Cliente {
             // ao iniciar temos que por a correr as threads de enviar e receber ??
             Socket echoSocket = new Socket("127.0.0.1", 7777); // é usada para estabelecer a ligação
             // criar uma thread para enviar
-            new CondutorEnvia(echoSocket, mensagemPorEnviarCondutor, this.activo).start();
+            new CondutorEnvia(echoSocket, mensagemPorEnviarCondutor, activo).start();
             // criar uma thread para receber normal
-            new CondutorRecebe(echoSocket, mensagemRecebidasCondutor, estado).start();
+            new CondutorRecebe(echoSocket, mensagemRecebidasCondutor, estado, activo).start();
             // criar uma thread para receber em multicast
             MulticastSocket echoSocketRecebe = new MulticastSocket(4446);
             InetAddress address = InetAddress.getByName("230.0.0.1");
@@ -116,8 +116,8 @@ public class ClienteCondutor extends Cliente {
             System.out.println("Historico vazio");
         } else {
             //System.out.println(pacoteRecebido);
-            for (int x = 0;x<pacoteRecebido.size();x++){
-                System.out.println(""+pacoteRecebido.get(x));
+            for (int x = 0; x < pacoteRecebido.size(); x++) {
+                System.out.println("" + pacoteRecebido.get(x));
             }
         }
 
@@ -301,7 +301,7 @@ public class ClienteCondutor extends Cliente {
                 } else if (opcao.compareTo("0") == 0) {
                     // sair
                     menuRuning = false;
-                    this.activo.clear(); // para para as cenas todas ...
+                    //this.activo.clear(); // para para as cenas todas ...
                 }
 
             } catch (IOException ex) {
@@ -309,8 +309,23 @@ public class ClienteCondutor extends Cliente {
             }
 
         }
+        //antes de para as thread tenho que mandar para o server a dizer que terminei a seção
+        // assim sabe que pode fechar a thread de forma segura/ livertar sockets
+        this.mensagemPorEnviarCondutor.add("TerminaSessao/");
+
+        // espera que a mensagem seja enviada
+        while (this.mensagemPorEnviarCondutor.getSize() != 0) {
+            try {
+                // para aquando não houver mensagens
+                sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         // parar Threads aqui ao sair !!! com o ativo
+        this.activo.clear();
+        
         return re;
 
     }

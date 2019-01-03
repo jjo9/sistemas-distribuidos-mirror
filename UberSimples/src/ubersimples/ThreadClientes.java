@@ -108,7 +108,7 @@ public class ThreadClientes extends Thread {
 
                 // ------------ processo normal para ler para sempre o que está a enviar
                 while ((inputLine = in.readLine()) != null) { // lê o que o CONDUTOR lhe envia
-                    System.out.println("Condutor Input Login" + inputLine); ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  
+                    System.out.println("Condutor Input Login " + inputLine); ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  DEBUG   ////  
                     this.processoTemp = inputLine; // variavel temporaria que armazena o pacote de informação enviado pelo cliente
                     // --- Loop de LogIn ---
                     // ver se é Registo ou LogIn
@@ -165,6 +165,8 @@ public class ThreadClientes extends Thread {
                         System.out.println("Login Estado" + outputLine);
                         out.println(outputLine); // o que envia
 
+                    } else if (this.processoTempArray[0].equals("LogIn")) {
+                        
                     } else {
                         System.out.println("Erro no pacote de Registo/LogIn");
                     }

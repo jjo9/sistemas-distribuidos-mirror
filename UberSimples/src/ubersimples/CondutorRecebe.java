@@ -22,11 +22,13 @@ public class CondutorRecebe extends Thread {
     Socket echoSocket = null;
     SynchronizedArrayList mensagemRecebidasCondutor;
     ArrayList estado;
+    ArrayList activo;
 
-    public CondutorRecebe(Socket echoSocket, SynchronizedArrayList mensagemRecebidasCondutor, ArrayList estado) {
+    public CondutorRecebe(Socket echoSocket, SynchronizedArrayList mensagemRecebidasCondutor, ArrayList estado, ArrayList activo) {
         this.echoSocket = echoSocket;
         this.mensagemRecebidasCondutor = mensagemRecebidasCondutor;
         this.estado = estado;
+        this.activo = activo;
     }
 
     @Override
@@ -36,19 +38,20 @@ public class CondutorRecebe extends Thread {
         BufferedReader in;
         try {
             in = new BufferedReader(new InputStreamReader(this.echoSocket.getInputStream())); // para se obter um objeto do tipo BufferedReader
-            while (((recebo = in.readLine()) != null) && (this.echoSocket != null)) {
+            while ((!this.activo.isEmpty()) && ((recebo = in.readLine()) != null) && (this.echoSocket != null)) {
+            //while (((recebo = in.readLine()) != null) && (this.echoSocket != null)) {
                 if (!this.estado.isEmpty()) { // modo de não incomodar 
-                    
+
                     this.mensagemRecebidasCondutor.add(recebo);
                     System.out.println("recebo: " + recebo);
-                }else{ // mas esta aqui à mesma 
+                } else { // mas esta aqui à mesma 
                     this.mensagemRecebidasCondutor.add(recebo); // acho que nunca é usado ...
                     System.out.println("recebo mas não quero ser incomodado: " + recebo); // acho que nunca é usado ...
                 }
             }
             //System.out.println("Recebe Closed");
             in.close();
-            this.echoSocket.close();
+            //this.echoSocket.close(); //socket não será fechada aqui mas sim no programa principal
         } catch (IOException ex) {
             Logger.getLogger(CondutorRecebe.class.getName()).log(Level.SEVERE, null, ex);
         }
