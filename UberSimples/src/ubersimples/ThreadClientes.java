@@ -242,6 +242,8 @@ public class ThreadClientes extends Thread {
                         if (existFlag) { // continuação do se existir
                             out.println("PedidoAceite"); // informa que o pedido existe e foi aceite
 
+                            this.mensagensPorEnviar.add(this.processoTempArray[1] + "/User/" + "CondutorEncontrado");
+
                             String oSeuCondutor = this.processoTempArray[1] + "/User/" + this.username;
 
                             this.mensagensPorEnviar.add(oSeuCondutor); // envio ao "User" a dizer quem é condutor
@@ -285,7 +287,19 @@ public class ThreadClientes extends Thread {
                         }
 
                         break;
-                    } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
+                    } else if (this.processoTempArray[0].equals("RecusarPedidoViagem")) {
+                        // formato "RecusarPedidoViagem/UserQuePediu/Origem/Destino"
+                        // qual a viagem que vai ser recusada 
+                        String viagemRecusada = (this.processoTempArray[1] + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]); //   "username/origem/destino"
+                        // envio para o User que a viagem foi recusada e qual o numero de Condutores ainda disponiveis
+                        // se um Condutor fizer LogOut envio também essa info mas este é para todos os Users
+
+                        // "Username/Tipo/Mensagem"
+                        // "Username/Tipo/Espera/Numero de Condutores ativos"
+                        if (this.clientsCount.get(1) == 0) {
+                            viagemRecusada = "NaoHaMais";
+                        }
+                        this.mensagensPorEnviar.add(this.processoTempArray[1] + "/User/" + viagemRecusada);
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
@@ -415,11 +429,11 @@ public class ThreadClientes extends Thread {
 
                             // tenho que adicionar às mensagens existentes de pedidos 
                             this.pedidosDeViagens.add(this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
-                            // 
+
                             // tenho que o por na lista de mensagens por enviar Multicast ????
                             // separo e vai para o multicast porque aqui não precisa de ser mais processada
                             this.mensagensPorEnviarMulicast.add("Add/" + this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
-
+                            this.mensagensPorEnviar.add(this.username + "/User/Espera:CondutoresOnline:" + this.clientsCount.get(1));
                             while ((inputLine = in.readLine()) != null) { // lê pontuação dada
                                 System.out.println("Pontuação dada " + inputLine);
                                 this.processoTemp = inputLine;
