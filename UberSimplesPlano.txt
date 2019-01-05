@@ -237,7 +237,7 @@ else if == User
 	diferentes estados de progresso
 else print "erro"
 ### To fix / Debug
---> erro ao sair quer antes e depois do login!
+[FIXED]--> erro ao sair quer antes e depois do login!
 [FIXED]--> User, vejo o historico uma vez, vejo o historico uma segunda vez e fica encravado ----> ainda não sei o porque de acontecer acho que tem a ver com o \n
 [FIXED]--> erro quando um condutor aceita a segunda viagem do mesmo user // acho que é o faacto de pedir o historico que parte as coisas 
 [FIXED]--> dois pedidos seguidos no user erro #-solução?-> limpar lista 
@@ -245,11 +245,13 @@ else print "erro"
 
 ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### 
 
---> sair fechar cenas todas -> *fetio*: Condutor mas mostra erro no fim, mas funciona 
+[FIXED]--> sair fechar cenas todas -> *fetio*: Condutor mas mostra erro no fim, mas funciona 
 	\-> por fazer no server matar thread
 --> condutor rejeitar viagem-> tirar da lista do condutor-> "se toda os Condutores regeitarem avisar User"
 --> adicionar redundancia no condutor/User
     \-> User manda pedido ... Condutor recebe pedido crasha ... volta a logar ainda pode voltar a ver o pedido
---> se User pedir viagem e não ouver codutores disponiveis avisar USer
-
+[A TRABALHAR NESTE]--> se User pedir viagem e não ouver codutores disponiveis avisar USer
+--> o mesmo user pode-se logar mais do que uma vez tipo (low priority)
 ## -> vai ajudar saber quantos clientes de cada tipo é que estão no server a um dado momento
+
+

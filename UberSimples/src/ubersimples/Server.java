@@ -30,6 +30,11 @@ public class Server {
         ArrayList historicoPontos = new ArrayList(); // [quem submeteu(condutor/user),para quem(condutor/user),pontuação]
         ArrayList credenciaisCondutores  = new ArrayList(); // [username,password]
         ArrayList credenciaisUsers  = new ArrayList(); // [username,password]
+        // será que devia ser sincornized ?
+        ArrayList<Integer> clientsCount  = new ArrayList(); // [Total,Condutores,Users]
+        clientsCount.add(0);
+        clientsCount.add(0);
+        clientsCount.add(0);
         
         USClist listaUserSocket = new USClist(); // lista que cria a relação entre sockets e usernames tanto dos Users como dos Condutores
         
@@ -54,7 +59,7 @@ public class Server {
         while (listening) { // onde fica preso à espera de clientes
             // capturador de clientes
             Socket acceptedSocket = serverSocket.accept(); // recever clientes e o que eles enviam
-            new ThreadClientes(acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,listaUserSocket,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos,pedidosDeViagens).start();
+            new ThreadClientes(clientsCount,acceptedSocket,listaCondutores,listaUsers,credenciaisCondutores,credenciaisUsers,listaUserSocket,mensagensPorEnviar,mensagensPorEnviarMulticast,historicoMensagens,historicoPontos,pedidosDeViagens).start();
         }
         
         // se ouver um "Exception in thread "WorkerThread" java.lang.NullPointerException

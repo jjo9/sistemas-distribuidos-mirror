@@ -37,8 +37,11 @@ public class ThreadClientes extends Thread {
     String clienteTipo;
     String processoTemp;
     String[] processoTempArray;
+    ArrayList<Integer> clientsCount;
 
-    public ThreadClientes(Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, USClist listaUserSocket, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos, SynchronizedArrayList pedidosDeViagens) {
+    boolean logado = false;
+
+    public ThreadClientes(ArrayList clientsCount, Socket acceptedSocket, ArrayList listaCondutores, ArrayList listaUsers, ArrayList credenciaisCondutores, ArrayList credenciaisUsers, USClist listaUserSocket, SynchronizedArrayList mensagensPorEnviar, SynchronizedArrayList mensagensPorEnviarMulticast, SynchronizedArrayList historicoMensagens, ArrayList historicoPontos, SynchronizedArrayList pedidosDeViagens) {
         super("WorkerThread");
         this.socket = acceptedSocket;
         this.listaCondutores = listaCondutores;
@@ -51,6 +54,7 @@ public class ThreadClientes extends Thread {
         this.historicoMensagens = historicoMensagens;
         this.historicoPontos = historicoPontos; // formato "Condutor/User/pontuacao/origem/destino"
         this.pedidosDeViagens = pedidosDeViagens; // onde estão guardados os pedidos de viagem
+        this.clientsCount = clientsCount; // [Total,Condutores,Users]
     }
 
     public static String md5(String input) {
@@ -76,6 +80,9 @@ public class ThreadClientes extends Thread {
         String salt = "WhatIsAManAMisarablePileOfSecrets...BueEnoughtTalk!HaveAtYou!12@$@4&#%^$*"; // maybe Fix ?!!? latter ?
 
         System.out.print("run() Started!");
+        int novoNum;
+        
+        // ARRANJAR FORMA DE UM USER NÃO PODER FAZER LOGIN DUAS VEZES AO MESMO TEMPO ---------------------------------------------------------------------------------------------
 
         try {
             // para leitura do que o cliente envia para o server
@@ -103,6 +110,7 @@ public class ThreadClientes extends Thread {
                     break;
                 }
             }
+
             // sai do loop de reconheciemnto e passa para o loop de LogIn
             if (this.clienteTipo.equals("Condutor")) {// ------------------------------------------------------------------------------------------------------------------------ Tudo para CONDUTOR
 
@@ -175,6 +183,19 @@ public class ThreadClientes extends Thread {
                     if (outputLine.equals("Sucesso")) {
                         System.out.println("--- Condutor Logado ---");
                         this.listaUserSocket.add(this.socket, this.username, this.clienteTipo); // adiciona link entre username e socket
+                        this.logado = true;
+                        // corresponde ao Condutor
+                        novoNum = this.clientsCount.get(1);
+                        novoNum++;
+                        this.clientsCount.set(1, novoNum);
+                        // Incremento para posição "0" que corresponde ao total de Clientes
+                        novoNum = this.clientsCount.get(0);
+                        novoNum++;
+                        this.clientsCount.set(0, novoNum);
+                        System.out.println("Current Client Count: " + this.clientsCount.get(0));
+                        System.out.println("Current Condutor Count: " + this.clientsCount.get(1));
+                        System.out.println("Current User Count: " + this.clientsCount.get(2));
+
                         break;
                     } else if (outputLine.equals("Exit")) {
                         System.out.println("--- Condutor Saindo ---");
@@ -250,6 +271,20 @@ public class ThreadClientes extends Thread {
 
                     } else if (this.processoTempArray[0].equals("TerminaSessao")) { // ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  
                         System.out.println("in session Desconetar...");
+                        if (this.logado) {
+                            // remove Condutor
+                            novoNum = this.clientsCount.get(1);
+                            novoNum--;
+                            this.clientsCount.set(1, novoNum);
+                            // Incremento para posição "0" que corresponde ao total de Clientes
+                            novoNum = this.clientsCount.get(0);
+                            novoNum--;
+                            this.clientsCount.set(0, novoNum);
+                            System.out.println("Current Client Count: " + this.clientsCount.get(0));
+                            System.out.println("Current Condutor Count: " + this.clientsCount.get(1));
+                            System.out.println("Current User Count: " + this.clientsCount.get(2));
+                        }
+
                         break;
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
@@ -335,6 +370,18 @@ public class ThreadClientes extends Thread {
                     if (outputLine.equals("Sucesso")) {
                         System.out.println("--- User Logado ---");
                         this.listaUserSocket.add(this.socket, this.username, this.clienteTipo); // adiciona link entre username e socket
+                        this.logado = true;
+                        novoNum = this.clientsCount.get(2);
+                        novoNum++;
+                        this.clientsCount.set(2, novoNum);
+                        // Incremento para posição "0" que corresponde ao total de Clientes
+                        novoNum = this.clientsCount.get(0);
+                        novoNum++;
+                        this.clientsCount.set(0, novoNum);
+                        System.out.println("Current Client Count: " + this.clientsCount.get(0));
+                        System.out.println("Current Condutor Count: " + this.clientsCount.get(1));
+                        System.out.println("Current User Count: " + this.clientsCount.get(2));
+
                         break;
                     } else if (outputLine.equals("Exit")) {
                         System.out.println("--- User Saindo ---");
@@ -382,6 +429,19 @@ public class ThreadClientes extends Thread {
                         // acho que depis tenho de esperar pela pontuação que o user atribuiu ao condutor ???
                     } else if (this.processoTempArray[0].equals("TerminaSessao")) { // ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  
                         System.out.println("in session Desconetar...");
+                        if (this.logado) {
+                            // remove User
+                            novoNum = this.clientsCount.get(2);
+                            novoNum--;
+                            this.clientsCount.set(2, novoNum);
+                            // Incremento para posição "0" que corresponde ao total de Clientes
+                            novoNum = this.clientsCount.get(0);
+                            novoNum--;
+                            this.clientsCount.set(0, novoNum);
+                            System.out.println("Current Client Count: " + this.clientsCount.get(0));
+                            System.out.println("Current Condutor Count: " + this.clientsCount.get(1));
+                            System.out.println("Current User Count: " + this.clientsCount.get(2));
+                        }
                         break;
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
@@ -410,6 +470,13 @@ public class ThreadClientes extends Thread {
 
             System.out.println("Cliente Desconectado");
 
+            // Incremento para posição "0" que corresponde ao total de Clientes
+//            novoNum = this.clientsCount.get(0);
+//            novoNum--;
+//            this.clientsCount.set(0, novoNum);
+//            System.out.println("Current Client Count: " + this.clientsCount.get(0));
+//            System.out.println("Current Condutor Count: " + this.clientsCount.get(1));
+//            System.out.println("Current User Count: " + this.clientsCount.get(2));
         } catch (IOException e) {
             e.printStackTrace();
         }
