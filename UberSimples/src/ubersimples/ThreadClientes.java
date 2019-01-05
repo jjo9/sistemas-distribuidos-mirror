@@ -81,9 +81,8 @@ public class ThreadClientes extends Thread {
 
         System.out.print("run() Started!");
         int novoNum;
-        
-        // ARRANJAR FORMA DE UM USER NÃO PODER FAZER LOGIN DUAS VEZES AO MESMO TEMPO ---------------------------------------------------------------------------------------------
 
+        // ARRANJAR FORMA DE UM USER NÃO PODER FAZER LOGIN DUAS VEZES AO MESMO TEMPO ---------------------------------------------------------------------------------------------
         try {
             // para leitura do que o cliente envia para o server
             BufferedReader in;
@@ -406,27 +405,36 @@ public class ThreadClientes extends Thread {
                         out.println(historicoTemp); // enviar mudei de println() para print()
                         System.out.println("::fim de historico do User::");
                     } else if (this.processoTempArray[0].equals("SolicitarViagem")) { // -------------------------------------------------------------------------------------------- receber pedido de viagem  
-                        // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
-                        boolean existFlag = false;
+                        // vê se existem Condutores Disponiveis
+                        if (this.clientsCount.get(1) != 0) { // existem condutores
 
-                        // tenho que adicionar às mensagens existentes de pedidos 
-                        this.pedidosDeViagens.add(this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
-                        // 
-                        // tenho que o por na lista de mensagens por enviar Multicast ????
-                        // separo e vai para o multicast porque aqui não precisa de ser mais processada
-                        this.mensagensPorEnviarMulicast.add("Add/" + this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
+                            out.println("Processando");
 
-                        while ((inputLine = in.readLine()) != null) { // lê pontuação dada
-                            System.out.println("Pontuação dada " + inputLine);
-                            this.processoTemp = inputLine;
-                            this.historicoPontos.add(inputLine);
-                            break;
+                            // formato "AceitarPedidoViagem/UserQuePediu/Origem/Destino"
+                            boolean existFlag = false;
+
+                            // tenho que adicionar às mensagens existentes de pedidos 
+                            this.pedidosDeViagens.add(this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
+                            // 
+                            // tenho que o por na lista de mensagens por enviar Multicast ????
+                            // separo e vai para o multicast porque aqui não precisa de ser mais processada
+                            this.mensagensPorEnviarMulicast.add("Add/" + this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
+
+                            while ((inputLine = in.readLine()) != null) { // lê pontuação dada
+                                System.out.println("Pontuação dada " + inputLine);
+                                this.processoTemp = inputLine;
+                                this.historicoPontos.add(inputLine);
+                                break;
+                            }
+
+                            // depois fico à espera que alguem aceite
+                            // ver pedidos de aceitação
+                            // não preciso de fazer nada aqui por a espera é feita no user e os seguites envios para ele serão feitos pelo Condutor atravez do server 
+                            // acho que depis tenho de esperar pela pontuação que o user atribuiu ao condutor ???
+                        } else {// não existem condutores
+                            out.println("SemCondutores");
                         }
 
-                        // depois fico à espera que alguem aceite
-                        // ver pedidos de aceitação
-                        // não preciso de fazer nada aqui por a espera é feita no user e os seguites envios para ele serão feitos pelo Condutor atravez do server 
-                        // acho que depis tenho de esperar pela pontuação que o user atribuiu ao condutor ???
                     } else if (this.processoTempArray[0].equals("TerminaSessao")) { // ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  ---- matar Thread  
                         System.out.println("in session Desconetar...");
                         if (this.logado) {

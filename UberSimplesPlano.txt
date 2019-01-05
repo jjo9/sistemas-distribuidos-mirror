@@ -250,8 +250,8 @@ else print "erro"
 --> condutor rejeitar viagem-> tirar da lista do condutor-> "se toda os Condutores regeitarem avisar User"
 --> adicionar redundancia no condutor/User
     \-> User manda pedido ... Condutor recebe pedido crasha ... volta a logar ainda pode voltar a ver o pedido
-[A TRABALHAR NESTE]--> se User pedir viagem e não ouver codutores disponiveis avisar USer
+[FIXED]--> se User pedir viagem e não ouver codutores disponiveis avisar USer
 --> o mesmo user pode-se logar mais do que uma vez tipo (low priority)
-## -> vai ajudar saber quantos clientes de cada tipo é que estão no server a um dado momento
+[FIXED]-> vai ajudar saber quantos clientes de cada tipo é que estão no server a um dado momento
 
 
