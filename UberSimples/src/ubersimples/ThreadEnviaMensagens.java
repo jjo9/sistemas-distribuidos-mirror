@@ -53,7 +53,7 @@ public class ThreadEnviaMensagens extends Thread {
 
             for (int i = 0; i < this.mensagensPorEnviar.getSize(); i++) { // isto vai estar num só loop que envia tanto para ambos os Clientes
                 // se tiver mensagens por enviar dar split para saber o username e saber se é "User" ou "Condutor"
-                String[] tempStrings = this.mensagensPorEnviar.get().get(i).toString().split("/");  // formato "Username/Tipo/Mensagem"
+                String[] tempStrings = this.mensagensPorEnviar.get().get(i).toString().split("/",3);  // formato "Username/Tipo/Mensagem" com o 3 mesmo que a mensagem seja "a/b/c/d/e" vai enviar "c/d/e" posi limita o split para só criar 3 posições no array
                 // agora que sei quem é a pessoa tenho que descobrir a sua socket
                 System.out.println("TEnviaMensagens::Mensagem Por ENviar " + Arrays.toString(tempStrings));
                 if (this.listaUserSocket.usernameExiste(tempStrings[0], tempStrings[1])) { // se existir

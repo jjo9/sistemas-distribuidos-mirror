@@ -182,7 +182,7 @@ public class ThreadClientes extends Thread {
                     if (outputLine.equals("Sucesso")) {
                         System.out.println("--- Condutor Logado ---");
                         this.listaUserSocket.add(this.socket, this.username, this.clienteTipo); // adiciona link entre username e socket
-                        this.logado = true;
+                        this.logado = true; // acho que posso usar isto para não logar duas vezes ao mesmo tempo !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- 
                         // corresponde ao Condutor
                         novoNum = this.clientsCount.get(1);
                         novoNum++;
@@ -195,6 +195,12 @@ public class ThreadClientes extends Thread {
                         System.out.println("Current Condutor Count: " + this.clientsCount.get(1));
                         System.out.println("Current User Count: " + this.clientsCount.get(2));
 
+                        // mandar lista de pedidos de viagem
+                        String pedidosOnline = "";
+                        for (int x = 0;x < this.pedidosDeViagens.getSize();x++){
+                            pedidosOnline += this.pedidosDeViagens.get().get(x)+":";
+                        }
+                        out.println(pedidosOnline);
                         break;
                     } else if (outputLine.equals("Exit")) {
                         System.out.println("--- Condutor Saindo ---");

@@ -291,6 +291,31 @@ public class ClienteCondutor extends Cliente {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (getUserStatus() == 1) {
+
+                // recebe lista de pedidos de viagem ativos depois de se logar!!
+                // vai receber no formato "username1/origem1/destino1:username2/origem2/destino2:username3/origem3/destino3"
+                while (this.mensagemRecebidasCondutor.getSize() == 0) {
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                String viagensEmEspera = (String) this.mensagemRecebidasCondutor.get().get(0);
+                this.mensagemRecebidasCondutor.removeFromPosition(0);
+                System.out.println("tratar isto ->"+viagensEmEspera);
+                if(viagensEmEspera.equals("")){
+                    System.out.println("Não haviam pedidos de viagem pendentes");
+                }else{
+                    // inserir pedidos na lista de pedidos!
+                    String[] viagensEmEsperaLista = viagensEmEspera.split(":");
+                    for (String item : viagensEmEsperaLista){
+                        this.listaDePedidos.add(item);
+                    }
+                    System.out.println("Já tinha estes pedidos no server...");
+                    verPedidos();
+                }
+
                 break;
             }
         }
