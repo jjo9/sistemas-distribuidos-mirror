@@ -335,8 +335,6 @@ public class ClienteCondutor extends Cliente {
                     + " 3 -> aceitar pedido de viagem\n"
                     + " 4 -> mudar estado (atualmente: " + this.disponivilidade() + " )\n"
                     + " 5 -> regeitar viagem\n"
-                    + " 6 -> opção6\n"
-                    + " 7 -> opção7\n"
                     + " 0 -> Sair\n");
 
             try {
@@ -352,10 +350,6 @@ public class ClienteCondutor extends Cliente {
                     mudarEstado();
                 } else if (opcao.compareTo("5") == 0) {
                     regeitarViagem();
-                } else if (opcao.compareTo("6") == 0) {
-                    // fazer opção 6
-                } else if (opcao.compareTo("7") == 0) {
-                    // fazer opção 7
                 } else if (opcao.compareTo("0") == 0) {
                     // sair
                     menuRuning = false;
