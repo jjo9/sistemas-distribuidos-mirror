@@ -182,7 +182,7 @@ public class ThreadClientes extends Thread {
                     if (outputLine.equals("Sucesso")) {
                         System.out.println("--- Condutor Logado ---");
                         this.listaUserSocket.add(this.socket, this.username, this.clienteTipo); // adiciona link entre username e socket
-                        this.logado = true; // acho que posso usar isto para não logar duas vezes ao mesmo tempo !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- !!!!--- 
+                        this.logado = true;
                         // corresponde ao Condutor
                         novoNum = this.clientsCount.get(1);
                         novoNum++;

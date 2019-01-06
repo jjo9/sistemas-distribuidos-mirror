@@ -270,7 +270,7 @@ else print "erro"
 
 
 ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### 
---> o mesmo user pode-se logar mais do que uma vez tipo (low priority) -> usar flag !
+[TO DO]--> o mesmo user pode-se logar mais do que uma vez tipo (low priority) -> usar flag !
 
 
 
