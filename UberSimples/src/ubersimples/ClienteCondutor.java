@@ -165,7 +165,7 @@ public class ClienteCondutor extends Cliente {
         if (check == 1) {
             BufferedReader lerEscolha = new BufferedReader(new InputStreamReader(System.in));
             try {
-                System.out.println("Insira o numero da viagem que quer aceitar");
+                System.out.println("Insira o numero da viagem que quer Aceitar");
                 // ler escolha
                 String escolha = lerEscolha.readLine(); // se não numero parte ?
                 // ver se é um numero
@@ -229,6 +229,39 @@ public class ClienteCondutor extends Cliente {
         return re;
     }
 
+    public int regeitarViagem() {
+        int re = 0;
+
+        int check = verPedidos();
+
+        if (check == 1) {
+            BufferedReader lerEscolha = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                System.out.println("Insira o numero da viagem que pretende Recusar");
+                // ler escolha
+                String escolha = lerEscolha.readLine(); // se não numero parte ?
+                // ver se é um numero
+                int escolhaInt = Integer.parseInt(escolha);
+
+                if (escolhaInt >= 0 && escolhaInt < this.listaDePedidos.getSize()) { // vê se está na range de pedidos
+
+                    String pedidoPacote = this.listaDePedidos.get().get(escolhaInt).toString();
+
+                    this.mensagemPorEnviarCondutor.add("RecusarPedidoViagem/" + pedidoPacote); // enviar mensagem ao server
+                    this.listaDePedidos.removeFromPosition(escolhaInt);
+
+                } else {
+                    System.out.println("Pedido invalido");
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(ClienteCondutor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return re;
+    }
+
     @Override
     int menu() {
 
@@ -276,7 +309,7 @@ public class ClienteCondutor extends Cliente {
                     + " 2 -> ver pedidos de viagem\n"
                     + " 3 -> aceitar pedido de viagem\n"
                     + " 4 -> mudar estado (atualmente: " + this.disponivilidade() + " )\n"
-                    + " 5 -> opção5\n"
+                    + " 5 -> regeitar viagem\n"
                     + " 6 -> opção6\n"
                     + " 7 -> opção7\n"
                     + " 0 -> Sair\n");
@@ -293,7 +326,7 @@ public class ClienteCondutor extends Cliente {
                 } else if (opcao.compareTo("4") == 0) {
                     mudarEstado();
                 } else if (opcao.compareTo("5") == 0) {
-                    // fazer opção 5
+                    regeitarViagem();
                 } else if (opcao.compareTo("6") == 0) {
                     // fazer opção 6
                 } else if (opcao.compareTo("7") == 0) {
@@ -326,9 +359,9 @@ public class ClienteCondutor extends Cliente {
 
         // parar Threads aqui ao sair !!! com o ativo
         this.activo.clear();
-        
+
         System.out.println("--- Fim de execução ---");
-        
+
         return re;
 
     }

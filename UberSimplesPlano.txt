@@ -242,16 +242,31 @@ else print "erro"
 [FIXED]--> erro quando um condutor aceita a segunda viagem do mesmo user // acho que é o faacto de pedir o historico que parte as coisas 
 [FIXED]--> dois pedidos seguidos no user erro #-solução?-> limpar lista 
 [FIXED]--> incriptar passwords (incriptar no servidor)
-
-####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### 
+[FIXED]--> se User pedir viagem e não ouver codutores disponiveis avisar USer
+[FIXED]-> vai ajudar saber quantos clientes de cada tipo é que estão no server a um dado momento
 
 [FIXED]--> sair fechar cenas todas -> *fetio*: Condutor mas mostra erro no fim, mas funciona 
 	\-> por fazer no server matar thread
---> condutor rejeitar viagem-> tirar da lista do condutor-> "se toda os Condutores regeitarem avisar User"
+	
+[FIXED]--> deposi de ser totalmente regeitado ao pedir o historico encrava
+
+[FIXED]--> condutor rejeitar viagem-> tirar da lista do condutor-> "se toda os Condutores regeitarem avisar User"
+|	\-> envio para o User que a viagem foi recusada e qual o numero de Condutores ainda disponiveis
+|	\-> se um Condutor fizer LogOut envio também essa info mas este é para todos os Users
+\
+ Y # temos que por isto no relatorio porque é uma cena que temos parcialamente mal mas nos sabemos disso
+// envia o numero exato de Condutores que estão online naquele momento porque foram todos esses que receberam X
+// depois quando chegar a X regeitados sai
+// nota que se alguem sair também tem que dizer que regeita mas não vai acontecer pois todos os que saissem quer tenham
+// a viagem na sua lista ou não iriam enviar a dizer que regeitaram não tenho maneira de distinguir
+// ou seja funciona mas se um Condutor sair não conta como regeitar logo não é 100% preciso !!
+
+####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### NEW TO DO  ####### 
+
 --> adicionar redundancia no condutor/User
     \-> User manda pedido ... Condutor recebe pedido crasha ... volta a logar ainda pode voltar a ver o pedido
-[FIXED]--> se User pedir viagem e não ouver codutores disponiveis avisar USer
+
 --> o mesmo user pode-se logar mais do que uma vez tipo (low priority)
-[FIXED]-> vai ajudar saber quantos clientes de cada tipo é que estão no server a um dado momento
+
 
 
