@@ -248,6 +248,7 @@ public class ClienteCondutor extends Cliente {
                     String pedidoPacote = this.listaDePedidos.get().get(escolhaInt).toString();
 
                     this.mensagemPorEnviarCondutor.add("RecusarPedidoViagem/" + pedidoPacote); // enviar mensagem ao server
+                    this.listaDePedidos.removeFromPosition(escolhaInt);
 
                 } else {
                     System.out.println("Pedido invalido");

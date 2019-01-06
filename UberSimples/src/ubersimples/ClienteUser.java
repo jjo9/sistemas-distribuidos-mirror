@@ -129,6 +129,8 @@ public class ClienteUser extends Cliente {
                 // vai recevendo mensagens e vê o que faz com elas
                 boolean keep = true;
                 String tempString = "";
+                int condutoresAtivos = 100;
+                boolean primeiraVez = true;
                 while (keep) {
                     while (this.mensagemRecebidasUser.getSize() == 0) { // fica à espera de receber mensagens
                         try {
@@ -143,9 +145,23 @@ public class ClienteUser extends Cliente {
                     if (tempString.equals("CondutorEncontrado")) {
                         keep = false;
                     } else {
-                        System.out.println("::"+tempString);
-                        if(tempString.equals("NaoHaMais")){
-                            System.out.println("Não há mais condutores...");
+                        if (primeiraVez) {
+                            System.out.println("Condutores disponiveis" + tempString); // Espera:CondutoresOnline:Numero de Condutores que podem têm o pedido
+                            condutoresAtivos = Integer.parseInt(tempString.split(":")[2]);
+                            primeiraVez = false;
+                        }
+//                        if (tempString.equals("NaoHaMais")) {
+//                            System.out.println("Não há mais condutores...");
+//                            break;
+//                        }
+                        if (tempString.equals("RecusaViagem")) {
+                            condutoresAtivos--;
+                            System.out.println("Um dos condutores regeitou a sua viagem agora tem: " + condutoresAtivos + " condutores disponiveis");
+                        }
+
+                        if (condutoresAtivos == 0) {
+                            System.out.println("Já não há mais Condutores para o seu pedido...");
+                            this.mensagemPorEnviarUser.add("RegeitadoTotal");
                             break;
                         }
                     }
@@ -191,7 +207,7 @@ public class ClienteUser extends Cliente {
 
                     // enviar pontução
                     this.mensagemPorEnviarUser.add(condutor + "/" + this.username + "/" + pontuacaoInt + "/" + viagemOrigem + "/" + viagemDestino); // "Condutor/User/Pontuacao/Origem/Destino"
-                }else{
+                } else {
                     System.out.println("Já não existem condutores para si");
                 }
 

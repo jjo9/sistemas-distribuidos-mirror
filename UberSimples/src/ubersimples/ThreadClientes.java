@@ -290,16 +290,17 @@ public class ThreadClientes extends Thread {
                     } else if (this.processoTempArray[0].equals("RecusarPedidoViagem")) {
                         // formato "RecusarPedidoViagem/UserQuePediu/Origem/Destino"
                         // qual a viagem que vai ser recusada 
-                        String viagemRecusada = (this.processoTempArray[1] + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]); //   "username/origem/destino"
+                        String viagemRecusada = (this.processoTempArray[1] + ":" + this.processoTempArray[2] + ":" + this.processoTempArray[3]); //   "username/origem/destino"
                         // envio para o User que a viagem foi recusada e qual o numero de Condutores ainda disponiveis
                         // se um Condutor fizer LogOut envio também essa info mas este é para todos os Users
 
                         // "Username/Tipo/Mensagem"
                         // "Username/Tipo/Espera/Numero de Condutores ativos"
-                        if (this.clientsCount.get(1) == 0) {
-                            viagemRecusada = "NaoHaMais";
-                        }
-                        this.mensagensPorEnviar.add(this.processoTempArray[1] + "/User/" + viagemRecusada);
+//                        if (this.clientsCount.get(1) == 0) {
+//                            viagemRecusada = "NaoHaMais";
+//                        }
+                        //this.mensagensPorEnviar.add(this.processoTempArray[1] + "/User/" + viagemRecusada);
+                        this.mensagensPorEnviar.add(this.processoTempArray[1] + "/User/RecusaViagem");
 
                     } else if (this.processoTempArray[0].equals("aaaaaaaaaaaaaaaaaaaa")) {
 
@@ -435,10 +436,18 @@ public class ThreadClientes extends Thread {
                             this.mensagensPorEnviarMulicast.add("Add/" + this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
                             this.mensagensPorEnviar.add(this.username + "/User/Espera:CondutoresOnline:" + this.clientsCount.get(1));
                             while ((inputLine = in.readLine()) != null) { // lê pontuação dada
-                                System.out.println("Pontuação dada " + inputLine);
-                                this.processoTemp = inputLine;
-                                this.historicoPontos.add(inputLine);
-                                break;
+
+                                if (inputLine.equals("RegeitadoTotal")) {
+                                    int posicao = this.pedidosDeViagens.find(this.username + "/" + this.processoTempArray[2] + "/" + this.processoTempArray[3]);
+                                    this.pedidosDeViagens.removeFromPosition(posicao);
+                                    break;
+                                } else {
+                                    System.out.println("Pontuação dada " + inputLine);
+                                    this.processoTemp = inputLine;
+                                    this.historicoPontos.add(inputLine);
+                                    break;
+                                }
+
                             }
 
                             // depois fico à espera que alguem aceite
